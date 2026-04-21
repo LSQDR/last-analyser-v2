@@ -1,0 +1,70 @@
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:         #1a1a2e;
+  --surface:    #16213e;
+  --border:     #2a2a4a;
+  --text:       #eeeeee;
+  --text-muted: #888888;
+  --blue:       #3a7bd5;
+  --green:      #2ecc71;
+  --red:        #e03c31;
+  --yellow:     #f1c40f;
+  --radius:     8px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 { 
+    font-size: 2rem;   
+    font-weight: 700; 
+}
+
+h2 { 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+}
+
+h3 { 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Accessible screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
