@@ -1,0 +1,211 @@
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { generateCPTSchedule } from '../../../utils/generate/generateCPTSchedule.js'
+import { computeSessionMetrics } from '../../../utils/compute/computeCPTSessionMetrics.js'
+import { saveTaskResult } from '../../../utils/storage.js'
+import { useCPTEngine } from '../../../hooks/useCPTEngine.js'
+import { CPTCircle } from './CPTCircle.jsx'
+import './TapThePulse.css'
+
+const PHASES = {
+  INSTRUCTIONS: 'instructions',
+  PRACTICE:     'practice',
+  TRANSITION:   'transition',
+  BLOCK:        'block',
+  INTER_BLOCK:  'interBlock',
+  RESULTS:      'results',
+}
+
+export function TapThePulse({ onComplete }) {
+  const [phase,        setPhase]        = useState(PHASES.INSTRUCTIONS)
+  const [schedule,     setSchedule]     = useState(null)
+  const [blockResults, setBlockResults] = useState([])
+  const [results,      setResults]      = useState(null)
+  const [countdown,    setCountdown]    = useState(null)
+
+  const blockResultsRef  = useRef([])
+  const countdownTimer   = useRef(null)
+  const blocksStartedRef = useRef(false)   // guard: prevents double-start
+
+  const handleBlockComplete = useCallback((metrics, events, blockIdx) => {
+    blockResultsRef.current = [...blockResultsRef.current, { ...metrics, block: blockIdx }]
+    setBlockResults([...blockResultsRef.current])
+
+    if (blockIdx < 3) {
+      setPhase(PHASES.INTER_BLOCK)
+      let secs = 4
+      setCountdown(secs)
+      countdownTimer.current = setInterval(() => {
+        secs--
+        if (secs <= 0) {
+          clearInterval(countdownTimer.current)
+          setCountdown(null)
+          setPhase(PHASES.BLOCK)
+        } else {
+          setCountdown(secs)
+        }
+      }, 1000)
+    }
+  }, [])
+
+  const handleAllBlocksComplete = useCallback((allEvents) => {
+    const scoredBlocks = blockResultsRef.current
+    const overall      = computeSessionMetrics(scoredBlocks, allEvents)
+    const payload = {
+      task:        'tapThePulse',
+      version:     '3.0',
+      status:      'complete',
+      completedAt: new Date().toISOString(),
+      config: { blockDurations: 90, blockCount: 3, targetRatio: 0.25, responseWindowms: 1000, isiRangems: [1000, 2500] },
+      overall,
+      blocks: scoredBlocks,
+      events: allEvents,
+    }
+    saveTaskResult('tapThePulse', payload)
+    setResults(payload)
+    setPhase(PHASES.RESULTS)
+  }, [])
+
+  const {
+    circleState, isRunning, blockIndex, isPaused, slowWarning,
+    handleClick, startPractice, startBlocks, cancel,
+  } = useCPTEngine(
+    schedule || { practice: [], blocks: [[], [], []] },
+    handleBlockComplete,
+    handleAllBlocksComplete
+  )
+
+  useEffect(() => () => { cancel(); clearInterval(countdownTimer.current) }, [cancel])
+
+  // Start practice once schedule is ready
+  useEffect(() => {
+    if (phase === PHASES.PRACTICE && schedule) {
+      startPractice(() => setPhase(PHASES.TRANSITION))
+    }
+  }, [phase, schedule, startPractice])
+
+
+  useEffect(() => {
+    if (phase === PHASES.BLOCK && schedule && !blocksStartedRef.current) {
+      blocksStartedRef.current = true
+      saveTaskResult('tapThePulse', { task: 'tapThePulse', version: '3.0', status: 'started', completedAt: null })
+      startBlocks()
+    }
+  }, [phase, schedule, startBlocks])
+
+  function begin() {
+    const s = generateCPTSchedule()
+    setSchedule(s)
+    setPhase(PHASES.PRACTICE)
+  }
+
+  function beginBlocks() {
+    blockResultsRef.current  = []
+    blocksStartedRef.current = false   // reset guard for this session
+    setBlockResults([])
+    setPhase(PHASES.BLOCK)
+  }
+
+
+  if (phase === PHASES.INSTRUCTIONS) {
+    return (
+      <div className="cpt-task">
+        <h1>Tap the Pulse</h1>
+        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, marginBottom: '0.5rem'}}>
+          A circle will appear on screen. It will usually be <strong style={{ color: '#3a7bd5' }}>blue</strong>.
+          When it turns <strong style={{ color: '#e03c31' }}>red</strong>, click it as fast as you can.
+        </p>
+        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
+          Don't click the blue circle. Try to stay focused. This task measures how well you can sustain your attention over time.
+        </p>
+        <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop:'1.5rem'}}>You'll start with a practice round.</p>
+        <button
+          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
+          onClick={begin}
+        >
+          Start Practice
+        </button>
+      </div>
+    )
+  }
+
+  if (phase === PHASES.PRACTICE) {
+    return (
+      <div className="cpt-task">
+        <p className="cpt-block-label">Practice</p>
+        <p className="cpt-progress">Click when the circle turns red</p>
+        <CPTCircle state={circleState} onClick={handleClick} />
+        {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>
+          Try to respond a little faster on red circles</p>}
+      </div>
+    )
+  }
+
+  if (phase === PHASES.TRANSITION) {
+    return (
+      <div className="cpt-task">
+        <h2>Practice complete</h2>
+        <p style={{ color: '#aaa', textAlign: 'center', maxWidth: 400, lineHeight: 1.7 }}>
+          The scored task is next, 3 rounds of 90 seconds each.
+          Click the circle only when it turns <strong style={{ color: '#e03c31' }}>red</strong>.
+        </p>
+        <button
+          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
+          onClick={beginBlocks}
+        >
+          Begin Task
+        </button>
+      </div>
+    )
+  }
+
+  if (phase === PHASES.BLOCK || phase === PHASES.INTER_BLOCK) {
+    const latestBlock = blockResultsRef.current[blockResultsRef.current.length - 1]
+    return (
+      <div className="cpt-task">
+        {phase === PHASES.INTER_BLOCK ? (
+          <div className="cpt-pause-banner">
+            <p className="cpt-block-label">Round {blockIndex} complete</p>
+            {latestBlock && (
+              <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
+                Omissions: {latestBlock.omissions} · Mean RT: {latestBlock.cleanMeanRTms ? Math.round(latestBlock.cleanMeanRTms) + 'ms' : '—'}
+              </p>
+            )}
+            <p>Next round in {countdown}…</p>
+          </div>
+        ) : (
+          <>
+            <p className="cpt-block-label">Round {blockIndex} / 3</p>
+            <CPTCircle state={circleState} onClick={handleClick} />
+            {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>Try to respond a little faster</p>}
+          </>
+        )}
+      </div>
+    )
+  }
+
+  if (phase === PHASES.RESULTS && results) {
+    const { overall } = results
+    return (
+      <div className="cpt-task">
+        <h2>Tap the Pulse Completed</h2>
+        <div style={{ background: '#16213e', borderRadius: 12, padding: '1.5rem 2rem', marginTop: '1rem', minWidth: 300 }}>
+          <p><strong>Omission Rate:</strong> {overall.omissionRatepct?.toFixed(1)}%</p>
+          <p><strong>Mean RT:</strong> {overall.cleanMeanRTms ? Math.round(overall.cleanMeanRTms) + 'ms' : '—'}</p>
+          <p><strong>RT Variability (CV):</strong> {overall.cvpct?.toFixed(1)}%</p>
+          <p><strong>Attention Decay:</strong> {overall.attentionDecaySlope > 0 ? '↑ Increasing omissions' : '↓ Stable'}</p>
+          {overall.flags.length > 0 && (
+            <p style={{ color: '#e03c31', marginTop: '1rem' }}>⚠ {overall.flags.join(', ')}</p>
+          )}
+        </div>
+        <button
+          style={{ marginTop: '2rem', padding: '0.75rem 2.5rem', background: '#2ecc71', color: '#111', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
+          onClick={() => onComplete?.(results)}
+        >
+          View Full Results
+        </button>
+      </div>
+    )
+  }
+
+  return null
+}

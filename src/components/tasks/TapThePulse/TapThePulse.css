@@ -1,0 +1,122 @@
+.cpt-task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #1a1a2e;
+  color: #eee;
+}
+
+.cpt-task > h1{
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.cpt-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cpt-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 60ms ease;
+}
+
+.cpt-circle.blue {
+  background: #3a7bd5;
+  box-shadow: none;
+}
+
+.cpt-circle.red {
+  background: #e03c31;
+}
+
+/* CSS only Pulse ring animation, zero JS timing impact */
+
+.cpt-circle.red::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 4px solid rgba(224, 60, 49, 0.7);
+  animation: cpt-pulse 0.8s ease-out infinite;
+}
+
+@keyframes cpt-pulse {
+  0% { 
+        transform: scale(1);
+        opacity: 0.8;
+     }
+
+  100% { 
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+.cpt-inner-dot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cpt-prompt {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e03c31;
+  min-height: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+.cpt-progress {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 4.5rem;
+}
+
+.cpt-block-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 3.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cpt-slow-warning {
+  font-size: 0.85rem;
+  color: #f1c40f;
+  min-height: 1.4rem;      
+  visibility: hidden; 
+  margin-top: 0.75rem;
+}
+.cpt-slow-warning--visible {
+  visibility: visible;
+}
+
+.cpt-pause-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cpt-pause-banner p {
+  color: #aaa;
+  font-size: 1rem;
+}
