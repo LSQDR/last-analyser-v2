@@ -29,7 +29,7 @@ export function computeSessionMetrics(blockMetrics, allEvents) {
   const totalCommissions= scoredEvents.filter(e => e.classification === 'commission').length
 
   const flags = evaluateFlags(
-    pct(totalOmissions, totalTargets),
+    getPercentage(totalOmissions, totalTargets),
     decaySlope,
     sessionCV
   )
