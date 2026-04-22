@@ -165,11 +165,6 @@ export function TapThePulse({ onComplete }) {
         {phase === PHASES.INTER_BLOCK ? (
           <div className="cpt-pause-banner">
             <p className="cpt-block-label">Round {blockIndex} complete</p>
-            {latestBlock && (
-              <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
-                Omissions: {latestBlock.omissions} · Mean RT: {latestBlock.cleanMeanRTms ? Math.round(latestBlock.cleanMeanRTms) + 'ms' : '—'}
-              </p>
-            )}
             <p>Next round in {countdown}…</p>
           </div>
         ) : (

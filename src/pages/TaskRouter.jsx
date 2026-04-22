@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadSession, saveSession, clearSession } from '../utils/storage.js'
 import { TapThePulse }    from '../components/tasks/TapThePulse/TapThePulse.jsx'
-// import { SignalStop }     from '../components/tasks/SignalStop/SignalStop.jsx'
+import { SignalStop }     from '../components/tasks/SignalStop/SignalStop.jsx'
 // import { WordColourClash }from '../components/tasks/WordColourClash/WordColourClash.jsx'
 // import { MatchOrPass }    from '../components/tasks/MatchOrPass/MatchOrPass.jsx'
 
@@ -10,7 +10,7 @@ const TASK_ORDER = ['tapThePulse', 'signalStop', 'wordColourClash', 'matchOrPass
 
 const TASK_COMPONENTS = {
   tapThePulse:     TapThePulse,
-//   signalStop:      SignalStop,
+  signalStop:      SignalStop,
 //   wordColourClash: WordColourClash,
 //   matchOrPass:     MatchOrPass,
 }
