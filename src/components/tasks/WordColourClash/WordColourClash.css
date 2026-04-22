@@ -1,0 +1,80 @@
+
+.stroop-task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #1a1a2e;
+  color: #eee;
+}
+
+.stroop-stimulus {
+  font-size: 56px;
+  font-weight: bold;
+  font-family: sans-serif;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.05em;
+  transition: color 80ms ease;
+}
+
+.stroop-stimulus--blank {
+  min-height: 80px;
+  margin-bottom: 2.5rem;
+}
+
+.stroop-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stroop-btn {
+  min-width: 80px;
+  min-height: 60px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 150ms ease, transform 80ms ease;
+}
+
+.stroop-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.stroop-btn:not(:disabled):hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.stroop-progress {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.stroop-practice-feedback {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  min-height: 1.5rem;
+}
+
+.stroop-practice-feedback--correct { 
+  color: #2ecc71; 
+}
+
+.stroop-practice-feedback--error { 
+  color: #e03c31; 
+}
