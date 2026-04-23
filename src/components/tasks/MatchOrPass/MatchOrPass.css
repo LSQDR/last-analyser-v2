@@ -1,0 +1,114 @@
+.nback-task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #1a1a2e;
+  color: #eee;
+}
+
+.nback-square {
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  margin: 2rem 0;
+  transition: background-color 50ms ease, opacity 80ms ease;
+}
+
+.nback-square--hidden {
+  opacity: 0;
+  background-color: transparent !important;
+}
+
+.nback-square--visible {
+  opacity: 1;
+}
+
+.nback-square--ghost {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.nback-ghost-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+}
+
+.nback-ghost-label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.4rem;
+}
+
+.nback-buttons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.nback-btn {
+  min-width: 120px;
+  min-height: 56px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 150ms ease, transform 80ms ease;
+}
+
+.nback-btn--match {
+  background: #3a7bd5;
+  color: #fff;
+}
+
+.nback-btn--pass {
+  background: #444;
+  color: #eee;
+}
+
+.nback-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nback-btn:not(:disabled):hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.nback-progress {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+.nback-warmup-feedback {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-height: 1.4rem;
+}
+
+.nback-warmup-feedback--correct { 
+  color: #2ecc71; 
+}
+
+.nback-warmup-feedback--error   { 
+  color: #e03c31; 
+}
+
+.nback-n-indicator {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.03em;
+}
