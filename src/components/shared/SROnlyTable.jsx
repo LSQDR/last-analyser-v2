@@ -1,4 +1,3 @@
-// src/components/shared/SROnlyTable.jsx
 export function SROnlyTable({ data, caption }) {
   if (!data || data.length === 0) return null
   const columns = Object.keys(data[0])
