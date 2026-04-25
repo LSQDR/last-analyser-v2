@@ -120,7 +120,7 @@ export function Home() {
 
         {hasAnyResult && (
           <button className='retake-btn'onClick={handleRetakeAll}>
-            Retake All Tasks
+            Start New Run
           </button>
         )}
       </div>

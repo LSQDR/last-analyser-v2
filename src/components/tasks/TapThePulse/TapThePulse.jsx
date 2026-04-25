@@ -4,6 +4,8 @@ import { computeSessionMetrics } from '../../../utils/compute/computeCPTSessionM
 import { saveTaskResult } from '../../../utils/storage.js'
 import { useCPTEngine } from '../../../hooks/useCPTEngine.js'
 import { CPTCircle } from './CPTCircle.jsx'
+import { MiniResult } from '../../../components/shared/MiniResult.jsx'
+import { getCPTBand } from '../../../utils/getBandLabels.js'
 import './TapThePulse.css'
 
 const PHASES = {
@@ -52,7 +54,7 @@ export function TapThePulse({ onComplete }) {
     const overall      = computeSessionMetrics(scoredBlocks, allEvents)
     const payload = {
       task:        'tapThePulse',
-      version:     '3.0',
+      version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
       config: { blockDurations: 90, blockCount: 3, targetRatio: 0.25, responseWindowms: 1000, isiRangems: [1000, 2500] },
@@ -87,7 +89,7 @@ export function TapThePulse({ onComplete }) {
   useEffect(() => {
     if (phase === PHASES.BLOCK && schedule && !blocksStartedRef.current) {
       blocksStartedRef.current = true
-      saveTaskResult('tapThePulse', { task: 'tapThePulse', version: '3.0', status: 'started', completedAt: null })
+      saveTaskResult('tapThePulse', { task: 'tapThePulse', version: '1.0', status: 'started', completedAt: null })
       startBlocks()
     }
   }, [phase, schedule, startBlocks])
@@ -178,29 +180,39 @@ export function TapThePulse({ onComplete }) {
     )
   }
 
-  if (phase === PHASES.RESULTS && results) {
-    const { overall } = results
-    return (
-      <div className="cpt-task">
-        <h2>Tap the Pulse Completed</h2>
-        <div style={{ background: '#16213e', borderRadius: 12, padding: '1.5rem 2rem', marginTop: '1rem', minWidth: 300 }}>
-          <p><strong>Omission Rate:</strong> {overall.omissionRatepct?.toFixed(1)}%</p>
-          <p><strong>Mean RT:</strong> {overall.cleanMeanRTms ? Math.round(overall.cleanMeanRTms) + 'ms' : '—'}</p>
-          <p><strong>RT Variability (CV):</strong> {overall.cvpct?.toFixed(1)}%</p>
-          <p><strong>Attention Decay:</strong> {overall.attentionDecaySlope > 0 ? '↑ Increasing omissions' : '↓ Stable'}</p>
-          {overall.flags.length > 0 && (
-            <p style={{ color: '#e03c31', marginTop: '1rem' }}>⚠ {overall.flags.join(', ')}</p>
-          )}
-        </div>
-        <button
-          style={{ marginTop: '2rem', padding: '0.75rem 2.5rem', background: '#2ecc71', color: '#111', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
-          onClick={() => onComplete?.(results)}
-        >
-          View Full Results
-        </button>
-      </div>
-    )
-  }
+if (phase === PHASES.RESULTS && results) {
+  const { overall } = results
+  const band = getCPTBand(
+    overall.omissionRatepct,
+    overall.cvpct,
+    overall.attentionDecaySlope
+  )
+
+  return (
+    <MiniResult
+      band={band}
+      metrics={[
+        {
+          label:   'Omission Rate',
+          value:   `${overall.omissionRatepct?.toFixed(1)}%`,
+          flagged: overall.omissionRatepct > 25,
+        },
+        {
+          label:   'Mean RT',
+          value:   overall.cleanMeanRTms ? `${Math.round(overall.cleanMeanRTms)}ms` : '—',
+          flagged: false,
+        },
+        {
+          label:   'RT Variability',
+          value:   `${overall.cvpct?.toFixed(1)}%`,
+          flagged: overall.cvpct > 35,
+        },
+      ]}
+      disclaimer="This reflects today's session only. Performance varies with sleep and environment."
+      onComplete={() => onComplete?.(results)}
+    />
+  )
+}
 
   return null
 }

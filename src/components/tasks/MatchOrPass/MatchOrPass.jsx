@@ -6,6 +6,8 @@ import { saveTaskResult } from '../../../utils/storage.js'
 import { useNBackEngine } from '../../../hooks/useNBackEngine.js'
 import { NBackSquare, NBackGhost } from './NBackSquare.jsx'
 import { NBackButtons } from './NBackButtons.jsx'
+import { MiniResult } from '../../shared/MiniResult.jsx'
+import { getNBackBand } from '../../../utils/getBandLabels.js'
 import './MatchOrPass.css'
 
 const PHASES = {
@@ -63,7 +65,7 @@ export function MatchOrPass({ onComplete }) {
     const overall = computeNBackMetrics(events)
     const payload = {
       task:        'matchOrPass',
-      version:     '2.0',
+      version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
       config: {
@@ -112,7 +114,7 @@ export function MatchOrPass({ onComplete }) {
 
   function beginScored() {
     setTrialCount(0)
-    saveTaskResult('matchOrPass', { task: 'matchOrPass', version: '2.0', status: 'started', completedAt: null })
+    saveTaskResult('matchOrPass', { task: 'matchOrPass', version: '1.0', status: 'started', completedAt: null })
     setPhase(PHASES.SCORED)
   }
 
@@ -225,26 +227,31 @@ export function MatchOrPass({ onComplete }) {
 
   if (phase === PHASES.RESULTS && results) {
     const { overall } = results
+    const band = getNBackBand(results.correctedHitRatepct)
+
     return (
-      <div className="nback-task">
-        <h2>Match or Pass — Done</h2>
-        <div style={{ background: '#16213e', borderRadius: 12, padding: '1.5rem 2rem', marginTop: '1rem', minWidth: 300 }}>
-          <p><strong>Corrected Hit Rate:</strong> {overall.correctedHitRatepct?.toFixed(1)}% <em style={{ color: '#aaa' }}>(threshold: 60%)</em></p>
-          <p><strong>Hits:</strong> {overall.hits} / {overall.targets}</p>
-          <p><strong>False Alarms:</strong> {overall.falseAlarms} / {overall.nonTargets}</p>
-          <p><strong>d′:</strong> {overall.dPrime}</p>
-          {overall.flags.length > 0 && (
-            <p style={{ color: '#e03c31', marginTop: '1rem' }}>⚠ {overall.flags.join(', ')}</p>
-          )}
-        </div>
-        <button
-          className="nback-btn nback-btn--match"
-          style={{ marginTop: '2rem', padding: '0.75rem 2rem' }}
-          onClick={() => onComplete?.(results)}
-        >
-          View Full Results
-        </button>
-      </div>
+      <MiniResult 
+        band={band}
+        metrics={[
+          { 
+            label: 'Corrected Hits', 
+            value: `${results.correctedHitRatepct?.toFixed(1)}%`, 
+            flagged: results.correctedHitRatepct < 60 
+          },
+          { 
+            label: 'd\u2032',        
+            value: results.dPrime?.toFixed(2) ?? '—', 
+            flagged: false 
+          },
+          { 
+            label: 'False Alarms',   
+            value: `${results.falseAlarmRatepct?.toFixed(1)}%`, 
+            flagged: false 
+          },
+        ]}
+        disclaimer="This reflects today's session only. Performance varies with sleep and environment."
+        onComplete={() => onComplete?.(results)}
+      />
     )
   }
 

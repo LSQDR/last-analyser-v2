@@ -6,6 +6,9 @@ import { saveTaskResult } from '../../../utils/storage.js'
 import { useStroopEngine } from '../../../hooks/useStroopEngine.js'
 import { StroopStimulus } from './StroopStimulus.jsx'
 import { StroopButtons } from './StroopButtons.jsx'
+import { MiniResult } from '../../../components/shared/MiniResult.jsx'
+import { getStroopBand } from '../../../utils/getBandLabels.js'
+
 import './WordColourClash.css'
 
 const PHASES = {
@@ -79,7 +82,7 @@ export function WordColourClash({ onComplete }) {
     const overall  = computeStroopMetrics(events)
     const payload  = {
       task:        'wordColourClash',
-      version:     '2.0',
+      version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
       config: {
@@ -124,7 +127,7 @@ export function WordColourClash({ onComplete }) {
   useEffect(() => {
     if (phase === PHASES.SCORED && scoredSchedule) {
       // Write started status for crash recovery
-      saveTaskResult('wordColourClash', { task: 'wordColourClash', version: '2.0', status: 'started', completedAt: null })
+      saveTaskResult('wordColourClash', { task: 'wordColourClash', version: '1.0', status: 'started', completedAt: null })
       start()
     }
   }, [phase, scoredSchedule])
@@ -213,27 +216,30 @@ export function WordColourClash({ onComplete }) {
 
   if (phase === PHASES.RESULTS && results) {
     const { overall } = results
-    const band = getInterferenceBand(overall.trueInterferencems)
+   const band = getStroopBand(results.trueInterferencems)
     return (
-      <div className="stroop-task">
-        <h2>Word Colour Clash — Done</h2>
-        <div style={{ background: '#16213e', borderRadius: 12, padding: '1.5rem 2rem', marginTop: '1rem', minWidth: 300 }}>
-          <p><strong>True Interference:</strong> {Math.round(overall.trueInterferencems)}ms <em style={{ color: '#aaa' }}>({band.label})</em></p>
-          <p><strong>Incongruent Accuracy:</strong> {overall.incongruentAccuracypct?.toFixed(1)}%</p>
-          <p><strong>Congruent RT:</strong> {Math.round(overall.congruentRTms)}ms</p>
-          <p><strong>Incongruent RT:</strong> {Math.round(overall.incongruentRTms)}ms</p>
-          {overall.flags.length > 0 && (
-            <p style={{ color: '#e03c31', marginTop: '1rem' }}>⚠ {overall.flags.join(', ')}</p>
-          )}
-        </div>
-        <button
-          className="stroop-btn"
-          style={{ backgroundColor: '#2ecc71', marginTop: '2rem', padding: '0.75rem 2rem', color: '#111' }}
-          onClick={() => onComplete?.(results)}
-        >
-          View Full Results
-        </button>
-      </div>
+      <MiniResult 
+      band={band}
+        metrics={[
+          { 
+            label: 'Interference',  
+            value: `${Math.round(results.trueInterferencems)}ms`, 
+            flagged: results.trueInterferencems > 150 
+          },
+          { 
+            label: 'Incong. Acc.',  
+            value: `${results.incongruentAccuracypct?.toFixed(1)}%`, 
+            flagged: results.incongruentAccuracypct < 75 
+          },
+          { 
+            label: 'Facilitation',  
+            value: `${Math.round(results.facilitationms)}ms`, 
+            flagged: false 
+          },
+        ]}
+        disclaimer="This reflects today's session only. Performance varies with sleep and environment."
+        onComplete={() => onComplete?.(results)}
+      />
     )
   }
 

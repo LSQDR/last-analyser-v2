@@ -4,6 +4,8 @@ import { computeSSTMetrics } from '../../../utils/compute/computeSSTMetrics.js'
 import { saveTaskResult } from '../../../utils/storage.js'
 import { useSSTEngine } from '../../../hooks/useSSTEngine.js'
 import { SSTCircle } from './SSTCircle.jsx'
+import { MiniResult } from '../../../components/shared/MiniResult.jsx'
+import { getSSTBand }  from '../../../utils/getBandLabels.js'
 import './SignalStop.css'
 
 const PHASES = {
@@ -37,7 +39,7 @@ export function SignalStop({ onComplete }) {
     const overall  = computeSSTMetrics(trials, staircase)
     const payload  = {
       task:        'signalStop',
-      version:     '2.0',
+      version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
       config: {
@@ -85,7 +87,7 @@ export function SignalStop({ onComplete }) {
   function startScored() {
     const s = generateSSTSchedule()
     setSchedule(s)
-    saveTaskResult('signalStop', { task: 'signalStop', version: '2.0', status: 'started', completedAt: null })
+    saveTaskResult('signalStop', { task: 'signalStop', version: '1.0', status: 'started', completedAt: null })
     setPhase(PHASES.SCORED)
   }
 
@@ -156,27 +158,31 @@ export function SignalStop({ onComplete }) {
 
   if (phase === PHASES.RESULTS && results) {
     const { overall } = results
+    const band = getSSTBand(overall.SSRTms, overall.SSRTisValid, overall.stopAccuracypct)
+
     return (
-      <div className="sst-task">
-        <h2>Signal Stop — Done</h2>
-        <div style={{ background: '#16213e', borderRadius: 12, padding: '1.5rem 2rem', marginTop: '1rem', minWidth: 300 }}>
-          {overall.SSRTisValid ? (
-            <p><strong>Est. Inhibition Speed (SSRT):</strong> {overall.SSRTms}ms <em style={{ color: '#aaa' }}>(threshold: 300ms)</em></p>
-          ) : (
-            <div className="sst-validity-warning">
-              <strong>Estimate reliability note:</strong> The task did not fully converge on your stopping threshold.
-              Your SSRT estimate may be less reliable than usual.
-            </div>
-          )}
-          <p><strong>Stop Accuracy:</strong> {overall.stopAccuracypct?.toFixed(1)}% <em style={{ color: '#aaa' }}>(threshold: 50%)</em></p>
-          <p><strong>Go RT:</strong> {overall.goRTms ? Math.round(overall.goRTms) + 'ms' : '—'}</p>
-          <p><strong>Race Model:</strong> {overall.raceModelHolds === null ? '—' : overall.raceModelHolds ? '✓ Holds' : '✗ Violated'}</p>
-          {overall.flags.length > 0 && (
-            <p style={{ color: '#e03c31', marginTop: '1rem' }}>⚠ {overall.flags.join(', ')}</p>
-          )}
-        </div>
-        <button className='btn' onClick={() => onComplete?.(results)}> Continue to next task </button>
-      </div>
+      <MiniResult
+        band={band}
+        metrics={[
+          {
+            label:   'SSRT',
+            value:   overall.SSRTisValid ? `${Math.round(overall.SSRTms)}ms` : 'Invalid',
+            flagged: overall.SSRTms > 300 && overall.SSRTisValid,
+          },
+          {
+            label:   'Stop Accuracy',
+            value:   `${overall.stopAccuracypct?.toFixed(1)}%`,
+            flagged: overall.stopAccuracypct < 50,
+          },
+          {
+            label:   'Go RT',
+            value:   `${Math.round(overall.goRTms)}ms`,
+            flagged: false,
+          },
+        ]}
+        disclaimer="This reflects today's session only. Performance varies with sleep and environment."
+        onComplete={() => onComplete?.(results)}
+      />
     )
   }
 
