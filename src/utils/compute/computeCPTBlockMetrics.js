@@ -12,20 +12,29 @@ export function computeBlockMetrics(events) {
   const meanRT    = getArrayMean(cleanRTs)
   const sdRT      = standardDeviation(cleanRTs)
 
+  const omissionRatepct   = getPercentage(omissions.length, targets.length)
+  const commissionRatepct = getPercentage(commissions.length, events.filter(e => e.type === 'non-target').length)
+  const cvpct             = sdRT && meanRT ? (sdRT / meanRT) * 100 : null
+
+  const flags = []
+  if (omissionRatepct > 25) flags.push('highOmission')
+  if (cvpct > 35)           flags.push('highVariability')
+
+
   return {
-    totalTargets:       targets.length,
-    hits:               hits.length,
-    omissions:          omissions.length,
-    commissions:        commissions.length,
-    lapseCount:         lapses.length,
+    totalTargets: targets.length,
+    hits: hits.length,
+    omissions: omissions.length,
+    commissions: commissions.length,
+    lapseCount: lapses.length,
     perseverationCount: persevs.length,
-    omissionRatepct:    getPercentage(omissions.length, targets.length),
-    commissionRatepct:  getPercentage(commissions.length, events.filter(e => e.type === 'non-target').length),
-    cleanMeanRTms:      meanRT,
-    rtSDms:             sdRT,
-    cvpct:              sdRT && meanRT ? (sdRT / meanRT) * 100 : null,
-    // Expose for lapse detection in next block
+    omissionRatepct,
+    commissionRatepct,
+    cleanMeanRTms: meanRT,
+    rtSDms: sdRT,
+    cvpct,
+    flags,              
     _meanRT: meanRT,
-    _sdRT:   sdRT,
+    _sdRT: sdRT,
   }
 }

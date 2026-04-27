@@ -9,13 +9,36 @@ export function getInterferenceBand(trueInterferenceMs) {
 
 function evaluateFlags(trueInterference, incongruentAccuracy) {
   const flags = []
-  const band = getInterferenceBand(trueInterference)
-  if (band.flag) flags.push('highInterference')
-  if (incongruentAccuracy < 75) flags.push('lowIncongruentAccuracy')
+  if (trueInterference !== null && getInterferenceBand(trueInterference).flag)
+    flags.push('highInterference')
+
+  if (incongruentAccuracy !== null && incongruentAccuracy < 75)
+    flags.push('lowIncongruentAccuracy')
+
   return flags
 }
 
 export function computeStroopMetrics(events) {
+
+  // null guard for empty
+  if (!events || events.length === 0) {
+    return {
+      congruentRTms: null, 
+      incongruentRTms: null, 
+      neutralRTms: null,
+      classicInterferencems: null, 
+      trueInterferencems: null, 
+      facilitationms: null,
+      congruentAccuracypct: null, 
+      incongruentAccuracypct: null, 
+      neutralAccuracypct: null,
+      wordInterferenceRatepct: null, 
+      interferenceBand: null, 
+      omissions: 0, 
+      flags: [],
+    }
+  }
+
   const congruent   = events.filter(e => e.type === 'congruent')
   const incongruent = events.filter(e => e.type === 'incongruent')
   const neutral     = events.filter(e => e.type === 'neutral')
@@ -27,9 +50,10 @@ export function computeStroopMetrics(events) {
   const incongruentRT = meanRT(incongruent)
   const neutralRT     = meanRT(neutral)
 
-  const classicInterference = incongruentRT - congruentRT   // incongruent − congruent
-  const trueInterference    = incongruentRT - neutralRT     // incongruent − neutral (primary)
-  const facilitation        = neutralRT     - congruentRT   // neutral − congruent
+  const trueInterference    = incongruentRT != null && neutralRT     != null ? incongruentRT - neutralRT     : null
+  const classicInterference = incongruentRT != null && congruentRT   != null ? incongruentRT - congruentRT   : null
+  const facilitation        = neutralRT     != null && congruentRT   != null ? neutralRT     - congruentRT   : null
+
 
   const wordInterferenceErrors = incongruent.filter(e => e.errorType === 'wordInterference').length
   const wordInterferenceRate   = getPercentage(wordInterferenceErrors, incongruent.length)
