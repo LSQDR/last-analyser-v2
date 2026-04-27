@@ -11,6 +11,7 @@ import { InterferenceBand }   from '../components/dashboard/InterferenceBand.jsx
 import { NBackSDTMatrix }     from '../components/dashboard/charts/NBackSDTMatrix.jsx'
 import { NBackGauge }         from '../components/dashboard/charts/NBackGauge.jsx'
 import { InsightsSummary } from '../components/dashboard/InsightsSummary.jsx'
+import { Link } from 'react-router-dom'
 import '../components/dashboard/Dashboard.css'
 
 // Chart wrappers compose the chart + any extra visual (e.g. band, gauge)
@@ -108,6 +109,11 @@ export function Dashboard() {
             ? <TaskCard key={key} taskKey={{ task1:'tapThePulse', task2:'signalStop', task3:'wordColourClash', task4:'matchOrPass' }[key]} taskData={data[key]} meta={meta} />
             : <TaskCardPlaceholder key={key} taskName={meta.name} />
         )}
+
+        <Link to="/researcher"
+          style={{ fontSize: '0.82rem', color: '#555', textDecoration: 'none', marginBottom: '0.5rem', display: 'block', textAlign: 'center' }}>
+          Researcher View →
+        </Link>
 
         <div style={{ textAlign: 'center', marginTop: '3rem' }}>
           <button onClick={() => navigate('/')} style={{ padding: '0.75rem 2rem', background: 'transparent', color: '#888', border: '1px solid #444', borderRadius: 8, cursor: 'pointer' }}>
