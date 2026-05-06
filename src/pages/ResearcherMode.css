@@ -8,13 +8,13 @@
 /* Header */
 .rm-header {
   padding: 2rem 0 1.5rem;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border-subtle);
   margin-bottom: 1.5rem;
 }
 
 .rm-back-link {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-muted);
   text-decoration: none;
   display: inline-block;
   margin-bottom: 0.75rem;
@@ -41,7 +41,7 @@
 
 /* Task accordion */
 .rm-task-section {
-  border: 1px solid #2a2a4a;
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   margin-bottom: 0.75rem;
   overflow: hidden;
@@ -49,7 +49,7 @@
 
 .rm-task-toggle {
   width: 100%;
-  background: #16213e;
+  background: var(--bg-card);
   border: none;
   padding: 1rem 1.25rem;
   display: flex;
@@ -62,7 +62,7 @@
 }
 
 .rm-task-toggle:hover { background: #1c2a50; }
-.rm-task-toggle--open { background: #1c2a50; border-bottom: 1px solid #2a2a4a; }
+.rm-task-toggle--open { background: #1c2a50; border-bottom: 1px solid var(--border-subtle); }
 
 .rm-task-label {
   display: flex;
@@ -101,14 +101,14 @@
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.25rem;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border-subtle);
   padding-bottom: 0.75rem;
 }
 
 .rm-subtab {
   background: transparent;
-  border: 1px solid #2a2a4a;
-  color: #888;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
   padding: 0.35rem 1rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -117,8 +117,8 @@
 
 .rm-subtab--active {
   background: #1e2d50;
-  border-color: #3a7bd5;
-  color: #3a7bd5;
+  border-color: var(--colour-blue);
+  color: var(--colour-blue);
 }
 
 /* Technical metrics table */
@@ -135,11 +135,11 @@
   color: #555;
   font-weight: 600;
   padding: 0.4rem 0.75rem;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .tm-table td { padding: 0.45rem 0.75rem; border-bottom: 1px solid #1e1e3a; }
-.tm-label    { color: #888; width: 45%; }
+.tm-label    { color: var(--text-muted); width: 45%; }
 .tm-value    { color: #eee; font-weight: 500; width: 20%; font-family: monospace; }
 .tm-note     { color: #555; font-size: 0.78rem; width: 35%; }
 
@@ -156,7 +156,7 @@
 
 .tm-config pre {
   background: #0d1220;
-  border: 1px solid #2a2a4a;
+  border: 1px solid var(--border-subtle);
   border-radius: 6px;
   padding: 0.75rem 1rem;
   overflow-x: auto;
@@ -170,7 +170,7 @@
 
 .event-log-scroll {
   overflow-x: auto;
-  border: 1px solid #2a2a4a;
+  border: 1px solid var(--border-subtle);
   border-radius: 6px;
 }
 
@@ -182,17 +182,17 @@
 }
 
 .event-log-table th {
-  background: #16213e;
-  color: #888;
+  background: var(--bg-card);
+  color: var(--text-muted);
   font-weight: 600;
   padding: 0.4rem 0.65rem;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border-subtle);
   white-space: nowrap;
 }
 
 .event-log-table td {
   padding: 0.35rem 0.65rem;
-  border-bottom: 1px solid #1a1a2e;
+  border-bottom: 1px solid var(--bg-page);
   color: #ccc;
   white-space: nowrap;
 }
@@ -209,8 +209,8 @@
 }
 
 .event-log-pagination button {
-  background: #16213e;
-  border: 1px solid #2a2a4a;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   color: #aaa;
   padding: 0.3rem 0.75rem;
   border-radius: 5px;
@@ -223,8 +223,8 @@
 /* Export buttons */
 .rm-export-btn {
   background: transparent;
-  border: 1px solid #3a7bd5;
-  color: #3a7bd5;
+  border: 1px solid var(--colour-blue);
+  color: var(--colour-blue);
   padding: 0.5rem 1.25rem;
   border-radius: 7px;
   font-size: 0.85rem;
@@ -237,7 +237,7 @@
 .rm-export-all {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #2a2a4a;
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -245,7 +245,7 @@
 }
 
 .rm-export-all-btn {
-  background: #3a7bd5;
+  background: var(--colour-blue);
   color: #fff;
   border: none;
   padding: 0.75rem 2.5rem;

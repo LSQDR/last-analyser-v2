@@ -6,7 +6,11 @@ import { useSSTEngine } from '../../../hooks/useSSTEngine.js'
 import { SSTCircle } from './SSTCircle.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getSSTBand }  from '../../../utils/getBandLabels.js'
+import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import './SignalStop.css'
+
+const TASK   = TASK_REGISTRY.find((t) => t.id === 'signalStop')
+const CONFIG = TASK.config;
 
 const PHASES = {
   INSTRUCTIONS: 'instructions',
@@ -42,16 +46,7 @@ export function SignalStop({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: {
-        totalTrials:        128,
-        stopTrials:         32,
-        goTrials:           96,
-        initialSSDms:       250,
-        ssdStepms:          50,
-        ssdClampms:         [50, 650],
-        goDisplayWindowms:  800,
-        stopSignalModality: 'visual',
-      },
+      config: CONFIG,
       overall,
       trials,
     }
@@ -75,7 +70,7 @@ export function SignalStop({ onComplete }) {
 
   // --- Phase transitions ---
   function begin() {
-    const p = generatePracticeSchedule()
+    const p = generatePracticeSchedule(CONFIG)
     setPracticeSchedule(p)
     setPhase(PHASES.PRACTICE)
   }
@@ -85,7 +80,7 @@ export function SignalStop({ onComplete }) {
   }, [phase, practiceSchedule])
 
   function startScored() {
-    const s = generateSSTSchedule()
+    const s = generateSSTSchedule(CONFIG)
     setSchedule(s)
     saveTaskResult('signalStop', { task: 'signalStop', version: '1.0', status: 'started', completedAt: null })
     setPhase(PHASES.SCORED)

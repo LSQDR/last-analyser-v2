@@ -8,7 +8,12 @@ import { NBackSquare, NBackGhost } from './NBackSquare.jsx'
 import { NBackButtons } from './NBackButtons.jsx'
 import { MiniResult } from '../../shared/MiniResult.jsx'
 import { getNBackBand } from '../../../utils/getBandLabels.js'
+import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import './MatchOrPass.css'
+
+
+const TASK   = TASK_REGISTRY.find((t) => t.id === 'matchOrPass')
+const CONFIG = TASK.config
 
 const PHASES = {
   INSTRUCTIONS: 'instructions',
@@ -68,15 +73,7 @@ export function MatchOrPass({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: {
-        nBackLevel:        2,
-        scoredTrials:      40,
-        targetRatio:       0.33,
-        stimulusDurationms: 500,
-        isims:             2000,
-        responseWindowms:  2000,
-        colourSet:         ['red', 'blue', 'green', 'yellow'],
-      },
+      config: CONFIG,
       overall,
       events,
       warmupLog: schedule?.warmup || [],
@@ -102,7 +99,7 @@ export function MatchOrPass({ onComplete }) {
 
   // --- Phase transitions ---
   function beginWarmup() {
-    const s = generateFullSchedule()
+    const s = generateFullSchedule(CONFIG)
     validateSchedule(s.scored)
     setSchedule(s)
     setPhase(PHASES.WARMUP)

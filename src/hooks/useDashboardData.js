@@ -1,34 +1,35 @@
-
-import { useState, useEffect } from 'react'
-import { loadTaskResult } from '../utils/storage.js'
-
-const TASK_KEYS = {
-  task1: 'tapThePulse',
-  task2: 'signalStop',
-  task3: 'wordColourClash',
-  task4: 'matchOrPass',
-}
+import { useState, useEffect } from 'react';
+import { loadTaskResult } from '../utils/storage.js';
+import { TASK_REGISTRY } from '../config/taskRegistry.js';
 
 export function useDashboardData() {
-  const [data,   setData]   = useState(null)
-  const [status, setStatus] = useState('loading')
+  const [data, setData] = useState(null);
+  const [status, setStatus] = useState('loading');
 
   useEffect(() => {
-    const results = {}
-    let completedCount = 0
+    const results = {};
+    let completedCount = 0;
 
-    Object.entries(TASK_KEYS).forEach(([key, storageKey]) => {
-      const raw = loadTaskResult(storageKey)
-      if (raw) { results[key] = raw; completedCount++ }
-      else        results[key] = null
-    })
+    TASK_REGISTRY.forEach((task) => {
+      const raw = loadTaskResult(task.storageKey);
+      if (raw) {
+        results[task.id] = raw;
+        completedCount++;
+      } else {
+        results[task.id] = null;
+      }
+    });
 
-    if      (completedCount === 0) setStatus('empty')
-    else if (completedCount === 4) setStatus('complete')
-    else                           setStatus('partial')
+    if (completedCount === 0) {
+      setStatus('empty');
+    } else if (completedCount === TASK_REGISTRY.length) {
+      setStatus('complete');
+    } else {
+      setStatus('partial');
+    }
 
-    setData(results)
-  }, [])
+    setData(results);
+  }, []);
 
-  return { data, status }
+  return { data, status };
 }

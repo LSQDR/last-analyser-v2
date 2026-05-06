@@ -6,7 +6,11 @@ import { useCPTEngine } from '../../../hooks/useCPTEngine.js'
 import { CPTCircle } from './CPTCircle.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getCPTBand } from '../../../utils/getBandLabels.js'
+import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import './TapThePulse.css'
+
+const TASK   = TASK_REGISTRY.find((t) => t.id === 'tapThePulse')
+const CONFIG = TASK.config
 
 const PHASES = {
   INSTRUCTIONS: 'instructions',
@@ -57,7 +61,7 @@ export function TapThePulse({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: { blockDurations: 90, blockCount: 3, targetRatio: 0.25, responseWindowms: 1000, isiRangems: [1000, 2500] },
+      config: CONFIG,
       overall,
       blocks: scoredBlocks,
       events: allEvents,
@@ -95,7 +99,7 @@ export function TapThePulse({ onComplete }) {
   }, [phase, schedule, startBlocks])
 
   function begin() {
-    const s = generateCPTSchedule()
+    const s = generateCPTSchedule(CONFIG)
     setSchedule(s)
     setPhase(PHASES.PRACTICE)
   }
@@ -112,21 +116,18 @@ export function TapThePulse({ onComplete }) {
     return (
       <div className="cpt-task">
         <h1>Tap the Pulse</h1>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, marginBottom: '0.5rem'}}>
-          A circle will appear on screen. It will usually be <strong style={{ color: '#3a7bd5' }}>blue</strong>.
-          When it turns <strong style={{ color: '#e03c31' }}>red</strong>, click it as fast as you can.
+        <p className="cpt-instructions-body">
+          A circle will appear on screen. It will usually be{' '}
+          <strong style={{ color: '#3a7bd5' }}>blue</strong>. When it turns{' '}
+          <strong style={{ color: '#e03c31' }}>red</strong>, click it as fast as you can.
         </p>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          Don't click the blue circle. Try to stay focused. This task measures how well you can sustain your attention over time.
+        <p className="cpt-instructions-muted">
+          Don't click the blue circle. Try to stay focused. This task measures how well you can
+          sustain your attention over time.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop:'1.5rem'}}>You'll start with a practice round.</p>
-        <button
-          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
-          onClick={begin}
-        >
-          Start Practice
-        </button>
-      </div>
+        <p className="cpt-instructions-hint">You'll start with a practice round.</p>
+        <button className="cpt-start-btn" onClick={begin}>Start Practice</button>
+    </div>
     )
   }
 

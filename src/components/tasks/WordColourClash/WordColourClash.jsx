@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { generateStroopSchedule, PRACTICE_TRIALS } from '../../../utils/generate/generateStroopSchedule.js'
-import { computeStroopMetrics, getInterferenceBand } from '../../../utils/compute/computeStroopMetrics.js'
+import { computeStroopMetrics} from '../../../utils/compute/computeStroopMetrics.js'
 import { getPracticeFeedback } from '../../../utils/classify/classifyStroopResponse.js'
 import { saveTaskResult } from '../../../utils/storage.js'
 import { useStroopEngine } from '../../../hooks/useStroopEngine.js'
@@ -8,9 +8,11 @@ import { StroopStimulus } from './StroopStimulus.jsx'
 import { StroopButtons } from './StroopButtons.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getStroopBand } from '../../../utils/getBandLabels.js'
-
+import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import './WordColourClash.css'
 
+const TASK   = TASK_REGISTRY.find((t) => t.id === 'wordColourClash')
+const CONFIG = TASK.config
 const PHASES = {
   INSTRUCTIONS: 'instructions',
   PRACTICE:     'practice',
@@ -85,13 +87,7 @@ export function WordColourClash({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: {
-        congruentTrials:  40,
-        incongruentTrials: 40,
-        neutralTrials:    10,
-        responseWindowms: 2000,
-        itims:            500,
-      },
+      config: CONFIG,
       overall,
       events,
     }
@@ -117,7 +113,7 @@ export function WordColourClash({ onComplete }) {
   }
 
   function startScored() {
-    const schedule = generateStroopSchedule()
+    const schedule = generateStroopSchedule(CONFIG)
     setScoredSchedule(schedule)
     setTrialCount(0)
     setPhase(PHASES.SCORED)
