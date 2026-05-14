@@ -11,33 +11,92 @@ import {
 export const TASK_REGISTRY = [
   // ─── Task 1 — Sustained Attention (CPT) ──────────────────────────────────
   {
-    id: 'tapThePulse', storageKey: 'tapThePulse',
-    name: 'Tap the Pulse', shortName: 'Tap', domain: 'Sustained Attention', icon: '🎯',
+    id: 'tapThePulse', 
+    storageKey: 'tapThePulse',
+    name: 'Tap the Pulse', 
+    shortName: 'Tap', 
+    domain: 'Sustained Attention', 
+    icon: '🎯',
     ChartComponent: CPTDecayChart,
 
     config: {
-      targetRatio: 0.25, isiMinMs: 1000, isiMaxMs: 2500,
-      responseWindowMs: 1000, blockDurationMs: 90000,
-      blockCount: 3, practiceDurationMs: 45000, maxConsecutiveTargets: 2,
+      targetRatio: 0.25, 
+      isiMinMs: 1000, 
+      isiMaxMs: 2500,
+      responseWindowMs: 1000, 
+      blockDurationMs: 90000,
+      blockCount: 3, 
+      practiceDurationMs: 45000, 
+      maxConsecutiveTargets: 2,
     },
 
-    getBand:    (o) => getCPTBand(o.omissionRatepct, o.cvpct, o.attentionDecaySlope),
+    getBand: (o) => getCPTBand(o.omissionRatepct, o.cvpct, o.attentionDecaySlope),
     getMetrics: (o) => [
-      { label: 'Omission Rate',   value: o.omissionRatepct    != null ? o.omissionRatepct.toFixed(1)    + '%'  : '—', flagged: o.omissionRatepct    > 25, threshold: '< 25%'  },
-      { label: 'RT Variability',  value: o.cvpct              != null ? o.cvpct.toFixed(1)              + '%'  : '—', flagged: o.cvpct              > 35, threshold: '< 35%'  },
-      { label: 'Mean RT',         value: o.cleanMeanRTms      != null ? Math.round(o.cleanMeanRTms)     + 'ms' : '—', flagged: false },
-      { label: 'Attention Decay', value: o.attentionDecaySlope != null ? (o.attentionDecaySlope > 0 ? 'Present' : 'None') : '—', flagged: o.attentionDecaySlope > 0 },
+      { label: 'Omission Rate',   
+        value: o.omissionRatepct != null ? o.omissionRatepct.toFixed(1) + '%'  : '—', 
+        flagged: o.omissionRatepct > 25, 
+        threshold: '< 25%'  
+      },
+      { label: 'RT Variability',  
+        value: o.cvpct != null ? o.cvpct.toFixed(1) + '%'  : '—', 
+        flagged: o.cvpct > 35, 
+        threshold: '< 35%'  
+      },
+      { label: 'Mean RT', 
+        value: o.cleanMeanRTms != null ? Math.round(o.cleanMeanRTms) + 'ms' : '—', 
+        flagged: false 
+      },
+      { label: 'Attention Decay', 
+        value: o.attentionDecaySlope != null ? (o.attentionDecaySlope > 0 ? 'Present' : 'None') : '—', 
+        flagged: o.attentionDecaySlope > 0 
+      },
     ],
-    getInsight:   (score, overall) => getSustainedAttentionInsight(score, overall),
+    getInsight: (score, overall) => getSustainedAttentionInsight(score, overall),
     flagFeedback: {
-      highOmission:    { title: 'Omission rate > 25%',       text: 'Your miss rate on target stimuli was above the typical range. This may reflect variable sustained attention during the task.' },
-      attentionDecay:  { title: 'Attention decay detected',  text: 'Your attention appeared to decrease over time — more targets were missed in later rounds than earlier ones.' },
-      highVariability: { title: 'RT variability (CV > 35%)', text: 'Your response times varied considerably across trials. High RT variability is associated with inconsistent attentional engagement.' },
+      highOmission: { 
+        title: 'Omission rate > 25%', 
+        text: 'Your miss rate on target stimuli was above the typical range. This may reflect variable sustained attention during the task.' 
+      },
+      attentionDecay: { 
+        title: 'Attention decay detected',  
+        text: 'Your attention appeared to decrease over time — more targets were missed in later rounds than earlier ones.' 
+      },
+      highVariability: { 
+        title: 'RT variability (CV > 35%)', 
+        text: 'Your response times varied considerably across trials. High RT variability is associated with inconsistent attentional engagement.' 
+      },
     },
     columns: [
-      { key: 'index', label: '#' }, { key: 'type', label: 'Type' }, { key: 'scheduledAtMs', label: 'Scheduled ms' },
-      { key: 'firesAt', label: 'Fired At ms' }, { key: 'responded', label: 'Response' },
-      { key: 'classification', label: 'Classification' }, { key: 'rtms', label: 'RT ms' }, { key: 'isi', label: 'ISI ms' },
+      { 
+        key: 'index', 
+        label: '#' 
+      }, 
+      { 
+        key: 'type', 
+        label: 'Type'
+       }, 
+       { 
+        key: 'scheduledAtMs', 
+        label: 'Scheduled ms' 
+      },
+      { 
+        key: 'firesAt', 
+        label: 'Fired At ms' 
+      }, 
+      { 
+        key: 'responded', 
+        label: 'Response' 
+      },
+      { 
+        key: 'classification', 
+        label: 'Classification' 
+      }, 
+      { key: 'rtms', 
+        label: 'RT ms' 
+      }, 
+      { key: 'isi', 
+        label: 'ISI ms' 
+      },
     ],
   },
 

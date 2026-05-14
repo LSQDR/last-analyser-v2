@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { loadTaskResult } from '../utils/storage.js'
+import { loadTaskResult, loadTaskDraft } from '../utils/storage.js'
 import { exportTaskJSON, exportAllJSON } from '../utils/exportJSON.js'
 import { TASK_REGISTRY } from '../config/taskRegistry.js'
 import { EventLogTable }    from '../components/researcher/EventLogTable.jsx'
@@ -12,7 +12,7 @@ function TaskSection({ task, data, idx }) {
   const [subTab, setSubTab] = useState('metrics')
   const allData = TASK_REGISTRY.map(t => ({ 
       task: t,
-      data: loadTaskResult(t.storageKey),
+      data: loadTaskDraft(t.storageKey),
     }))
 
   return (
@@ -27,8 +27,10 @@ function TaskSection({ task, data, idx }) {
           <span className="rm-task-domain">{task.domain}</span>
         </span>
         <span className="rm-task-meta">
-          {data
+          {data?.status === 'complete'
             ? new Date(data.completedAt).toLocaleString('en-GB')
+            : data?.status === 'started'
+            ? 'Started (incomplete)'
             : 'Not completed'}
         </span>
         <span className="rm-chevron" aria-hidden="true">{open ? '▲' : '▼'}</span>
@@ -36,9 +38,9 @@ function TaskSection({ task, data, idx }) {
 
       {open && (
         <div className="rm-task-body">
-          {!data ? (
-            <p className="researcher-empty">No completed result found for this task.</p>
-          ) : (
+          {!data
+            ? <p className="researcher-empty">No data found for this task.</p>
+             : (
             <>
               <div className="rm-subtabs" role="tablist">
                 <button
@@ -107,8 +109,13 @@ export function ResearcherMode() {
 
       <main className="rm-main">
         {TASK_REGISTRY.map((task, idx) => (
-          <TaskSection key={task.storageKey} task={task} idx={idx} />
-        ))}
+            <TaskSection
+              key={task.storageKey}
+              task={task}
+              idx={idx}
+              data={allData[task.storageKey]}
+            />
+          ))}
 
         <div className="rm-export-all">
           <button

@@ -137,8 +137,6 @@ export function TapThePulse({ onComplete }) {
         <p className="cpt-block-label">Practice</p>
         <p className="cpt-progress">Click when the circle turns red</p>
         <CPTCircle state={circleState} onClick={handleClick} />
-        {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>
-          Try to respond a little faster on red circles</p>}
       </div>
     )
   }
@@ -151,10 +149,7 @@ export function TapThePulse({ onComplete }) {
           The scored task is next, 3 rounds of 90 seconds each.
           Click the circle only when it turns <strong style={{ color: '#e03c31' }}>red</strong>.
         </p>
-        <button
-          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
-          onClick={beginBlocks}
-        >
+        <button className="cpt-start-btn" onClick={beginBlocks}>
           Begin Task
         </button>
       </div>
@@ -174,7 +169,6 @@ export function TapThePulse({ onComplete }) {
           <>
             <p className="cpt-block-label">Round {blockIndex} / 3</p>
             <CPTCircle state={circleState} onClick={handleClick} />
-            {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>Try to respond a little faster</p>}
           </>
         )}
       </div>

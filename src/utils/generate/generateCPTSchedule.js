@@ -7,13 +7,33 @@ export { DEFAULT_CPT_CONFIG as CPTCONFIG };
 
 function randomBetween(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-function enforceTargetRatio(events, targetRatio) {
+function enforceTargetRatio(events, targetRatio, maxConsecutiveTargets) {
   const floor  = targetRatio - 0.03;
   const actual = events.filter((e) => e.type === 'target').length / events.length;
   if (actual >= floor) return events;
-  const nonTargetIndices = events.map((e, i) => [e, i]).filter(([e]) => e.type === 'non-target').map(([, i]) => i);
-  const needed = Math.round(targetRatio * events.length) - events.filter((e) => e.type === 'target').length;
-  for (let k = 0; k < Math.min(needed, nonTargetIndices.length); k++) events[nonTargetIndices[k]].type = 'target';
+
+  const needed = Math.round(targetRatio * events.length)
+    - events.filter((e) => e.type === 'target').length;
+
+  let flipped = 0;
+  for (let i = 0; i < events.length && flipped < needed; i++) {
+    if (events[i].type !== 'non-target') continue;
+
+    // Count how many consecutive targets precede this index
+    let runBefore = 0;
+    for (let j = i - 1; j >= 0 && events[j].type === 'target'; j--) runBefore++;
+
+    // Count how many consecutive targets follow this index
+    let runAfter = 0;
+    for (let j = i + 1; j < events.length && events[j].type === 'target'; j++) runAfter++;
+
+    // Flipping would create a run of (runBefore + 1 + runAfter)
+    if (runBefore + 1 + runAfter <= maxConsecutiveTargets) {
+      events[i].type = 'target';
+      flipped++;
+    }
+  }
+
   return events;
 }
 
@@ -36,11 +56,11 @@ function buildBlock(durationMs, blockIndex, isPractice, config) {
     consecutiveTargets = isTarget ? consecutiveTargets + 1 : 0;
     cursor += cycleTime;
   }
-  return enforceTargetRatio(events, config.targetRatio);
+  return enforceTargetRatio(events, config.targetRatio, config.maxConsecutiveTargets)
 }
 
 export function generateCPTSchedule(cfg = {}) {
-  const config  = { ...DEFAULT_CPT_CONFIG, ...cfg };
+  const config  = { ...DEFAULT_CPT_CONFIG, ...cfg }
   const practice = buildBlock(config.practiceDurationMs, 0, true,  config);
   const blocks   = Array.from({ length: config.blockCount }, (_, i) => buildBlock(config.blockDurationMs, i + 1, false, config));
   blocks.forEach((block, i) => {

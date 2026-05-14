@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getCPTBand, getSSTBand, getStroopBand, getNBackBand } from '../utils/getBandLabels.js'
+import { getCPTBand, getSSTBand, getStroopBand, getNBackBand } from '../getBandLabels.js'
 
 describe('getCPTBand', () => {
   it('returns Strong when no flags', () => {

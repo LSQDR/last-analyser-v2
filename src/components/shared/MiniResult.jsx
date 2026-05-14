@@ -36,7 +36,7 @@ export function MiniResult({ band, metrics, disclaimer, onComplete }) {
       </div>
 
       {disclaimer && <p className="mini-result-disclaimer">{disclaimer}</p>}
-      <AutoAdvance onComplete={onComplete} label="See Full Results" seconds={8} />
+      <AutoAdvance onComplete={onComplete} label="Continue" seconds={8} />
     </div>
   );
 }

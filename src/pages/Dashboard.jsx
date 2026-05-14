@@ -31,6 +31,7 @@ export function Dashboard() {
     <>
       <DashboardHeader data={data} />
       <main className="dashboard" id="main-content">
+        <InsightsSummary data={data} />
         <OverviewPanel data={data} />
 
         {TASK_REGISTRY.map((task) =>
@@ -39,9 +40,9 @@ export function Dashboard() {
             : <TaskCardPlaceholder key={task.id} task={task} />
         )}
 
-        <InsightsSummary data={data} />
+        
 
-        <Link to="/researcher" style={{ fontSize: '0.82rem', color: '#555', textDecoration: 'none', marginBottom: '0.5rem', display: 'block', textAlign: 'center' }}>
+        <Link to="/researcher" style={{ fontSize: '1rem', color: '#555', textDecoration: 'none', marginBottom: '0.5rem', display: 'block', textAlign: 'center' }}>
           Researcher View
         </Link>
       </main>
