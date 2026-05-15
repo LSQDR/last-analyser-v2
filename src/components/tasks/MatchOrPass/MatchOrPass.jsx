@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { generateFullSchedule, validateSchedule } from '../../../utils/generate/generateNBackSchedule.js'
 import { computeNBackMetrics } from '../../../utils/compute/computeNBackMetrics.js'
 import { getWarmupFeedback, classifyResponse } from '../../../utils/classify/classifyNBackResponse.js'
@@ -9,8 +9,8 @@ import { NBackButtons } from './NBackButtons.jsx'
 import { MiniResult } from '../../shared/MiniResult.jsx'
 import { getNBackBand } from '../../../utils/getBandLabels.js'
 import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
+import { BAND_COLOURS } from '../../../utils/bandColours.js'
 import './MatchOrPass.css'
-
 
 const TASK   = TASK_REGISTRY.find((t) => t.id === 'matchOrPass')
 const CONFIG = TASK.config
@@ -24,15 +24,16 @@ const PHASES = {
 }
 
 export function MatchOrPass({ onComplete }) {
-  const [phase,            setPhase]          = useState(PHASES.INSTRUCTIONS)
-  const [schedule,         setSchedule]       = useState(null)
-  const [trialCount,       setTrialCount]     = useState(0)
-  const [warmupFeedback,   setWarmupFeedback] = useState(null)
-  const [results,          setResults]        = useState(null)
+  const [phase,            setPhase]            = useState(PHASES.INSTRUCTIONS)
+  const [schedule,         setSchedule]         = useState(null)
+  const [trialCount,       setTrialCount]       = useState(0)
+  const [warmupFeedback,   setWarmupFeedback]   = useState(null)
+  const [results,          setResults]          = useState(null)
   const [prevWarmupColour, setPrevWarmupColour] = useState(null)
 
   // --- Warmup engine ---
   const warmupRef = schedule?.warmup || []
+
   const handleWarmupFeedback = useCallback((event) => {
     if (!event.classification) return
     const fb = getWarmupFeedback(event.classification)
@@ -53,7 +54,6 @@ export function MatchOrPass({ onComplete }) {
     handleResponse: warmupResponse,
   } = useNBackEngine(warmupRef, onWarmupComplete)
 
-  // Track previous colour for ghost display
   useEffect(() => {
     if (warmupTrial) setPrevWarmupColour(warmupTrial.nBackColour)
   }, [warmupTrial])
@@ -73,7 +73,7 @@ export function MatchOrPass({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: CONFIG,
+      config:      CONFIG,
       overall,
       events,
       warmupLog: schedule?.warmup || [],
@@ -84,6 +84,7 @@ export function MatchOrPass({ onComplete }) {
   }, [schedule])
 
   const scoredRef = schedule?.scored || []
+
   const {
     squareColour:   scoredColour,
     squareVisible:  scoredVisible,
@@ -123,7 +124,6 @@ export function MatchOrPass({ onComplete }) {
   useEffect(() => {
     const activePhase = phase === PHASES.WARMUP || phase === PHASES.SCORED
     if (!activePhase) return
-
     function onKey(e) {
       const response = phase === PHASES.WARMUP ? handleWarmupResponse : handleScoredResponse
       const enabled  = phase === PHASES.WARMUP ? warmupEnabled : scoredEnabled
@@ -131,28 +131,53 @@ export function MatchOrPass({ onComplete }) {
       if (e.key === 'm' || e.key === 'M') response('match')
       if (e.key === 'd' || e.key === 'D' || e.key === 'p' || e.key === 'P') response('pass')
     }
-
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [phase, warmupEnabled, scoredEnabled, handleWarmupResponse, handleScoredResponse])
 
   // --- Render ---
+
   if (phase === PHASES.INSTRUCTIONS) {
     return (
       <div className="nback-task">
         <h1>Match or Pass</h1>
         <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7 }}>
-          A coloured square will appear briefly. Your job is to decide whether it matches
-          the square from <strong>2 steps back</strong>.
+          A coloured square will flash on screen. After each one, ask yourself:
+        </p>
+        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.8, fontSize: '1.1rem' }}>
+          <strong>"Did this colour appear two squares ago?"</strong>
         </p>
         <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          Press <strong>Same</strong> if the colour matches the one 2 trials ago.
-          Press <strong>Different</strong> if it doesn't.
-          You can also use <strong>M</strong> for Same and <strong>D</strong> for Different.
+          Press <strong>Same</strong> if yes, <strong>Different</strong> if no.
+          You're not comparing to the one you just saw — skip one back.
         </p>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          You'll start with a 1-Back warm-up (match the <em>previous</em> square) to learn the idea,
-          then move to the real 2-Back task.
+
+        <div className="nback-diagram" aria-label="Example: square 1 is red, square 2 is blue, square 3 is red — same as square 1, two steps back">
+          <div className="nback-diagram-squares">
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.red.hex }} />
+              <span className="nback-diagram-label">1</span>
+            </div>
+            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.blue.hex }} />
+              <span className="nback-diagram-label">2</span>
+            </div>
+            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square nback-diagram-square--current" style={{ backgroundColor: BAND_COLOURS.red.hex }} />
+              <span className="nback-diagram-label">3 ← you are here</span>
+            </div>
+          </div>
+          <div className="nback-diagram-bracket" aria-hidden="true">
+            <span className="nback-diagram-bracket-line" />
+            <span className="nback-diagram-bracket-text">Same! (2 steps back)</span>
+          </div>
+        </div>
+
+        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa', fontSize: '0.9rem' }}>
+          Keys: <strong>M</strong> = Same, <strong>D</strong> = Different.
+          You'll start with a 1-Back warm-up to learn the mechanic first.
         </p>
         <button
           className="nback-btn nback-btn--match"
@@ -166,14 +191,22 @@ export function MatchOrPass({ onComplete }) {
   }
 
   if (phase === PHASES.WARMUP) {
-    const warmupIndex = schedule?.warmup.findIndex(t => t.colour === warmupColour && !t.responded) ?? 0
+    const isInTwoBackWarmup = warmupTrial?.warmupPhase === '2back'
+    const warmupTotal       = isInTwoBackWarmup ? 6 : 10
+
     return (
       <div className="nback-task" style={{ position: 'relative' }}>
-        <p className="nback-n-indicator">WARM-UP — match the square from 1 step back</p>
-        <p className="nback-progress">Trial {Math.min(trialCount + 1, 10)} of 10</p>
+        <p className="nback-n-indicator">
+          {isInTwoBackWarmup
+            ? 'WARM-UP 2-BACK — does this match 2 steps ago?'
+            : 'WARM-UP 1-BACK — does this match the one you just saw?'
+          }
+        </p>
+        <p className="nback-progress">
+          Trial {Math.min((warmupTrial?.id ?? 0) % warmupTotal + 1, warmupTotal)} of {warmupTotal}
+        </p>
 
-        {/* Ghost comparator — shows previous colour faded */}
-        <NBackGhost colour={prevWarmupColour} />
+        {!isInTwoBackWarmup && <NBackGhost colour={prevWarmupColour} />}
 
         <NBackSquare colour={warmupColour} visible={warmupVisible} />
         <NBackButtons onResponse={handleWarmupResponse} enabled={warmupEnabled} />
@@ -192,10 +225,40 @@ export function MatchOrPass({ onComplete }) {
       <div className="nback-task">
         <h2>Warm-up complete</h2>
         <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          Now the real task begins. Match the square from <strong>2 steps back</strong> — not 1.
-          No feedback will be shown during this block.
+          Now the real task begins. Instead of matching the square you <em>just</em> saw,
+          you need to match the one from <strong>2 squares ago</strong> — skipping one in between.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>40 trials · about 1 min 40 sec</p>
+
+        <div className="nback-diagram" aria-label="Reminder: compare current square to the one 2 steps back, not 1">
+          <div className="nback-diagram-squares">
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.green.hex }} />
+              <span className="nback-diagram-label">1 ← compare to this</span>
+            </div>
+            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.yellow.hex }} />
+              <span className="nback-diagram-label">2 (skip)</span>
+            </div>
+            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-item">
+              <div className="nback-diagram-square nback-diagram-square--current" style={{ backgroundColor: BAND_COLOURS.green.hex }} />
+              <span className="nback-diagram-label">3 ← you are here</span>
+            </div>
+          </div>
+          <div className="nback-diagram-bracket" aria-hidden="true">
+            <span className="nback-diagram-bracket-line" />
+            <span className="nback-diagram-bracket-text">Same!</span>
+          </div>
+        </div>
+
+        <p style={{ maxWidth: 440, textAlign: 'center', color: '#777', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+          If you lose track at any point, make your best guess and keep going —
+          a moment of confusion doesn't ruin your result.
+        </p>
+        <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+          40 trials · about 1 min 40 sec · no feedback shown
+        </p>
         <button
           className="nback-btn nback-btn--match"
           style={{ marginTop: '1.5rem', padding: '0.75rem 2rem' }}
@@ -211,11 +274,29 @@ export function MatchOrPass({ onComplete }) {
     const progress = Math.round((trialCount / 40) * 100)
     return (
       <div className="nback-task">
-        <p className="nback-n-indicator">2-BACK — match the square from 2 steps back</p>
+        <p className="nback-n-indicator">
+          Does this match the colour from <strong>2 squares ago?</strong>
+        </p>
+        <p className="nback-n-indicator nback-n-indicator--sub">
+          Lost track? Just guess and continue.
+        </p>
         <p className="nback-progress">Trial {trialCount} / 40</p>
+
         <div style={{ width: 240, height: 4, background: '#333', borderRadius: 2, marginBottom: '1.5rem' }}>
           <div style={{ width: `${progress}%`, height: '100%', background: '#3a7bd5', borderRadius: 2, transition: 'width 300ms ease' }} />
         </div>
+
+        <div className="nback-memory-slots" aria-hidden="true">
+          <div className="nback-memory-slot">
+            <span className="nback-memory-slot-number">N-2</span>
+            <span className="nback-memory-slot-label">compare to this</span>
+          </div>
+          <div className="nback-memory-slot nback-memory-slot--recent">
+            <span className="nback-memory-slot-number">N-1</span>
+            <span className="nback-memory-slot-label">skip</span>
+          </div>
+        </div>
+
         <NBackSquare colour={scoredColour} visible={scoredVisible} />
         <NBackButtons onResponse={handleScoredResponse} enabled={scoredEnabled} />
       </div>
@@ -224,27 +305,14 @@ export function MatchOrPass({ onComplete }) {
 
   if (phase === PHASES.RESULTS && results) {
     const { overall } = results
-    const band = getNBackBand(results.correctedHitRatepct)
-
+    const band = getNBackBand(overall.correctedHitRatepct)
     return (
-      <MiniResult 
+      <MiniResult
         band={band}
         metrics={[
-          { 
-            label: 'Corrected Hits', 
-            value: `${results.correctedHitRatepct?.toFixed(1)}%`, 
-            flagged: results.correctedHitRatepct < 60 
-          },
-          { 
-            label: 'd\u2032',        
-            value: results.dPrime?.toFixed(2) ?? '—', 
-            flagged: false 
-          },
-          { 
-            label: 'False Alarms',   
-            value: `${results.falseAlarmRatepct?.toFixed(1)}%`, 
-            flagged: false 
-          },
+          { label: 'Corrected Hits', value: `${overall.correctedHitRatepct?.toFixed(1)}%`, flagged: overall.correctedHitRatepct < 60 },
+          { label: 'd′',             value: overall.dPrime?.toFixed(2) ?? '—',              flagged: false },
+          { label: 'False Alarms',   value: `${overall.falseAlarmRatepct?.toFixed(1)}%`,    flagged: false },
         ]}
         disclaimer="This reflects today's session only. Performance varies with sleep and environment."
         onComplete={() => onComplete?.(results)}

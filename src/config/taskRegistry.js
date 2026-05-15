@@ -125,7 +125,7 @@ export const TASK_REGISTRY = [
       convergenceFailure: { title: 'Estimate reliability note', text: 'The stopping threshold task did not reach a stable estimate in this session. This can happen with very fast or very consistent stopping. The result is shown for reference but should be interpreted cautiously.' },
     },
     columns: [
-      { key: 'index', label: '#' }, { key: 'trialType', label: 'Type' }, { key: 'ssd', label: 'SSD ms' },
+      { key: 'index', label: '#' }, { key: 'type', label: 'Type' }, { key: 'ssd', label: 'SSD ms' },
       { key: 'responded', label: 'Response' }, { key: 'classification', label: 'Classification' }, { key: 'rtms', label: 'RT ms' },
     ],
   },

@@ -20,7 +20,7 @@ export function computeSSTMetrics(trials, staircase) {
   const succStops   = stopTrials.filter(t => t.classification === 'successfulStop')
   const goRTs    = goHits.map((t) => t.rt)
   const pRespond = stopTrials.length > 0 ? failedStops.length / stopTrials.length : 0
-  const meanSSD  = stopTrials.length > 0 ? getArrayMean(stopTrials.map((t) => t.ssd)) : 0
+  const meanSSD = stopTrials.length > 0 ? getArrayMean(stopTrials.map(t => t.ssdms ?? t.ssd)) : 0
 
   const ssrtResult = calcSSRT(goRTs, meanSSD, goOmissions, goHits.length + goOmissions, pRespond)
 
@@ -51,6 +51,7 @@ export function computeSSTMetrics(trials, staircase) {
     goOmissions,
     perseverations:  trials.filter((t) => t.classification === 'perseveration').length,
     ssdHistory:      staircase.history ?? [],
+    finalSSDms: staircase.current ?? null,
     flags,
   }
 }

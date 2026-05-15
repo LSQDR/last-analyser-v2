@@ -143,7 +143,7 @@ export function WordColourClash({ onComplete }) {
   // --- Render phases ---
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <div className="stroop-task">
+      <main className="stroop-task">
         <h1>Word Colour Clash</h1>
         <p style={{ maxWidth: 520, textAlign: 'center', lineHeight: 1.6 }}>
           A word will appear on screen printed in a colour. Your job is to click the button
@@ -161,13 +161,13 @@ export function WordColourClash({ onComplete }) {
         <button className="stroop-btn" style={{ backgroundColor: '#3a7bd5', marginTop: '1.5rem', padding: '0.75rem 2rem' }} onClick={startPractice}>
           Start Practice
         </button>
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.PRACTICE) {
     return (
-      <div className="stroop-task">
+      <main className="stroop-task">
         <p className="stroop-progress">Practice — trial {Math.min(practiceIndex + 1, PRACTICE_TRIALS.length)} of {PRACTICE_TRIALS.length}</p>
         <StroopStimulus word={practiceStimWord} inkColour={practiceStimColour} visible={!!practiceStimWord} />
         <StroopButtons onSelect={handlePracticeClick} enabled={practiceEnabled} />
@@ -176,13 +176,13 @@ export function WordColourClash({ onComplete }) {
             {practiceFeedback.icon} {practiceFeedback.message}
           </p>
         )}
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.TRANSITION) {
     return (
-      <div className="stroop-task">
+      <main className="stroop-task">
         <h2>Practice complete</h2>
         <p style={{ color: '#aaa', textAlign: 'center' }}>
           The scored block is next — 90 words. No feedback will be shown during this block.
@@ -191,7 +191,7 @@ export function WordColourClash({ onComplete }) {
         <button className="stroop-btn" style={{ backgroundColor: '#3a7bd5', marginTop: '1.5rem', padding: '0.75rem 2rem' }} onClick={startScored}>
           Begin Task
         </button>
-      </div>
+      </main>
     )
   }
 
@@ -199,14 +199,14 @@ export function WordColourClash({ onComplete }) {
     const total = 90
     const progress = Math.round((trialCount / total) * 100)
     return (
-      <div className="stroop-task">
+      <main className="stroop-task">
         <p className="stroop-progress">Trial {trialCount} / {total}</p>
         <div style={{ width: 280, height: 4, background: '#333', borderRadius: 2, marginBottom: '2rem' }}>
           <div style={{ width: `${progress}%`, height: '100%', background: '#3a7bd5', borderRadius: 2, transition: 'width 300ms ease' }} />
         </div>
         <StroopStimulus word={stimulusWord} inkColour={stimulusColour} visible={!!stimulusWord} />
         <StroopButtons onSelect={handleScoredClick} enabled={buttonsEnabled} />
-      </div>
+      </main>
     )
   }
 

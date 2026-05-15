@@ -48,7 +48,7 @@ export function SignalStop({ onComplete }) {
       completedAt: new Date().toISOString(),
       config: CONFIG,
       overall,
-      trials,
+      events: trials,
     }
     saveTaskResult('signalStop', payload)
     setResults(payload)
@@ -93,40 +93,44 @@ export function SignalStop({ onComplete }) {
   // --- Render ---
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <div className="sst-task">
+      <main className="sst-task">
         <h1>Signal Stop</h1>
         <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7 }}>
-          A <strong style={{ color: '#2ecc71' }}>green circle</strong> will appear.
-          Click it as fast as you can — but if a <strong style={{ color: '#e03c31' }}>red ring</strong> appears around it,
-          stop yourself and <strong>don't click</strong>.
+          A <strong style={{ color: '#2ecc71' }}>green circle</strong> will appear on screen.
+          Click it as fast as you can. Most trials are straightforward Go trials and you should just respond fast.
         </p>
         <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          The stop signal won't appear on every trial — most will be Go trials.
-          It's important to respond quickly on Go trials; don't slow down to wait for the ring.
+          On some trials a <strong style={{ color: '#e03c31' }}>red ring</strong> will appear around the circle at the last moment.
+          When you see the <strong style={{ color: '#e03c31' }}>red ring</strong>, stop yourself and do not click. The key is to
+          respond quickly on every trial without waiting to see if a stop signal appears.
+          Slowing down on purpose defeats the purpose of the task.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>You'll start with 10 Go-only practice trials.</p>
+        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
+          You will complete 10 practice Go trials first to get used to the speed,
+          then the scored task begins with stop signals included.
+        </p>
         <button className='btn' onClick={begin}>
           Start Practice
         </button>
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.PRACTICE) {
     return (
-      <div className="sst-task">
+      <main className="sst-task">
         <p style={{ fontWeight: 600, color: '#888', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '1rem' }}>
           Practice — Go Only
         </p>
         <p className="sst-progress">Trial {practiceTrialCount} / 10</p>
         <SSTCircle goVisible={practiceGoVisible} stopVisible={false} onClick={practiceClick} />
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.TRANSITION) {
     return (
-      <div className="sst-task">
+      <main className="sst-task">
         <h2>Practice complete</h2>
         <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
           The scored task is next — 128 trials. Stop signals will now appear on some trials.
@@ -134,20 +138,20 @@ export function SignalStop({ onComplete }) {
         </p>
         <p style={{ color: '#aaa', fontSize: '0.9rem' }}>About 3 minutes</p>
         <button className='btn'onClick={startScored}>Begin Task</button>
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.SCORED) {
     const progress = Math.round((trialCount / 128) * 100)
     return (
-      <div className="sst-task">
+      <main className="sst-task">
         <p className="sst-progress">Trial {trialCount} / 128</p>
         <div style={{ width: 260, height: 4, background: '#333', borderRadius: 2, marginBottom: '2rem' }}>
           <div style={{ width: `${progress}%`, height: '100%', background: '#2ecc71', borderRadius: 2, transition: 'width 200ms ease' }} />
         </div>
         <SSTCircle goVisible={goVisible} stopVisible={stopVisible} onClick={handleClick} />
-      </div>
+      </main>
     )
   }
 

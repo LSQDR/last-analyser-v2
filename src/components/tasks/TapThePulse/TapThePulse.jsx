@@ -114,7 +114,7 @@ export function TapThePulse({ onComplete }) {
 
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         <h1>Tap the Pulse</h1>
         <p className="cpt-instructions-body">
           A circle will appear on screen. It will usually be{' '}
@@ -127,23 +127,23 @@ export function TapThePulse({ onComplete }) {
         </p>
         <p className="cpt-instructions-hint">You'll start with a practice round.</p>
         <button className="cpt-start-btn" onClick={begin}>Start Practice</button>
-    </div>
+    </main>
     )
   }
 
   if (phase === PHASES.PRACTICE) {
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         <p className="cpt-block-label">Practice</p>
         <p className="cpt-progress">Click when the circle turns red</p>
         <CPTCircle state={circleState} onClick={handleClick} />
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.TRANSITION) {
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         <h2>Practice complete</h2>
         <p style={{ color: '#aaa', textAlign: 'center', maxWidth: 400, lineHeight: 1.7 }}>
           The scored task is next, 3 rounds of 90 seconds each.
@@ -152,14 +152,14 @@ export function TapThePulse({ onComplete }) {
         <button className="cpt-start-btn" onClick={beginBlocks}>
           Begin Task
         </button>
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.BLOCK || phase === PHASES.INTER_BLOCK) {
     const latestBlock = blockResultsRef.current[blockResultsRef.current.length - 1]
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         {phase === PHASES.INTER_BLOCK ? (
           <div className="cpt-pause-banner">
             <p className="cpt-block-label">Round {blockIndex} complete</p>
@@ -171,7 +171,7 @@ export function TapThePulse({ onComplete }) {
             <CPTCircle state={circleState} onClick={handleClick} />
           </>
         )}
-      </div>
+      </main>
     )
   }
 

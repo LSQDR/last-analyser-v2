@@ -28,6 +28,7 @@ export function useSSTEngine(schedule, onComplete) {
 
     activeTrial.current = {
       ...trial,
+      ssd: trial.type === 'stop' ? ssd : null, 
       ssdms:           trial.type === 'stop' ? ssd : null,
       goOnset:         fireTimestamp,
       responded:       false,

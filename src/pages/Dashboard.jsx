@@ -6,6 +6,7 @@ import { DashboardHeader }    from '../components/dashboard/DashboardHeader.jsx'
 import { OverviewPanel }      from '../components/dashboard/OverviewPanel.jsx';
 import { TaskCard, TaskCardPlaceholder } from '../components/dashboard/TaskCard.jsx';
 import { InsightsSummary }    from '../components/dashboard/InsightsSummary.jsx';
+import { DisclaimerBanner } from '../components/shared/DisclaimerBanner.jsx';
 import './Dashboard.css';
 
 export function Dashboard() {
@@ -30,6 +31,7 @@ export function Dashboard() {
   return (
     <>
       <DashboardHeader data={data} />
+      <DisclaimerBanner />
       <main className="dashboard" id="main-content">
         <InsightsSummary data={data} />
         <OverviewPanel data={data} />
@@ -40,11 +42,11 @@ export function Dashboard() {
             : <TaskCardPlaceholder key={task.id} task={task} />
         )}
 
-        
-
-        <Link to="/researcher" style={{ fontSize: '1rem', color: '#555', textDecoration: 'none', marginBottom: '0.5rem', display: 'block', textAlign: 'center' }}>
-          Researcher View
-        </Link>
+        <div className="dashboard-researcher-link">
+          <Link to="/researcher" className="researcher-link">
+            Researcher View →
+          </Link>
+        </div>
       </main>
     </>
   );

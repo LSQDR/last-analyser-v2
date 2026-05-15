@@ -1,90 +1,734 @@
-.dashboard { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
 
-/* ─── Layer 1: Sticky header ─── */
-.dashboard-header { position: sticky; top: 0; z-index: 100; background: var(--bg-page); border-bottom: 1px solid var(--border-subtle); padding: 0.6rem 1.5rem; }
-.disclaimer-banner { font-size: 0.78rem; color: var(--text-muted); text-align: center; padding: 0.35rem 0; }
-.disclaimer-banner strong { color: #ccc; }
-.dashboard-nav { display: flex; gap: 0.5rem; justify-content: center; padding-top: 0.4rem; flex-wrap: wrap; }
-.nav-pill { padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none; }
-.nav-pill--done    { background: var(--colour-green-bg); color: var(--colour-green); }
-.nav-pill--pending { background: var(--border-subtle); color: var(--text-muted); }
+.dashboard {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
 
-/* ─── Layer 2: Overview panel ─── */
-.overview-panel { padding: 2.5rem 0 1.5rem; border-bottom: 1px solid var(--border-subtle); }
-.overview-panel h2 { margin-bottom: 1.5rem; }
-.flag-summary { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1.5rem; }
-.flag-count { font-size: 2.5rem; font-weight: 700; }
-.flag-label { font-size: 1rem; color: var(--text-muted); }
-.flag-note  { font-size: 0.85rem; color: #2ecc71; margin-left: 0.5rem; }
-.domain-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
-.domain-summary-cell { background: var(--bg-card); border-radius: 8px; padding: 0.85rem 1rem; }
-.domain-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; }
-.domain-desc { font-size: 0.82rem; color: var(--text-muted); }
-.domain-desc--pending { color: #555; font-style: italic; }
 
-/* ─── Layer 3: Task cards ─── */
-.task-card { border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem; margin-top: 2rem; scroll-margin-top: 120px; }
-.task-card--placeholder { opacity: 0.45; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
-.task-card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; }
-.task-card-domain { font-size: 0.8rem; color: var(--text-muted); }
-.task-flag-banner { background: #2a1a1a; border-left: 3px solid var(--colour-red); padding: 0.5rem 0.75rem; font-size: 0.85rem; color: #e89090; margin-bottom: 1rem; border-radius: 4px; }
+/* =============================================================================
+   Layer 1 — Sticky header
+   ============================================================================= */
 
-/* Metric table */
-.metric-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0; }
-.metric-table th { text-align: left; color: var(--text-muted); font-weight: 600; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border-subtle); }
-.metric-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #1e1e3a; }
-.metric-row--flagged td { background: #1e1515; }
-.status-badge { font-size: 0.78rem; padding: 0.15rem 0.5rem; border-radius: 12px; }
-.status-badge--ok   { background: var(--colour-green-bg); color: var(--colour-green); }
-.status-badge--flag { background: var(--colour-red-bg); color: var(--colour-red); }
-.status-badge--info { background: #1e1e3a; color: var(--text-muted); }
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.6rem 1.5rem;
+}
 
-/* Flag feedback */
-.flag-section { margin: 1.25rem 0; }
-.flag-section h4 { font-size: 0.9rem; color: #aaa; margin-bottom: 0.75rem; }
-.flag-item { background: var(--bg-card); border-left: 3px solid var(--colour-red); border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; }
-.flag-title { font-weight: 600; font-size: 0.87rem; color: #e89090; margin-bottom: 0.35rem; }
-.flag-text  { font-size: 0.82rem; color: #aaa; line-height: 1.55; }
-.no-flags   { font-size: 0.85rem; color: #2ecc71; margin: 1rem 0; }
+.dashboard-nav {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding-top: 0.4rem;
+  flex-wrap: wrap;
+}
 
-/* Retake */
-.retake-btn { background: transparent; border: 1px solid #444; color: var(--text-muted); padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 0.5rem; }
-.retake-btn:hover { border-color: #666; color: #ccc; }
-.retake-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: flex; align-items: center; justify-content: center; }
-.retake-dialog { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem; max-width: 380px; width: 90%; }
-.retake-dialog h3 { margin-bottom: 0.75rem; }
-.retake-dialog p  { color: #aaa; font-size: 0.9rem; margin-bottom: 1.5rem; }
-.dialog-actions { display: flex; gap: 0.75rem; }
-.btn-confirm { background: var(--colour-red); color: #fff; border: none; padding: 0.6rem 1.25rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
-.btn-cancel  { background: var(--border-subtle); color: #eee; border: none; padding: 0.6rem 1.25rem; border-radius: 8px; cursor: pointer; }
+/* Nav pills */
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
 
-/* N-Back SDT matrix */
-.sdt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
-.sdt-cell { background: var(--bg-card); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
-.sdt-count { font-size: 1.6rem; font-weight: 700; }
-.sdt-pct   { font-size: 0.85rem; color: var(--text-muted); }
-.sdt-label { font-size: 0.8rem; color: #aaa; text-align: center; }
+.nav-pill:hover {
+  opacity: 0.8;
+}
 
-/* N-Back gauge */
-.nback-gauge { margin: 1rem 0; }
-.gauge-track { position: relative; height: 20px; background: var(--border-subtle); border-radius: 10px; overflow: visible; margin-bottom: 0.35rem; }
-.gauge-fill  { height: 100%; background: var(--colour-blue); border-radius: 10px; transition: width 600ms ease; }
-.gauge-threshold { position: absolute; top: -4px; width: 3px; height: 28px; background: var(--colour-red); border-radius: 2px; }
-.gauge-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: #666; }
-.gauge-threshold-label { color: var(--colour-red); }
-.gauge-value { font-size: 1.4rem; font-weight: 700; color: var(--colour-blue); margin-top: 0.5rem; }
+.nav-pill--done {
+  background: var(--colour-green-bg);
+  color: var(--colour-green);
+}
 
-/* Interference band */
-.interference-band { margin: 1rem 0; }
-.band-track { display: flex; border-radius: 6px; overflow: hidden; height: 28px; }
-.band-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; opacity: 0.35; transition: opacity 200ms; }
-.band-segment--minimal  { background: #2ecc71; }
+.nav-pill--pending {
+  background: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+/* ── Top bar ── */
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.dashboard-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Wordmark / home link ── */
+.dashboard-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity 150ms ease;
+}
+
+.dashboard-wordmark:hover {
+  opacity: 0.75;
+}
+
+
+/* ── Progress label ── */
+.dashboard-progress-label {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+
+/* ── Researcher link ── */
+.dashboard-researcher-link {
+  text-align: center;
+  padding: 2.5rem 0 1rem;
+}
+
+.researcher-link {
+  font-size: 0.875rem;
+  color: var(--colour-blue);
+  text-decoration: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  transition: background 150ms ease;
+}
+
+.researcher-link:hover {
+  background: var(--bg-card);
+}
+
+/* =============================================================================
+   Layer 2 — Overview panel
+   ============================================================================= */
+
+.overview-panel {
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.overview-panel h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Flag summary callout */
+.flag-summary {
+  margin-bottom: 1.75rem;
+}
+
+.flag-summary__callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 0.6rem 1.1rem;
+}
+
+.flag-summary__icon {
+  font-size: 1.1rem;
+}
+
+.flag-count {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flag-label {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.flag-note {
+  font-size: 0.85rem;
+  color: var(--colour-green);
+  margin-top: 0.5rem;
+}
+
+/* Radar chart */
+.domain-radar-figure {
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Domain summary grid */
+.domain-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.domain-summary-cell {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.domain-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.domain-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.domain-desc--pending {
+  color: var(--text-placeholder);
+  font-style: italic;
+}
+
+/* =============================================================================
+   Layer 3 — Task cards
+   ============================================================================= */
+
+.task-card {
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-top: 2rem;
+  scroll-margin-top: 120px;
+}
+
+.task-card--placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem 1.75rem;
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+/* Domain chip */
+.task-card-domain-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--bg-row);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.task-card-domain-chip--pending {
+  opacity: 0.6;
+}
+
+/* Flag banner */
+.task-flag-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--colour-red-bg);
+  border: 1px solid var(--colour-red);
+  border-radius: 6px;
+  padding: 0.55rem 0.9rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.task-flag-banner__icon {
+  color: var(--colour-red);
+  font-size: 1rem;
+}
+
+.task-flag-banner__count {
+  font-weight: 700;
+  color: var(--colour-red);
+  font-size: 1rem;
+}
+
+.task-flag-banner__label {
+  color: #e89090;
+}
+
+/* Chart figure */
+.task-chart-figure {
+  margin: 1.5rem 0;
+}
+
+.task-chart-caption {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-placeholder);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+/* Card footer — retake button area */
+.task-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* =============================================================================
+   Metric table
+   ============================================================================= */
+
+.metric-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 1rem 0;
+}
+
+.metric-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.4rem 0.75rem;
+  border-bottom: 2px solid var(--border-subtle);
+}
+
+.metric-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-row);
+}
+
+/* Zebra striping */
+.metric-table tbody tr:nth-child(even) td {
+  background: var(--bg-card-deep);
+}
+
+.metric-row--flagged td {
+  background: #1e1515 !important;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.status-badge--ok {
+  background: var(--colour-green-bg);
+  color: var(--colour-green);
+}
+
+.status-badge--flag {
+  background: var(--colour-red-bg);
+  color: var(--colour-red);
+}
+
+.status-badge--info {
+  background: var(--bg-row);
+  color: var(--text-muted);
+}
+
+/* =============================================================================
+   Flag feedback
+   ============================================================================= */
+
+.flag-section {
+  margin: 1.25rem 0;
+}
+
+.flag-section h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.flag-item {
+  background: var(--bg-card);
+  border-left: 3px solid var(--colour-red);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.flag-title {
+  font-weight: 600;
+  font-size: 0.87rem;
+  color: #e89090;
+  margin-bottom: 0.35rem;
+}
+
+.flag-text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.no-flags {
+  font-size: 0.85rem;
+  color: var(--colour-green);
+  margin: 1rem 0;
+}
+
+
+/* =============================================================================
+   Retake button & confirmation dialog
+   ============================================================================= */
+
+.retake-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.retake-btn:hover {
+  border-color: var(--text-placeholder);
+  color: var(--text-secondary);
+}
+
+.retake-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.retake-dialog {
+  width: 90%;
+  max-width: 380px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.retake-dialog h3 {
+  margin-bottom: 0.75rem;
+}
+
+.retake-dialog p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-confirm {
+  background: var(--colour-red);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: var(--border-subtle);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+
+/* =============================================================================
+   Placeholder card
+   ============================================================================= */
+
+.placeholder-label {
+  font-size: 0.8rem;
+  color: var(--text-placeholder);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+
+.placeholder-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.placeholder-cta {
+  font-size: 0.85rem;
+  color: var(--colour-blue);
+  text-decoration: none;
+}
+
+.placeholder-cta:hover {
+  text-decoration: underline;
+}
+
+/* =============================================================================
+   Session at a Glance 
+   ============================================================================= */
+
+.insights-summary {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.insights-summary h2 {
+  margin-bottom: 0.4rem;
+}
+
+.insights-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.insight-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.insight-card--pending {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.insight-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  gap: 0.5rem;
+}
+
+.insight-domain-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.insight-band-chip {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  white-space: nowrap;
+}
+
+.insight-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.insights-disclaimer {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-placeholder);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* =============================================================================
+   N-Back — SDT matrix
+   ============================================================================= */
+
+.sdt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.sdt-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.sdt-count {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.sdt-pct {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sdt-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+
+/* =============================================================================
+   N-Back — Hit-rate gauge
+   ============================================================================= */
+
+.nback-gauge {
+  margin: 1rem 0;
+}
+
+.gauge-track {
+  position: relative;
+  height: 20px;
+  background: var(--border-subtle);
+  border-radius: 10px;
+  overflow: visible;
+  margin-bottom: 0.35rem;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: var(--colour-blue);
+  border-radius: 10px;
+  transition: width 600ms ease;
+}
+
+.gauge-threshold {
+  position: absolute;
+  top: -4px;
+  width: 3px;
+  height: 28px;
+  background: var(--colour-red);
+  border-radius: 2px;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-placeholder);
+}
+
+.gauge-threshold-label {
+  color: var(--colour-red);
+}
+
+.gauge-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--colour-blue);
+  margin-top: 0.5rem;
+}
+
+
+/* =============================================================================
+   Stroop — Interference band
+   ============================================================================= */
+
+.interference-band {
+  margin: 1rem 0;
+}
+
+.band-track {
+  display: flex;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.band-segment {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  opacity: 0.35;
+  transition: opacity 200ms;
+}
+
+.band-segment--minimal  { background: var(--colour-green); }
 .band-segment--typical  { background: var(--colour-blue); }
 .band-segment--elevated { background: var(--colour-yellow); }
 .band-segment--high     { background: var(--colour-red); }
-.band-segment--active   { opacity: 1; font-weight: 700; }
-.band-description { font-size: 0.82rem; color: #aaa; margin-top: 0.5rem; }
 
-/* Placeholder */
-.placeholder-label { font-size: 0.8rem; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }
-.placeholder-name  { font-size: 1rem; color: #666; margin-top: 0.35rem; }
+.band-segment--active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.band-description {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+
+/* =============================================================================
+   Responsive
+   ============================================================================= */
+
+@media (max-width: 600px) {
+  .domain-summary-grid,
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

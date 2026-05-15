@@ -1,0 +1,28 @@
+.disclaimer-banner {
+  display: grid;
+  grid-template-rows: auto;
+  place-content: center center;
+  gap: 0.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.disclaimer-banner__icon {
+  font-size: .8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.disclaimer-banner__text {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.disclaimer-banner__text strong {
+  color: var(--text-secondary);
+}

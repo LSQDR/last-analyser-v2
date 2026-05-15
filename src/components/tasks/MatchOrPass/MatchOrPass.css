@@ -112,3 +112,126 @@
   margin-bottom: 0.25rem;
   letter-spacing: 0.03em;
 }
+
+/* ── Instruction diagram ─────────────────────────────────────────── */
+.nback-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.nback-diagram-squares {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nback-diagram-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nback-diagram-square {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  opacity: 0.75;
+}
+
+.nback-diagram-square--current {
+  opacity: 1;
+  box-shadow: 0 0 0 3px #fff3;
+}
+
+.nback-diagram-label {
+  font-size: 0.72rem;
+  color: #888;
+  text-align: center;
+  max-width: 80px;
+}
+
+.nback-diagram-arrow {
+  font-size: 1.25rem;
+  color: #444;
+  padding-bottom: 1.5rem;
+}
+
+.nback-diagram-bracket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.25rem;
+}
+
+.nback-diagram-bracket-line {
+  width: 120px;
+  height: 2px;
+  background: #2ecc71;
+  display: block;
+}
+
+.nback-diagram-bracket-text {
+  font-size: 0.8rem;
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+/* ── In-task memory slot indicators ─────────────────────────────── */
+.nback-memory-slots {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.nback-memory-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.nback-memory-slot-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3a7bd5;
+  letter-spacing: 0.05em;
+}
+
+.nback-memory-slot--recent .nback-memory-slot-number {
+  color: #555;
+}
+
+.nback-memory-slot-label {
+  font-size: 0.65rem;
+  color: #555;
+}
+
+/* ── Colour label inside square────────────────────── */
+.nback-square {
+  position: relative;        
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nback-square-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* ── Secondary indicator line ─────────────────────────────────────── */
+.nback-n-indicator--sub {
+  font-size: 0.75rem;
+  color: #555;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}

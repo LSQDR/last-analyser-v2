@@ -1,27 +1,32 @@
-import { COLOUR_HEX } from '../../../utils/generate/generateNBackSchedule.js'
+import { BAND_COLOURS } from '../../../utils/bandColours' 
 import './MatchOrPass.css'
 
 export function NBackSquare({ colour, visible }) {
   return (
     <div
       className={`nback-square ${visible ? 'nback-square--visible' : 'nback-square--hidden'}`}
-      style={{ backgroundColor: visible ? COLOUR_HEX[colour] : 'transparent' }}
+      style={{ backgroundColor: visible ? BAND_COLOURS[colour]?.hex : 'transparent' }}
       role="img"
       aria-label={visible ? `${colour} square` : 'blank'}
       aria-live="polite"
       aria-atomic="true"
-    />
+    >
+      {visible && colour && (
+        <span className="nback-square-label" aria-hidden="true">
+          {colour.toUpperCase()}
+        </span>
+      )}
+    </div>
   )
 }
 
-// Ghost comparator shown during 1-Back warmup only
 export function NBackGhost({ colour }) {
   if (!colour) return null
   return (
     <div className="nback-ghost-wrap" aria-hidden="true">
       <div
         className="nback-square nback-square--visible nback-square--ghost"
-        style={{ backgroundColor: COLOUR_HEX[colour] }}
+        style={{ backgroundColor: BAND_COLOURS[colour]?.hex }}
       />
       <span className="nback-ghost-label">1 step back</span>
     </div>
