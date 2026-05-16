@@ -1,0 +1,29 @@
+:root {
+  /* ─── Status / band colours ─────────────────────────────────────────────── */
+  --colour-green:          #2ecc71;
+  --colour-blue:           #3a7bd5;
+  --colour-yellow:         #f1c40f;
+  --colour-red:            #e03c31;
+
+  /* ─── Tinted surfaces (badges, banners, card fills) ─────────────────────── */
+  --colour-green-bg:       #1a3d1a;
+  --colour-blue-bg:        #1a2a4a;
+  --colour-yellow-bg:      #3d3200;
+  --colour-red-bg:         #3d1a1a;
+
+  /* ─── App backgrounds ────────────────────────────────────────────────────── */
+  --bg-page:               #1a1a2e;
+  --bg-card:               #16213e;
+  --bg-card-deep:          #0f1629;
+  --bg-row:                #1e1e3a;
+
+  /* ─── Borders ────────────────────────────────────────────────────────────── */
+  --border-subtle:         #2a2a4a;
+  --border-row:            #1e1e3a;
+
+  /* ─── Text ───────────────────────────────────────────────────────────────── */
+  --text-primary:          #eeeeee;
+  --text-secondary:        #aaaaaa;
+  --text-muted:            #949494;
+  --text-placeholder:      #8a8a8a;
+}

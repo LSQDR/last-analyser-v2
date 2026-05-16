@@ -1,43 +1,48 @@
+@import '../../styles/tokens.css';
+
 .auto-advance {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
-  margin-top: 2rem;
+  margin-top: var(--space-6);
 }
 
 .auto-advance-btn {
   padding: 0.75rem 2.5rem;
-  background: #2ecc71;
-  color: #111;
+  background: var(--accent);
+  color: var(--bg);
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-family: var(--font);
   cursor: pointer;
-  transition: opacity 150ms ease;
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
 .auto-advance-btn:hover {
-  opacity: 0.85;
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
 
+/* Progress track */
 .auto-advance-track {
   width: 200px;
   height: 4px;
-  background: #2a2a4a;
-  border-radius: 2px;
+  background: var(--border);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .auto-advance-fill {
   height: 100%;
-  background: #2ecc71;
-  border-radius: 2px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
   transition: width 1s linear;
 }
 
 .auto-advance-label {
-  font-size: 0.8rem;
-  color: #666;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }

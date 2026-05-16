@@ -94,22 +94,32 @@ export function SignalStop({ onComplete }) {
   if (phase === PHASES.INSTRUCTIONS) {
     return (
       <main className="sst-task">
-        <h1>Signal Stop</h1>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7 }}>
-          A <strong style={{ color: '#2ecc71' }}>green circle</strong> will appear on screen.
-          Click it as fast as you can. Most trials are straightforward Go trials and you should just respond fast.
+        <span className="sst-instruction-label">Task 2 of 4 · Inhibition Control</span>
+        <h1 className="sst-instruction-title">Signal Stop</h1>
+
+        <div className="sst-instruction-demo" aria-hidden="true">
+          <div className="sst-demo-item">
+            <div className="sst-go-circle sst-go-circle--visible" />
+            <span className="sst-demo-label sst-demo-label--go">Go</span>
+          </div>
+          <span className="sst-demo-arrow">→</span>
+          <div className="sst-demo-item">
+            <div className="sst-go-circle sst-go-circle--visible">
+              <div className="sst-stop-ring" />
+            </div>
+            <span className="sst-demo-label sst-demo-label--stop">Stop</span>
+          </div>
+        </div>
+
+        <p className="sst-instructions-body">
+          A <strong style={{ color: 'var(--green)' }}>green circle</strong> will appear
+          on screen, click it as fast as you can. Most trials are simple Go trials.
+          On some trials, a <strong style={{ color: 'var(--red)' }}>red ring</strong>{' '}
+          will appear at the last moment; when that happens, stop yourself and do not
+          click. The aim is to respond quickly without slowing down to wait for a stop signal.
         </p>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          On some trials a <strong style={{ color: '#e03c31' }}>red ring</strong> will appear around the circle at the last moment.
-          When you see the <strong style={{ color: '#e03c31' }}>red ring</strong>, stop yourself and do not click. The key is to
-          respond quickly on every trial without waiting to see if a stop signal appears.
-          Slowing down on purpose defeats the purpose of the task.
-        </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
-          You will complete 10 practice Go trials first to get used to the speed,
-          then the scored task begins with stop signals included.
-        </p>
-        <button className='btn' onClick={begin}>
+
+        <button className="btn" onClick={begin}>
           Start Practice
         </button>
       </main>
@@ -131,13 +141,14 @@ export function SignalStop({ onComplete }) {
   if (phase === PHASES.TRANSITION) {
     return (
       <main className="sst-task">
-        <h2>Practice complete</h2>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          The scored task is next — 128 trials. Stop signals will now appear on some trials.
-          Keep responding as fast as possible on Go trials.
+        <span className="sst-instruction-label">Practice Complete</span>
+        <h2 className="sst-instruction-title">Ready for the real task?</h2>
+        <p className="sst-instructions-body">
+          The scored task is next with 128 trials. Stop signals will now appear on
+          some trials. Keep responding as fast as possible on every Go trial.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>About 3 minutes</p>
-        <button className='btn'onClick={startScored}>Begin Task</button>
+        <p className="sst-instruction-hint">About 3 minutes</p>
+        <button className="btn" onClick={startScored}>Begin Task</button>
       </main>
     )
   }

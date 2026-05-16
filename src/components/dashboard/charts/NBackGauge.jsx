@@ -1,3 +1,5 @@
+import './NBackGauge.css'
+
 export function NBackGauge({ correctedHitRate }) {
   const clampedRate = Math.max(0, Math.min(100, correctedHitRate))
   return (

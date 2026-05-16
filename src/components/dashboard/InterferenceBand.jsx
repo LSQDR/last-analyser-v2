@@ -1,4 +1,5 @@
 import { getInterferenceBand } from '../../utils/getBandLabels.js';
+import './InterferenceBand.css'
 
 const BANDS = ['minimal', 'typical', 'elevated', 'high'];
 const BAND_LABELS = {

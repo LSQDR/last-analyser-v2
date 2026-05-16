@@ -142,23 +142,24 @@ export function WordColourClash({ onComplete }) {
 
   // --- Render phases ---
   if (phase === PHASES.INSTRUCTIONS) {
-    return (
+      return (
       <main className="stroop-task">
-        <h1>Word Colour Clash</h1>
-        <p style={{ maxWidth: 520, textAlign: 'center', lineHeight: 1.6 }}>
-          A word will appear on screen printed in a colour. Your job is to click the button
-          matching the <strong>ink colour</strong> — not the word's meaning.
+        <span className="stroop-instruction-label">Task 3 of 4 · Interference Control</span>
+        <h1 className="stroop-instruction-title">Word Colour Clash</h1>
+
+        <p className="stroop-instructions-body">
+          A word will appear on screen printed in a colour. Your job is to click the
+          button matching the <strong>ink colour</strong> not the word's meaning. 
+            If the word <strong style={{ color: 'var(--red)' }}>RED</strong> appears in
+            blue, click <strong style={{ color: 'var(--blue)' }}>Blue</strong>.
         </p>
-        <p style={{ maxWidth: 520, textAlign: 'center', lineHeight: 1.6, color: '#aaa' }}>
-          For example, if the word <span style={{ color: '#3a7bd5', fontWeight: 'bold' }}>RED</span> appears in blue,
-          click <strong>Blue</strong>.
-        </p>
-        <p style={{ maxWidth: 520, textAlign: 'center', lineHeight: 1.6, color: '#aaa' }}>
+
+        <p className="stroop-instructions-muted">
           Respond as quickly and accurately as possible. You have 2 seconds per word.
-          Keys 1–4 can also be used (Red, Blue, Green, Yellow).
+          Keys 1–4 can also be used for Red, Blue, Green, and Yellow.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem' }}>You'll start with 6 practice trials.</p>
-        <button className="stroop-btn" style={{ backgroundColor: '#3a7bd5', marginTop: '1.5rem', padding: '0.75rem 2rem' }} onClick={startPractice}>
+
+        <button className="stroop-start-btn" onClick={startPractice}>
           Start Practice
         </button>
       </main>
@@ -183,12 +184,13 @@ export function WordColourClash({ onComplete }) {
   if (phase === PHASES.TRANSITION) {
     return (
       <main className="stroop-task">
-        <h2>Practice complete</h2>
-        <p style={{ color: '#aaa', textAlign: 'center' }}>
-          The scored block is next — 90 words. No feedback will be shown during this block.
-          Keep responding to the <strong>ink colour</strong>.
+        <span className="stroop-instruction-label">Practice Complete</span>
+        <h2 className="stroop-instruction-title">Ready for the real task?</h2>
+        <p className="stroop-instructions-body">
+          The scored block is next 90 words. No feedback will be shown.
+          Keep responding to the <strong>ink colour</strong>, not the word's meaning.
         </p>
-        <button className="stroop-btn" style={{ backgroundColor: '#3a7bd5', marginTop: '1.5rem', padding: '0.75rem 2rem' }} onClick={startScored}>
+        <button className="stroop-start-btn" onClick={startScored}>
           Begin Task
         </button>
       </main>
@@ -201,36 +203,36 @@ export function WordColourClash({ onComplete }) {
     return (
       <main className="stroop-task">
         <p className="stroop-progress">Trial {trialCount} / {total}</p>
-        <div style={{ width: 280, height: 4, background: '#333', borderRadius: 2, marginBottom: '2rem' }}>
-          <div style={{ width: `${progress}%`, height: '100%', background: '#3a7bd5', borderRadius: 2, transition: 'width 300ms ease' }} />
+        <div className="stroop-progress-bar">
+          <div className="stroop-progress-bar__fill" style={{ width: `${progress}%` }} />
         </div>
         <StroopStimulus word={stimulusWord} inkColour={stimulusColour} visible={!!stimulusWord} />
         <StroopButtons onSelect={handleScoredClick} enabled={buttonsEnabled} />
       </main>
     )
   }
-
+  
   if (phase === PHASES.RESULTS && results) {
     const { overall } = results
-   const band = getStroopBand(results.trueInterferencems)
+    const band = getStroopBand(overall.trueInterferencems)
     return (
-      <MiniResult 
-      band={band}
+      <MiniResult
+        band={band}
         metrics={[
-          { 
-            label: 'Interference',  
-            value: `${Math.round(results.trueInterferencems)}ms`, 
-            flagged: results.trueInterferencems > 150 
+          {
+            label: 'Interference',
+            value: `${Math.round(overall.trueInterferencems)}ms`,
+            flagged: overall.trueInterferencems > 150,
           },
-          { 
-            label: 'Incong. Acc.',  
-            value: `${results.incongruentAccuracypct?.toFixed(1)}%`, 
-            flagged: results.incongruentAccuracypct < 75 
+          {
+            label: 'Incong. Acc.',
+            value: `${overall.incongruentAccuracypct?.toFixed(1)}%`,
+            flagged: overall.incongruentAccuracypct < 75,
           },
-          { 
-            label: 'Facilitation',  
-            value: `${Math.round(results.facilitationms)}ms`, 
-            flagged: false 
+          {
+            label: 'Facilitation',
+            value: `${Math.round(overall.facilitationms)}ms`,
+            flagged: false,
           },
         ]}
         disclaimer="This reflects today's session only. Performance varies with sleep and environment."

@@ -21,7 +21,7 @@ export function InsightsSummary({ data }) {
     <section className="insights-summary" aria-labelledby="insights-heading">
       <h2 id="insights-heading">Your Session at a Glance</h2>
       <p className="insights-subtitle">
-        One observation per domain for reflection only — not a clinical interpretation.
+        One observation per domain for reflection only, not a clinical interpretation.
       </p>
 
       <div className="insights-grid">

@@ -139,54 +139,50 @@ export function MatchOrPass({ onComplete }) {
 
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <div className="nback-task">
-        <h1>Match or Pass</h1>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7 }}>
-          A coloured square will flash on screen. After each one, ask yourself:
-        </p>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.8, fontSize: '1.1rem' }}>
-          <strong>"Did this colour appear two squares ago?"</strong>
-        </p>
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          Press <strong>Same</strong> if yes, <strong>Different</strong> if no.
-          You're not comparing to the one you just saw — skip one back.
-        </p>
+      <main className="nback-task">
+        <span className="nback-instruction-label">Task 4 of 4 · Working Memory</span>
+        <h1 className="nback-instruction-title">Match or Pass</h1>
 
-        <div className="nback-diagram" aria-label="Example: square 1 is red, square 2 is blue, square 3 is red — same as square 1, two steps back">
+        {/* Sequence diagram */}
+        <div className="nback-diagram" aria-hidden="true">
           <div className="nback-diagram-squares">
             <div className="nback-diagram-item">
-              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.red.hex }} />
-              <span className="nback-diagram-label">1</span>
+              <div className="nback-diagram-square" style={{ background: 'var(--blue)' }} />
+              <span className="nback-diagram-label">2 ago</span>
             </div>
-            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-arrow">→</div>
             <div className="nback-diagram-item">
-              <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.blue.hex }} />
-              <span className="nback-diagram-label">2</span>
+              <div className="nback-diagram-square" style={{ background: 'var(--red)' }} />
+              <span className="nback-diagram-label">1 ago</span>
             </div>
-            <div className="nback-diagram-arrow" aria-hidden="true">→</div>
+            <div className="nback-diagram-arrow">→</div>
             <div className="nback-diagram-item">
-              <div className="nback-diagram-square nback-diagram-square--current" style={{ backgroundColor: BAND_COLOURS.red.hex }} />
-              <span className="nback-diagram-label">3 ← you are here</span>
+              <div className="nback-diagram-square nback-diagram-square--current" style={{ background: 'var(--blue)' }} />
+              <span className="nback-diagram-label">Now</span>
             </div>
           </div>
-          <div className="nback-diagram-bracket" aria-hidden="true">
+          <div className="nback-diagram-bracket">
             <span className="nback-diagram-bracket-line" />
-            <span className="nback-diagram-bracket-text">Same! (2 steps back)</span>
+            <span className="nback-diagram-bracket-text">Match ✓</span>
           </div>
         </div>
 
-        <p style={{ maxWidth: 500, textAlign: 'center', lineHeight: 1.7, color: '#aaa', fontSize: '0.9rem' }}>
-          Keys: <strong>M</strong> = Same, <strong>D</strong> = Different.
-          You'll start with a 1-Back warm-up to learn the mechanic first.
+        <p className="nback-instructions-body">
+          A coloured square will flash on screen. After each one, decide whether
+          its colour matches the one from <strong>2 squares ago</strong> not
+          the one you just saw, but the one before that. Press{' '}
+          <strong>Same</strong> if it is the same, <strong>Different</strong> if it is not.
         </p>
-        <button
-          className="nback-btn nback-btn--match"
-          style={{ marginTop: '1.5rem', padding: '0.75rem 2rem' }}
-          onClick={beginWarmup}
-        >
-          Start Warm-Up
+
+        <p className="nback-instructions-muted">
+          Keys: <strong>M</strong> = Match, <strong>D</strong> = Pass.
+          You'll start with a 1-Back warm-up to learn the rhythm first.
+        </p>
+
+        <button className="nback-start-btn" onClick={beginWarmup}>
+          Start Warm-up
         </button>
-      </div>
+      </main>
     )
   }
 
@@ -224,7 +220,7 @@ export function MatchOrPass({ onComplete }) {
     return (
       <div className="nback-task">
         <h2>Warm-up complete</h2>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
+        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
           Now the real task begins. Instead of matching the square you <em>just</em> saw,
           you need to match the one from <strong>2 squares ago</strong> — skipping one in between.
         </p>
@@ -256,7 +252,7 @@ export function MatchOrPass({ onComplete }) {
           If you lose track at any point, make your best guess and keep going —
           a moment of confusion doesn't ruin your result.
         </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
           40 trials · about 1 min 40 sec · no feedback shown
         </p>
         <button

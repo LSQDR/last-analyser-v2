@@ -14,14 +14,14 @@ export function Dashboard() {
   const { data, status } = useDashboardData();
 
   if (status === 'loading') {
-    return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a2e', color: '#888' }}>Loading</div>;
+    return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)', color: 'var(--text)' }}>Loading</div>;
   }
 
   if (status === 'empty') {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#1a1a2e', color: '#eee' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)', color: 'var(--text)' }}>
         <p style={{ color: '#888' }}>Complete at least one task to see your results.</p>
-        <button onClick={() => navigate('/')} style={{ marginTop: '1rem', padding: '0.75rem 2rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
+        <button onClick={() => navigate('/')} style={{ marginTop: '1rem', padding: '0.75rem 2rem', background: 'var(--accent)', color: 'var(--bg)', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
           Go Home
         </button>
       </div>

@@ -1,23 +1,26 @@
+@import '../../styles/tokens.css';
+
 .disclaimer-banner {
   display: grid;
   grid-template-rows: auto;
   place-content: center center;
-  gap: 0.6rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  padding: 1.5rem;
+  gap: var(--space-2);
+  background: var(--disclaimer-bg);
+  border: 1px solid var(--disclaimer-border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
   text-align: center;
 }
 
 .disclaimer-banner__icon {
-  font-size: .8rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   flex-shrink: 0;
   margin-top: 0.1rem;
 }
 
 .disclaimer-banner__text {
-  font-size: 1rem;
+  font-size: var(--text-sm);
   color: var(--text-muted);
   line-height: 1.7;
   margin: 0;

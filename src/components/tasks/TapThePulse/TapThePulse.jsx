@@ -114,21 +114,36 @@ export function TapThePulse({ onComplete }) {
 
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <main className="cpt-task">
-        <h1>Tap the Pulse</h1>
-        <p className="cpt-instructions-body">
-          A circle will appear on screen. It will usually be{' '}
-          <strong style={{ color: '#3a7bd5' }}>blue</strong>. When it turns{' '}
-          <strong style={{ color: '#e03c31' }}>red</strong>, click it as fast as you can.
-        </p>
-        <p className="cpt-instructions-muted">
-          Don't click the blue circle. Try to stay focused. This task measures how well you can
-          sustain your attention over time.
-        </p>
-        <p className="cpt-instructions-hint">You'll start with a practice round.</p>
-        <button className="cpt-start-btn" onClick={begin}>Start Practice</button>
-    </main>
-    )
+  <main className="cpt-task">
+    <span className="cpt-instruction-label">Task 1 of 4 · Sustained Attention</span>
+    <h1 className="cpt-instruction-title">Tap the Pulse</h1>
+
+    <div className="cpt-instruction-demo" aria-hidden="true">
+      <div className="cpt-demo-item">
+        <div className="cpt-circle blue"><div className="cpt-inner-dot" /></div>
+        <span className="cpt-demo-label cpt-demo-label--ignore">Ignore</span>
+      </div>
+      <span className="cpt-demo-arrow">→</span>
+      <div className="cpt-demo-item">
+        <div className="cpt-circle red"><div className="cpt-inner-dot" /></div>
+        <span className="cpt-demo-label cpt-demo-label--click">Click!</span>
+      </div>
+    </div>
+
+    <p className="cpt-instructions-body">
+      A circle will appear on screen usually{' '}
+      <strong style={{ color: 'var(--blue)' }}>blue</strong>,  When it turns{' '}
+      <strong style={{ color: 'var(--red)' }}>red</strong> click it as fast as
+      you can. Don't click when it's <strong style={{ color: 'var(--blue)' }}>blue</strong>. 
+      Try to stay focused, this measures how well you sustain attention over time.
+    </p>
+
+
+    <button className="cpt-start-btn" onClick={begin}>
+      Start Practice
+    </button>
+  </main>
+)
   }
 
   if (phase === PHASES.PRACTICE) {
