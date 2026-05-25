@@ -37,7 +37,7 @@ export function Dashboard() {
 
         {TASK_REGISTRY.map((task) =>
           data[task.id]
-            ? <TaskCard            key={task.id} task={task} taskData={data[task.id]} />
+            ? <TaskCard key={task.id} task={task} taskData={data[task.id]} />
             : <TaskCardPlaceholder key={task.id} task={task} />
         )}
 

@@ -7,10 +7,10 @@ import clsx from 'clsx'
 import './Home.css'
 
 const TASK_DESCRIPTIONS = {
-  tapThePulse:     'A circle flashes on screen, click when it turns red. Measures how well you sustain focus over three timed blocks.',
-  signalStop:      'React to a green circle, but freeze when a red ring appears. Tests your ability to cancel a response mid-flight.',
+  tapThePulse: 'A circle flashes on screen, click when it turns red. Measures how well you sustain focus over three timed blocks.',
+  signalStop: 'React to a green circle, but freeze when a red ring appears. Tests your ability to cancel a response mid-flight.',
   wordColourClash: 'Identify the ink colour of a word, not what the word says. Measures how well you suppress automatic reading.',
-  matchOrPass:     'Does this colour match the one from two steps ago? Tracks how accurately you update and hold information in mind.',
+  matchOrPass: 'Does this colour match the one from two steps ago? Tracks how accurately you update and hold information in mind.',
 }
 
 export function Home() {
@@ -88,7 +88,7 @@ export function Home() {
       {/* ── Left column ── */}
       <div className="home__left">
         <div className="home__identity">
-          <img src="/LAST-Analyser.svg" alt="LAST-Analyser" className="home__wordmark" />
+          <h1 className="home__wordmark"><strong>LaST-</strong>analyser</h1>
           <p className="home__tagline">
             Four short, evidence-based tasks exploring sustained attention,
             response inhibition, interference control, and working memory.

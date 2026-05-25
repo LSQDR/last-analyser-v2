@@ -31,9 +31,16 @@
 }
 
 .home__wordmark {
-  height: 32px;
+  font-family: var(--font-title);
+  font-size: 4rem;
+  line-height: 1.2;
   width: auto;
   margin-bottom: var(--space-4);
+}
+
+.home__wordmark > strong {
+  display: block;
+
 }
 
 .home__tagline {

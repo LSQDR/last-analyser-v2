@@ -30,7 +30,8 @@
 }
 
 .dashboard-wordmark {
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
+  font-family: var(--font-title);
   font-weight: 700;
   color: var(--text);
   text-decoration: none;

@@ -1,81 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Major+Mono+Display&display=swap');
+
 
 :root {
   /* ── Surfaces ── */
-  --bg:              #0E1A25;
-  --surface:         #053959;
-  --surface-high:    #0a4472;
+  --bg: #0E1A25;
+  --surface: #053959;
+  --surface-high: #0a4472;
   --surface-overlay: #022136;
 
   /* ── Borders ── */
-  --border:          #1a4d6e;
-  --border-subtle:   rgba(102, 98, 85, 0.25);
+  --border: #1a4d6e;
+  --border-subtle: rgba(102, 98, 85, 0.25);
 
   /* ── Text ── */
-  --text:            #FAFDE2;
-  --text-secondary:  #D9CEB0;
-  --text-muted:      #C8C6BB;
+  --text: #FAFDE2;
+  --text-secondary: #D9CEB0;
+  --text-muted: #C8C6BB;
 
   /* ── Accent  ── */
-  --accent:          #A5A5D9;
-  --accent-hover:    #BCBCE6;
-  --accent-dim:      rgba(165, 165, 217, 0.12);
-  --accent-focus:    rgba(165, 165, 217, 0.35);
+  --accent: #A5A5D9;
+  --accent-hover: #BCBCE6;
+  --accent-dim: rgba(165, 165, 217, 0.12);
+  --accent-focus: rgba(165, 165, 217, 0.35);
 
   /* ──  status colours  ── */
-  --green:           #2ecc71;
-  --green-bg:        rgba(46, 204, 113, 0.1);
-  --green-border:    rgba(46, 204, 113, 0.4);
+  --green: #2ecc71;
+  --green-bg: rgba(46, 204, 113, 0.1);
+  --green-border: rgba(46, 204, 113, 0.4);
 
-  --yellow:          #f1c40f;
-  --yellow-bg:       rgba(241, 196, 15, 0.1);
-  --yellow-border:   rgba(241, 196, 15, 0.4);
+  --yellow: #f1c40f;
+  --yellow-bg: rgba(241, 196, 15, 0.1);
+  --yellow-border: rgba(241, 196, 15, 0.4);
 
-  --red:             #F94438;
-  --red-bg:          rgba(224, 60, 49, 0.1);
-  --red-border:      rgba(224, 60, 49, 0.4);
+  --red: #F94438;
+  --red-bg: rgba(224, 60, 49, 0.1);
+  --red-border: rgba(224, 60, 49, 0.4);
 
-  --blue:            #3D81DF;
-  --blue-bg:         rgba(58, 123, 213, 0.1);
-  --blue-border:     rgba(58, 123, 213, 0.4);
+  --blue: #3D81DF;
+  --blue-bg: rgba(58, 123, 213, 0.1);
+  --blue-border: rgba(58, 123, 213, 0.4);
 
   /* ── Disclaimer ── */
-  --disclaimer-bg:   rgba(165, 165, 217, 0.06);
+  --disclaimer-bg: rgba(165, 165, 217, 0.06);
   --disclaimer-border: rgba(165, 165, 217, 0.25);
 
   /* ── Radius ── */
-  --radius-sm:       6px;
-  --radius:          10px;
-  --radius-lg:       14px;
-  --radius-pill:     999px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
 
   /* ── Transitions ── */
   --transition-fast: 120ms ease;
-  --transition:      200ms ease;
+  --transition: 200ms ease;
 
   /* ── Typography ── */
-  --font:            'Azeret Mono', 'Courier New', monospace;
-  --text-xs:         0.75rem;
-  --text-sm:         0.875rem;
-  --text-base:       1rem;
-  --text-lg:         1.125rem;
-  --text-xl:         1.5rem;
-  --text-2xl:        2rem;
+  --font: 'Azeret Mono', 'Courier New', monospace;
+  --font-title: 'Major Mono Display', 'Courier New', monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 
   /* ── Spacing scale ── */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  24px;
-  --space-6:  32px;
-  --space-7:  48px;
-  --space-8:  64px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
   /* ── Shadows ── */
-  --shadow-card:   0 2px 16px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.35);
   --shadow-raised: 0 4px 28px rgba(0, 0, 0, 0.5);
-  
-  --surface-deep:     #031e35;
+
+  --surface-deep: #031e35;
 }
 

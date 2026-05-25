@@ -16,7 +16,7 @@ export function DashboardHeader({ data }) {
 
       <div className="dashboard-topbar">
         <Link to="/" className="dashboard-wordmark" aria-label="Back to home">
-          LAST-Analyser
+          LaST-analyser
         </Link>
         <span className="dashboard-progress-label">
           {completedCount} of {totalCount} tasks complete
