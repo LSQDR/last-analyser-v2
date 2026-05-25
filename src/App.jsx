@@ -9,10 +9,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"          element={<Home />} />
-        <Route path="/tasks"     element={<TaskRouter />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/tasks" element={<TaskRouter />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="*"          element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/researcher" element={<ResearcherMode />} />
       </Routes>
     </BrowserRouter>

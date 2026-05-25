@@ -12,23 +12,23 @@ import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import { BAND_COLOURS } from '../../../utils/bandColours.js'
 import './MatchOrPass.css'
 
-const TASK   = TASK_REGISTRY.find((t) => t.id === 'matchOrPass')
+const TASK = TASK_REGISTRY.find((t) => t.id === 'matchOrPass')
 const CONFIG = TASK.config
 
 const PHASES = {
   INSTRUCTIONS: 'instructions',
-  WARMUP:       'warmup',
-  TRANSITION:   'transition',
-  SCORED:       'scored',
-  RESULTS:      'results',
+  WARMUP: 'warmup',
+  TRANSITION: 'transition',
+  SCORED: 'scored',
+  RESULTS: 'results',
 }
 
 export function MatchOrPass({ onComplete }) {
-  const [phase,            setPhase]            = useState(PHASES.INSTRUCTIONS)
-  const [schedule,         setSchedule]         = useState(null)
-  const [trialCount,       setTrialCount]       = useState(0)
-  const [warmupFeedback,   setWarmupFeedback]   = useState(null)
-  const [results,          setResults]          = useState(null)
+  const [phase, setPhase] = useState(PHASES.INSTRUCTIONS)
+  const [schedule, setSchedule] = useState(null)
+  const [trialCount, setTrialCount] = useState(0)
+  const [warmupFeedback, setWarmupFeedback] = useState(null)
+  const [results, setResults] = useState(null)
   const [prevWarmupColour, setPrevWarmupColour] = useState(null)
 
   // --- Warmup engine ---
@@ -46,11 +46,11 @@ export function MatchOrPass({ onComplete }) {
   }, [])
 
   const {
-    squareColour:   warmupColour,
-    squareVisible:  warmupVisible,
+    squareColour: warmupColour,
+    squareVisible: warmupVisible,
     buttonsEnabled: warmupEnabled,
-    currentTrial:   warmupTrial,
-    start:          startWarmup,
+    currentTrial: warmupTrial,
+    start: startWarmup,
     handleResponse: warmupResponse,
   } = useNBackEngine(warmupRef, onWarmupComplete)
 
@@ -69,11 +69,11 @@ export function MatchOrPass({ onComplete }) {
   const onScoredComplete = useCallback((events) => {
     const overall = computeNBackMetrics(events)
     const payload = {
-      task:        'matchOrPass',
-      version:     '1.0',
-      status:      'complete',
+      task: 'matchOrPass',
+      version: '1.0',
+      status: 'complete',
       completedAt: new Date().toISOString(),
-      config:      CONFIG,
+      config: CONFIG,
       overall,
       events,
       warmupLog: schedule?.warmup || [],
@@ -86,10 +86,10 @@ export function MatchOrPass({ onComplete }) {
   const scoredRef = schedule?.scored || []
 
   const {
-    squareColour:   scoredColour,
-    squareVisible:  scoredVisible,
+    squareColour: scoredColour,
+    squareVisible: scoredVisible,
     buttonsEnabled: scoredEnabled,
-    start:          startScored,
+    start: startScored,
     handleResponse: scoredResponse,
   } = useNBackEngine(scoredRef, onScoredComplete)
 
@@ -127,7 +127,7 @@ export function MatchOrPass({ onComplete }) {
     if (!activePhase) return
     function onKey(e) {
       const response = phase === PHASES.WARMUP ? handleWarmupResponse : handleScoredResponse
-      const enabled  = phase === PHASES.WARMUP ? warmupEnabled : scoredEnabled
+      const enabled = phase === PHASES.WARMUP ? warmupEnabled : scoredEnabled
       if (!enabled) return
       if (e.key === 'm' || e.key === 'M') response('match')
       if (e.key === 'd' || e.key === 'D' || e.key === 'p' || e.key === 'P') response('pass')
@@ -189,7 +189,7 @@ export function MatchOrPass({ onComplete }) {
 
   if (phase === PHASES.WARMUP) {
     const isInTwoBackWarmup = warmupTrial?.warmupPhase === '2back'
-    const warmupTotal       = isInTwoBackWarmup ? 6 : 10
+    const warmupTotal = isInTwoBackWarmup ? 6 : 10
 
     return (
       <div className="nback-task" style={{ position: 'relative' }}>
@@ -307,9 +307,21 @@ export function MatchOrPass({ onComplete }) {
       <MiniResult
         band={band}
         metrics={[
-          { label: 'Corrected Hits', value: `${overall.correctedHitRatepct?.toFixed(1)}%`, flagged: overall.correctedHitRatepct < 60 },
-          { label: 'd′',             value: overall.dPrime?.toFixed(2) ?? '—',              flagged: false },
-          { label: 'False Alarms',   value: `${overall.falseAlarmRatepct?.toFixed(1)}%`,    flagged: false },
+          {
+            label: 'Corrected Hits',
+            value: `${overall.correctedHitRatepct?.toFixed(1)}%`,
+            flagged: overall.correctedHitRatepct < 60,
+          },
+          {
+            label: 'd′',
+            value: overall.dPrime?.toFixed(2) ?? '—',
+            flagged: false,
+          },
+          {
+            label: 'False Alarms',
+            value: `${overall.falseAlarmRatepct?.toFixed(1)}%`,
+            flagged: false,
+          },
         ]}
         disclaimer="This reflects today's session only. Performance varies with sleep and environment."
         onComplete={() => onComplete?.(results)}

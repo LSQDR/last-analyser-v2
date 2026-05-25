@@ -16,10 +16,21 @@
   transition: background var(--transition-fast);
 }
 
-.band-segment--minimal.band-segment--active  { background: var(--green); }
-.band-segment--typical.band-segment--active  { background: var(--green); }
-.band-segment--elevated.band-segment--active { background: var(--yellow); }
-.band-segment--high.band-segment--active     { background: var(--red); }
+.band-segment--minimal.band-segment--active  { 
+  background: var(--green); 
+}
+
+.band-segment--typical.band-segment--active  { 
+  background: var(--green); 
+}
+
+.band-segment--elevated.band-segment--active { 
+  background: var(--yellow); 
+}
+
+.band-segment--high.band-segment--active     { 
+  background: var(--red); 
+}
 
 .band-segment-label {
   display: none; /* visually hidden, sr-only handled via aria */

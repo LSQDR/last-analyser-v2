@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { loadTaskResult } from '../utils/storage.js'
 import { exportTaskJSON, exportAllJSON } from '../utils/exportJSON.js'
 import { TASK_REGISTRY } from '../config/taskRegistry.js'
-import { EventLogTable }    from '../components/researcher/EventLogTable.jsx'
+import { EventLogTable } from '../components/researcher/EventLogTable.jsx'
 import { TechnicalMetrics } from '../components/researcher/TechnicalMetrics.jsx'
 import './ResearcherMode.css'
 
@@ -85,7 +85,7 @@ function TaskSection({ task, data, idx }) {
 }
 
 export function ResearcherMode() {
-  const allData    = Object.fromEntries(
+  const allData = Object.fromEntries(
     TASK_REGISTRY.map((t) => [t.storageKey, loadTaskResult(t.storageKey)])
   )
   const anyComplete = Object.values(allData).some(Boolean)

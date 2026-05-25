@@ -1,24 +1,24 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 30
 
 export function EventLogTable({ columns, events }) {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0)
 
   if (!events || events.length === 0) {
-    return <p className="researcher-empty">No event log available.</p>;
+    return <p className="researcher-empty">No event log available.</p>
   }
 
-  const pageCount = Math.ceil(events.length / PAGE_SIZE);
-  const slice     = events.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const pageCount = Math.ceil(events.length / PAGE_SIZE)
+  const slice     = events.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
 
   function formatCell(col, event, i) {
-    if (col.key === 'index') return i + page * PAGE_SIZE + 1;
-    const val = event[col.key];
-    if (val == null) return '—';
-    if (typeof val === 'boolean') return val ? '✓' : '✗';
-    if (typeof val === 'number' && col.key.toLowerCase().includes('rt')) return Math.round(val);
-    return String(val);
+    if (col.key === 'index') return i + page * PAGE_SIZE + 1
+    const val = event[col.key]
+    if (val == null) return '—'
+    if (typeof val === 'boolean') return val ? '✓' : '✗'
+    if (typeof val === 'number' && col.key.toLowerCase().includes('rt')) return Math.round(val)
+    return String(val)
   }
 
   return (
@@ -62,5 +62,5 @@ export function EventLogTable({ columns, events }) {
         </div>
       )}
     </div>
-  );
+  )
 }

@@ -1,16 +1,16 @@
-import { getInterferenceBand } from '../../utils/getBandLabels.js';
+import { getInterferenceBand } from '../../utils/getBandLabels.js'
 import './InterferenceBand.css'
 
-const BANDS = ['minimal', 'typical', 'elevated', 'high'];
+const BANDS = ['minimal', 'typical', 'elevated', 'high']
 const BAND_LABELS = {
   minimal:  'Minimal',
   typical:  'Typical',
   elevated: 'Somewhat Elevated',
   high:     'High',
-};
+}
 
 export function InterferenceBand({ trueInterference }) {
-  const band = getInterferenceBand(trueInterference);
+  const band = getInterferenceBand(trueInterference)
 
   return (
     <div className="interference-band" role="img" aria-label={`Interference band: ${band.label}`}>
@@ -27,5 +27,5 @@ export function InterferenceBand({ trueInterference }) {
       </div>
       <p className="band-description">{band.description}</p>
     </div>
-  );
+  )
 }

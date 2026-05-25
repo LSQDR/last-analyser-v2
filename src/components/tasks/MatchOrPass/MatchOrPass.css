@@ -134,8 +134,13 @@
   min-height: 1.4rem;
 }
 
-.nback-warmup-feedback--correct { color: var(--green); }
-.nback-warmup-feedback--error   { color: var(--red); }
+.nback-warmup-feedback--correct { 
+  color: var(--green); 
+}
+
+.nback-warmup-feedback--error   { 
+  color: var(--red); 
+}
 
 /* ── Instruction diagram ── */
 .nback-diagram {

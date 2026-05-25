@@ -1,10 +1,10 @@
 
-import { AutoAdvance } from './AutoAdvance.jsx';
-import { BAND_COLOURS } from '../../utils/bandColours.js';
-import './MiniResult.css';
+import { AutoAdvance } from './AutoAdvance.jsx'
+import { BAND_COLOURS } from '../../utils/bandColours.js'
+import './MiniResult.css'
 
 export function MiniResult({ band, metrics, disclaimer, onComplete }) {
-  const colours = BAND_COLOURS[band?.colour] ?? BAND_COLOURS.blue;
+  const colours = BAND_COLOURS[band?.colour] ?? BAND_COLOURS.blue
 
   return (
     <div className="mini-result">
@@ -35,5 +35,5 @@ export function MiniResult({ band, metrics, disclaimer, onComplete }) {
       {disclaimer && <p className="mini-result-disclaimer">{disclaimer}</p>}
       <AutoAdvance onComplete={onComplete} label="Continue" seconds={8} />
     </div>
-  );
+  )
 }

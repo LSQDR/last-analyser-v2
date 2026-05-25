@@ -2,15 +2,15 @@ import { useRef, useState, useCallback } from 'react'
 import { classifyResponse, classifyNoResponse } from '../utils/classify/classifyNBackResponse.js'
 
 export function useNBackEngine(schedule, onBlockComplete) {
-  const trialIndex    = useRef(0)
-  const eventLog      = useRef([])
-  const activeTrial   = useRef(null)
+  const trialIndex = useRef(0)
+  const eventLog = useRef([])
+  const activeTrial = useRef(null)
   const responseTimer = useRef(null)
 
-  const [squareColour,   setSquareColour]   = useState(null)
-  const [squareVisible,  setSquareVisible]  = useState(false)
+  const [squareColour, setSquareColour]= useState(null)
+  const [squareVisible, setSquareVisible] = useState(false)
   const [buttonsEnabled, setButtonsEnabled] = useState(false)
-  const [currentTrial,   setCurrentTrial]   = useState(null)
+  const [currentTrial, setCurrentTrial] = useState(null)
 
   function logEvent(event) {
     eventLog.current.push(event)
@@ -77,8 +77,8 @@ export function useNBackEngine(schedule, onBlockComplete) {
   }, [runNextTrial])
 
   const start = useCallback(() => {
-    trialIndex.current  = 0
-    eventLog.current    = []
+    trialIndex.current = 0
+    eventLog.current = []
     activeTrial.current = null
     runNextTrial()
   }, [runNextTrial])
@@ -86,7 +86,7 @@ export function useNBackEngine(schedule, onBlockComplete) {
   const reset = useCallback(() => {
     clearTimeout(responseTimer.current)
     trialIndex.current  = 0
-    eventLog.current    = []
+    eventLog.current = []
     activeTrial.current = null
     setSquareColour(null)
     setSquareVisible(false)

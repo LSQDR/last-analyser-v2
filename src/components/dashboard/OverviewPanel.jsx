@@ -1,10 +1,10 @@
-import { collectAllFlags } from '../../config/taskRegistry.js';
-import { FlagSummary } from './FlagSummary.jsx';
-import { DomainRadarChart } from './DomainRadarChart.jsx';
-import { DomainSummaryGrid } from './DomainSummaryGrid.jsx';
+import { collectAllFlags } from '../../config/taskRegistry.js'
+import { FlagSummary } from './FlagSummary.jsx'
+import { DomainRadarChart } from './DomainRadarChart.jsx'
+import { DomainSummaryGrid } from './DomainSummaryGrid.jsx'
 
 export function OverviewPanel({ data }) {
-  const allFlags = collectAllFlags(data);
+  const allFlags = collectAllFlags(data)
 
   return (
     <section className="overview-panel" aria-labelledby="overview-heading">
@@ -13,5 +13,5 @@ export function OverviewPanel({ data }) {
       <DomainRadarChart data={data} />
       <DomainSummaryGrid data={data} />
     </section>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from "react"
 
 function MetricInfo({ definition }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <span className="metric-info-wrap">
       <button
@@ -19,7 +19,7 @@ function MetricInfo({ definition }) {
         </span>
       )}
     </span>
-  );
+  )
 }
 
 export function MetricTable({ metrics }) {
@@ -61,5 +61,5 @@ export function MetricTable({ metrics }) {
         ))}
       </tbody>
     </table>
-  );
+  )
 }

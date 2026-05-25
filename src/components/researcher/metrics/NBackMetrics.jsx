@@ -1,4 +1,4 @@
-import { MetricRow as Row } from './MetricRow.jsx';
+import { MetricRow as Row } from './MetricRow.jsx'
 
 export function NBackMetrics({ o }) {
   return (
@@ -19,5 +19,5 @@ export function NBackMetrics({ o }) {
       <Row label="Omissions"          value={o.omissions} note="Threshold 5" />
       <Row label="Flags"              value={o.flags?.join(', ') || 'None'} />
     </>
-  );
+  )
 }

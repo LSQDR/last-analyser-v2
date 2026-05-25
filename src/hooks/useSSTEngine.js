@@ -6,18 +6,18 @@ import { StaircaseSSD } from '../utils/staircaseSSD.js'
 const RESPONSE_WINDOW_MS = 1000   // 800ms display + 200ms grace
 
 export function useSSTEngine(schedule, onComplete) {
-  const staircase     = useRef(new StaircaseSSD())
-  const activeTrial   = useRef(null)
-  const trialLog      = useRef([])
-  const cancelRAF     = useRef(null)
-  const closeTimer    = useRef(null)
-  const stopTimer     = useRef(null)
+  const staircase = useRef(new StaircaseSSD())
+  const activeTrial = useRef(null)
+  const trialLog = useRef([])
+  const cancelRAF = useRef(null)
+  const closeTimer = useRef(null)
+  const stopTimer = useRef(null)
 
-  const [goVisible,      setGoVisible]      = useState(false)
-  const [stopVisible,    setStopVisible]    = useState(false)
-  const [slowWarning,    setSlowWarning]    = useState(false)
-  const [isRunning,      setIsRunning]      = useState(false)
-  const [trialCount,     setTrialCount]     = useState(0)
+  const [goVisible, setGoVisible] = useState(false)
+  const [stopVisible, setStopVisible] = useState(false)
+  const [slowWarning, setSlowWarning] = useState(false)
+  const [isRunning, setIsRunning] = useState(false)
+  const [trialCount, setTrialCount] = useState(0)
 
   function logTrial(trial) {
     trialLog.current.push(trial)
@@ -29,9 +29,9 @@ export function useSSTEngine(schedule, onComplete) {
     activeTrial.current = {
       ...trial,
       ssd: trial.type === 'stop' ? ssd : null, 
-      ssdms:           trial.type === 'stop' ? ssd : null,
-      goOnset:         fireTimestamp,
-      responded:       false,
+      ssdms: trial.type === 'stop' ? ssd : null,
+      goOnset: fireTimestamp,
+      responded: false,
       stopSignalShown: false,
     }
 
@@ -42,9 +42,9 @@ export function useSSTEngine(schedule, onComplete) {
     if (trial.type === 'stop') {
       stopTimer.current = setTimeout(() => {
         const actualDelay = performance.now() - activeTrial.current.goOnset
-        activeTrial.current.stopSignalShown       = true
+        activeTrial.current.stopSignalShown = true
         activeTrial.current.stopSignalActualDelayms = actualDelay
-        activeTrial.current.stopSignalDriftms     = actualDelay - ssd
+        activeTrial.current.stopSignalDriftms = actualDelay - ssd
         setStopVisible(true)
       }, ssd)
     }
@@ -97,15 +97,15 @@ export function useSSTEngine(schedule, onComplete) {
 
     // Update staircase after every stop trial click
     if (activeTrial.current.type === 'stop') {
-      staircase.current.update(false)  // clicked = failed stop → easier
+      staircase.current.update(false) 
     }
 
     activeTrial.current = null
   }, [])
 
   const start = useCallback(() => {
-    staircase.current   = new StaircaseSSD()
-    trialLog.current    = []
+    staircase.current = new StaircaseSSD()
+    trialLog.current = []
     setIsRunning(true)
     setTrialCount(0)
 

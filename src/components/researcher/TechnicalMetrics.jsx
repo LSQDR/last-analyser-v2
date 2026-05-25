@@ -1,18 +1,18 @@
-import { CPTMetrics }    from './metrics/CPTMetrics.jsx';
-import { SSTMetrics }    from './metrics/SSTMetrics.jsx';
-import { StroopMetrics } from './metrics/StroopMetrics.jsx';
-import { NBackMetrics }  from './metrics/NBackMetrics.jsx';
+import { CPTMetrics }    from './metrics/CPTMetrics.jsx'
+import { SSTMetrics }    from './metrics/SSTMetrics.jsx'
+import { StroopMetrics } from './metrics/StroopMetrics.jsx'
+import { NBackMetrics }  from './metrics/NBackMetrics.jsx'
 
 const METRICS_COMPONENTS = {
   tapThePulse:     CPTMetrics,
   signalStop:      SSTMetrics,
   wordColourClash: StroopMetrics,
   matchOrPass:     NBackMetrics,
-};
+}
 
 export function TechnicalMetrics({ taskKey, overall, config }) {
-  const MetricsComponent = METRICS_COMPONENTS[taskKey];
-  if (!MetricsComponent) return null;
+  const MetricsComponent = METRICS_COMPONENTS[taskKey]
+  if (!MetricsComponent) return null
 
   return (
     <div className="technical-metrics">
@@ -36,5 +36,5 @@ export function TechnicalMetrics({ taskKey, overall, config }) {
         </details>
       )}
     </div>
-  );
+  )
 }

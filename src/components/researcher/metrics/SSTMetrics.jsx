@@ -1,4 +1,4 @@
-import { MetricRow as Row } from './MetricRow.jsx';
+import { MetricRow as Row } from './MetricRow.jsx'
 
 export function SSTMetrics({ o }) {
   return (
@@ -19,5 +19,5 @@ export function SSTMetrics({ o }) {
       <Row label="Race Model"         value={o.raceModelHolds == null ? null : (o.raceModelHolds ? 'Holds' : 'Violated')} note="Failed Stop RT vs Go RT" />
       <Row label="Flags"              value={o.flags?.join(', ') || 'None'} />
     </>
-  );
+  )
 }

@@ -16,10 +16,10 @@ export function calcSSRT(goRTs, meanSSD, goOmissions, totalGoTrials, pRespond = 
 
   if (!SSRTisValid) {
     return {
-      SSRTms:      null,
+      SSRTms: null,
       SSRTisValid: false,
       pRespond,
-      meanSSDms:   Math.round(meanSSD),
+      meanSSDms: Math.round(meanSSD),
     }
   }
 
@@ -34,9 +34,9 @@ export function calcSSRT(goRTs, meanSSD, goOmissions, totalGoTrials, pRespond = 
     SSRTms,
     SSRTisValid: SSRTms > 0,
     pRespond,
-    meanSSDms:          Math.round(meanSSD),
-    nthGoRTms:          Math.round(nthGoRT),
-    goOmissionCount:    goOmissions,
+    meanSSDms: Math.round(meanSSD),
+    nthGoRTms: Math.round(nthGoRT),
+    goOmissionCount: goOmissions,
     replacementApplied: goOmissions > 0,
   }
 }

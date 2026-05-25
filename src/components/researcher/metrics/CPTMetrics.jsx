@@ -1,4 +1,4 @@
-import { MetricRow as Row } from './MetricRow.jsx';
+import { MetricRow as Row } from './MetricRow.jsx'
 
 export function CPTMetrics({ o }) {
   return (
@@ -20,5 +20,5 @@ export function CPTMetrics({ o }) {
       <Row label="Attention Decay Slope" value={o.attentionDecaySlope != null ? o.attentionDecaySlope.toFixed(3) : null} note="Block 3 − Block 1 omission rate" />
       <Row label="Flags"                 value={o.flags?.join(', ') || 'None'} />
     </>
-  );
+  )
 }

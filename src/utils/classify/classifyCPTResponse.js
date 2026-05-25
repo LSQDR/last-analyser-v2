@@ -1,5 +1,5 @@
-// Called on every click. activeEvent is the currently live stimulus (or null during ISI).
-// blockStats is { meanRT, sdRT } from the *previous* block's clean hits (null for Block 1).
+
+
 export function classifyClick(clickTimestamp, activeEvent, blockStats) {
   if (!activeEvent) return null  // click during ISI
 
