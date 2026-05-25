@@ -55,6 +55,7 @@ export function useStroopEngine(schedule, onTrialLogged, onBlockComplete) {
     }, 2000)
   }, [schedule, onBlockComplete])
 
+     
   const handleButtonClick = useCallback((buttonColour) => {
     if (!activeTrial.current || activeTrial.current.responded) return
 
@@ -79,6 +80,7 @@ export function useStroopEngine(schedule, onTrialLogged, onBlockComplete) {
     setTimeout(advanceToNextTrial, 500)
   }, [advanceToNextTrial])
 
+   
   const start = useCallback(() => {
     trialIndex.current  = 0
     eventLog.current    = []

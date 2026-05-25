@@ -13,7 +13,9 @@ export function AutoAdvance({ onComplete, seconds = 8, label = 'Continue' }) {
     onCompleteRef.current = onComplete              
   }, [onComplete])
 
+   
   useEffect(() => {
+    // eslint-disable-next-line no-restricted-syntax
     intervalRef.current = setInterval(() => {
       setRemaining(prev => {
         if (prev <= 1) {
@@ -49,7 +51,7 @@ export function AutoAdvance({ onComplete, seconds = 8, label = 'Continue' }) {
         aria-label={`Continuing automatically in ${remaining} seconds`}>
         <div className="auto-advance-fill" style={{ width: `${progress}%` }} />
       </div>
-      <p className="auto-advance-label">Continuing in {remaining}s — or click to skip</p>
+      <p className="auto-advance-label">Continuing in {remaining}s or click to skip</p>
     </div>
   )
 }

@@ -2,18 +2,18 @@ import { describe, it, expect } from 'vitest'
 import { calcSSRT } from '../calcSSRT.js'
 
 // Build a minimal SST event log
-function makeGoEvent(rt) {
+function _makeGoEvent(rt) {
   return { trialType: 'go', responded: true, rtms: rt, classification: 'go-hit', include: true }
 }
-function makeGoOmission() {
+function _makeGoOmission() {
   return { trialType: 'go', responded: false, rtms: null, classification: 'go-omission', include: true }
 }
-function makeStopEvent(responded) {
+function _makeStopEvent(responded) {
   return { trialType: 'stop', responded, rtms: responded ? 280 : null,
     classification: responded ? 'stop-failure' : 'stop-success', include: true, ssd: 200 }
 }
 
-describe('calcSSRT — integration method (Verbruggen 2019)', () => {
+describe('calcSSRT integration method (Verbruggen 2019)', () => {
   const goRTs  = [300, 320, 280, 350, 310, 290, 340, 330, 360, 370,
                   305, 295, 315, 325, 345, 285, 355, 275, 365, 335]
   const meanSSD = 220
@@ -25,7 +25,7 @@ describe('calcSSRT — integration method (Verbruggen 2019)', () => {
   })
 
   it('marks result valid when pRespond is 0.20–0.80', () => {
-    // 8 stop-failures out of 20 stop trials = pRespond 0.4 — valid
+    // 8 stop-failures out of 20 stop trials = pRespond 0.4  valid
     const result = calcSSRT(goRTs, meanSSD, 0, goRTs.length, 0.4)
     expect(result.SSRTisValid).toBe(true)
   })

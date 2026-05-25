@@ -24,7 +24,6 @@ const PHASES = {
 export function TapThePulse({ onComplete }) {
   const [phase,        setPhase]        = useState(PHASES.INSTRUCTIONS)
   const [schedule,     setSchedule]     = useState(null)
-  const [blockResults, setBlockResults] = useState([])
   const [results,      setResults]      = useState(null)
   const [countdown,    setCountdown]    = useState(null)
 
@@ -34,12 +33,12 @@ export function TapThePulse({ onComplete }) {
 
   const handleBlockComplete = useCallback((metrics, events, blockIdx) => {
     blockResultsRef.current = [...blockResultsRef.current, { ...metrics, block: blockIdx }]
-    setBlockResults([...blockResultsRef.current])
 
     if (blockIdx < 3) {
       setPhase(PHASES.INTER_BLOCK)
       let secs = 4
       setCountdown(secs)
+      // eslint-disable-next-line no-restricted-syntax
       countdownTimer.current = setInterval(() => {
         secs--
         if (secs <= 0) {
@@ -72,7 +71,7 @@ export function TapThePulse({ onComplete }) {
   }, [])
 
   const {
-    circleState, isRunning, blockIndex, isPaused, slowWarning,
+    circleState, blockIndex,
     handleClick, startPractice, startBlocks, cancel,
   } = useCPTEngine(
     schedule || { practice: [], blocks: [[], [], []] },
@@ -106,8 +105,7 @@ export function TapThePulse({ onComplete }) {
 
   function beginBlocks() {
     blockResultsRef.current  = []
-    blocksStartedRef.current = false   // reset guard for this session
-    setBlockResults([])
+    blocksStartedRef.current = false  
     setPhase(PHASES.BLOCK)
   }
 
@@ -172,7 +170,6 @@ export function TapThePulse({ onComplete }) {
   }
 
   if (phase === PHASES.BLOCK || phase === PHASES.INTER_BLOCK) {
-    const latestBlock = blockResultsRef.current[blockResultsRef.current.length - 1]
     return (
       <main className="cpt-task">
         {phase === PHASES.INTER_BLOCK ? (

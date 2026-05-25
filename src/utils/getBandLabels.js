@@ -5,7 +5,7 @@
 // N-Back: Klatzky et al.; Jaeggi 2010; corrected hit rate ≥60% typical adult range
 
 
-// ─── Task 1 — Sustained Attention (CPT) ─────────────────────────────────────
+// ─── Task 1  Sustained Attention (CPT) ─────────────────────────────────────
 
 export function getCPTBand(omissionRate, cv, attentionDecaySlope) {
   const flags = [];
@@ -22,7 +22,7 @@ export function getCPTBand(omissionRate, cv, attentionDecaySlope) {
   if (flags.length === 1) return { 
     label: 'Typical',  
     colour: 'blue',   
-    description: 'One attention pattern was outside the typical range — see below for detail.' 
+    description: 'One attention pattern was outside the typical range, see below for detail.' 
   };
 
   if (flags.length === 2) return { 
@@ -38,13 +38,13 @@ export function getCPTBand(omissionRate, cv, attentionDecaySlope) {
   };
 }
 
-// ─── Task 2 — Inhibition Control (SST) ──────────────────────────────────────
+// ─── Task 2 Inhibition Control (SST) ──────────────────────────────────────
 
 export function getSSTBand(ssrtMs, isValid, stopAccuracy) {
   if (!isValid) return { 
     label: 'Inconclusive', 
     colour: 'yellow', 
-    description: 'The task did not converge on a stable stopping threshold — see the reliability note below.' 
+    description: 'The task did not converge on a stable stopping threshold, see the reliability note below.' 
   };
 
   if (ssrtMs < 250 && stopAccuracy >= 60) return { 
@@ -72,9 +72,9 @@ export function getSSTBand(ssrtMs, isValid, stopAccuracy) {
   };
 }
 
-// ─── Task 3 — Interference Control (Stroop) ─────────────────────────────────
+// ─── Task 3  Interference Control (Stroop) ─────────────────────────────────
 
-// Research basis: Troyer et al. 2006 — 60–100ms typical for healthy adults.
+// Research basis: Troyer et al. 2006. 60–100ms typical for healthy adults.
 export function getStroopBand(trueInterferenceMs) {
   if (trueInterferenceMs < 60)  return { 
     label: 'Minimal',  
@@ -132,7 +132,7 @@ export function getInterferenceBand(trueInterferenceMs) {
   };
 }
 
-// ─── Task 4 — Working Memory (N-Back) ────────────────────────────────────────
+// ─── Task 4 Working Memory (N-Back) ────────────────────────────────────────
 
 export function getNBackBand(correctedHitRate) {
   if (correctedHitRate >= 80) return { 

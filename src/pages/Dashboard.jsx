@@ -1,5 +1,4 @@
-import { useNavigate }        from 'react-router-dom';
-import { Link }               from 'react-router-dom';
+import { useNavigate, Link }        from 'react-router-dom';
 import { TASK_REGISTRY }      from '../config/taskRegistry.js';
 import { useDashboardData }   from '../hooks/useDashboardData.js';
 import { DashboardHeader }    from '../components/dashboard/DashboardHeader.jsx';

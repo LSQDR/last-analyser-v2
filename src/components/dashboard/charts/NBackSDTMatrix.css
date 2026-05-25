@@ -1,0 +1,64 @@
+@import url(../../../styles/tokens.css);
+
+.sdt-matrix {
+  width: 100%;
+  margin: var(--space-4) 0 0;
+}
+
+.sdt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.sdt-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border-top: 3px solid transparent;
+}
+
+.sdt-cell--hit  { 
+    background: var(--green-bg);  
+    border-color: var(--green); 
+}
+.sdt-cell--cr   { 
+    background: 
+    var(--green-bg);  
+    border-color: var(--green); 
+}
+.sdt-cell--miss { 
+    background: var(--yellow-bg);    
+    border-color: var(--yellow);   
+}
+.sdt-cell--fa   { 
+    background: var(--yellow-bg);    
+    border-color: var(--yellow);   
+}
+
+.sdt-cell-count {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.sdt-cell-pct {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.sdt-cell-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.sdt-cell-desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+}

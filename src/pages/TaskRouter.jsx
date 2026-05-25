@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loadSession, saveSession, clearSession } from '../utils/storage.js';
+import { loadSession, saveSession } from '../utils/storage.js';
 import { TASK_ORDER } from '../config/taskRegistry.js';
 import { TapThePulse }    from '../components/tasks/TapThePulse/TapThePulse.jsx';
 import { SignalStop }     from '../components/tasks/SignalStop/SignalStop.jsx';

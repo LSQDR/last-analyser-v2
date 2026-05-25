@@ -1,6 +1,7 @@
 import js           from '@eslint/js'
 import reactHooks   from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import reactPlugin from 'eslint-plugin-react'
 import globals      from 'globals'
 
 export default [
@@ -16,6 +17,11 @@ export default [
     plugins: {
       'react-hooks':   reactHooks,
       'react-refresh': reactRefresh,
+      'react':          reactPlugin,
+    },
+
+     settings: {
+      react: { version: 'detect' },
     },
 
     languageOptions: {
@@ -32,8 +38,10 @@ export default [
 
     rules: {
       // React Hooks 
-      'react-hooks/rules-of-hooks':  'error',   // hooks called at top level only
-      'react-hooks/exhaustive-deps': 'warn',    // missing useEffect deps flagged
+      'react-hooks/rules-of-hooks':  'error',   
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/jsx-uses-react':  'error',
+      'react/jsx-uses-vars':   'error', 
 
       // React Refresh (Vite HMR)
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],

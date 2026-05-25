@@ -55,7 +55,7 @@ export function WordColourClash({ onComplete }) {
         practiceActive.current = false
         setPracticeEnabled(false)
         setPracticeStimWord(null)
-        setPracticeFeedback({ icon: '–', message: 'Too slow — try to respond within 2 seconds.', colour: 'yellow' })
+        setPracticeFeedback({ icon: '–', message: 'Too slow, try to respond within 2 seconds.', colour: 'yellow' })
         setTimeout(() => runPracticeTrial(index + 1), 1200)
       }
     }, 2000)
@@ -169,7 +169,7 @@ export function WordColourClash({ onComplete }) {
   if (phase === PHASES.PRACTICE) {
     return (
       <main className="stroop-task">
-        <p className="stroop-progress">Practice — trial {Math.min(practiceIndex + 1, PRACTICE_TRIALS.length)} of {PRACTICE_TRIALS.length}</p>
+        <p className="stroop-progress">Practice trial {Math.min(practiceIndex + 1, PRACTICE_TRIALS.length)} of {PRACTICE_TRIALS.length}</p>
         <StroopStimulus word={practiceStimWord} inkColour={practiceStimColour} visible={!!practiceStimWord} />
         <StroopButtons onSelect={handlePracticeClick} enabled={practiceEnabled} />
         {practiceFeedback && (

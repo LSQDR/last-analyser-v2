@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { computeBlockMetrics } from '../compute/computeCPTBlockMetrics.js'
 
-// Helper — build a minimal event
+// Helper to build a minimal event
 function makeEvent(type, classification, rtms = null, include = true) {
   return { type, classification, rtms, include, scheduledAtMs: 1000, isi: 1500 }
 }

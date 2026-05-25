@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { loadTaskResult, loadTaskDraft } from '../utils/storage.js'
+import { loadTaskResult } from '../utils/storage.js'
 import { exportTaskJSON, exportAllJSON } from '../utils/exportJSON.js'
 import { TASK_REGISTRY } from '../config/taskRegistry.js'
 import { EventLogTable }    from '../components/researcher/EventLogTable.jsx'
@@ -10,11 +10,6 @@ import './ResearcherMode.css'
 function TaskSection({ task, data, idx }) {
   const [open, setOpen]     = useState(false)
   const [subTab, setSubTab] = useState('metrics')
-  const allData = TASK_REGISTRY.map(t => ({ 
-      task: t,
-      data: loadTaskDraft(t.storageKey),
-    }))
-
   return (
     <section className="rm-task-section">
       <button
@@ -102,7 +97,7 @@ export function ResearcherMode() {
         <h1>Researcher View</h1>
         <p className="rm-subtitle">
           Raw trial data, technical metrics, and JSON exports for the current session.
-          No data is transmitted — all values are read directly from{' '}
+          No data is transmitted, all values are read directly from{' '}
           <code>localStorage</code>.
         </p>
       </header>

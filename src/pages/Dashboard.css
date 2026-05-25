@@ -46,7 +46,7 @@
   letter-spacing: 0.03em;
 }
 
-/* Nav pills — scrollable strip on mobile */
+/* Nav pills scrollable strip on mobile */
 .dashboard-nav {
   display: flex;
   gap: var(--space-2);
@@ -85,23 +85,6 @@
 }
 
 .nav-pill:hover { opacity: 1; }
-
-/* ══════════════════════════════════════
-   DISCLAIMER
-══════════════════════════════════════ */
-.disclaimer-banner {
-  background: var(--disclaimer-bg);
-  border: 1px solid var(--disclaimer-border);
-  border-radius: var(--radius);
-  padding: 0.9rem 1.25rem;
-  margin: var(--space-5) 0;
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
-  line-height: 1.7;
-  text-align: center;
-}
-
-.disclaimer-banner strong { color: var(--text); }
 
 /* ══════════════════════════════════════
    SECTION HEADINGS
@@ -208,9 +191,82 @@
   font-style: italic;
 }
 
+/* Metric info tooltip */
+.metric-label-text {
+  vertical-align: middle;
+}
+
+.metric-info-wrap {
+  display: inline-block;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+
+.metric-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font-size: 0.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-family: var(--font);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.metric-info-btn:hover,
+.metric-info-btn[aria-expanded="true"] {
+  background: var(--surface-high);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.metric-info-tooltip {
+  display: block;
+  margin-top: 0.4rem;
+  background: var(--surface-high);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  white-space: normal;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* Radar scale note */
+.radar-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radar-scale-note {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 0 auto var(--space-3);
+}
+
+.radar-scale-note strong {
+  color: var(--text-secondary);
+}
 
 /* ══════════════════════════════════════
-   TASK CARDS — ACCORDION
+   TASK CARDS  ACCORDION
 ══════════════════════════════════════ */
 .task-card {
   background: var(--surface);
@@ -459,31 +515,6 @@
   margin: var(--space-4) 0;
 }
 
-/* Card footer */
-.task-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: var(--space-4);
-  margin-top: var(--space-4);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.retake-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.4rem 1rem;
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color var(--transition-fast), color var(--transition-fast);
-}
-
-.retake-btn:hover {
-  border-color: var(--text-muted);
-  color: var(--text-secondary);
-}
-
 /* Placeholder card */
 .task-card--placeholder {
   border-style: dashed;
@@ -511,65 +542,6 @@
   margin-top: var(--space-3);
   display: inline-block;
 }
-
-/* Retake dialog */
-.retake-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.75);
-}
-
-.retake-dialog {
-  width: 90%;
-  max-width: 380px;
-  background: var(--surface-high);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  box-shadow: var(--shadow-raised);
-}
-
-.retake-dialog h3 { margin-bottom: 0.75rem; }
-
-.retake-dialog p {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-5);
-}
-
-.dialog-actions {
-  display: flex;
-  gap: var(--space-3);
-}
-
-.btn-confirm {
-  background: var(--yellow);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 1.25rem;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.btn-confirm:hover { opacity: 0.85; }
-
-.btn-cancel {
-  background: var(--border-subtle);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 1.25rem;
-  color: var(--text);
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.btn-cancel:hover { opacity: 0.75; }
 
 /* Researcher link */
 .dashboard-researcher-link {

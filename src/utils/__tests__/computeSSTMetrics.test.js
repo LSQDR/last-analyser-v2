@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { computeSSTMetrics } from '../compute/computeSSTMetrics.js'
 
 const makeGo    = (rt) => ({ type: 'go',   responded: true,  rtms: rt,  classification: 'goHit',          include: true,  ssd: null, isPractice: false })
-const makeGoOm  = ()   => ({ type: 'go',   responded: false, rtms: null, classification: 'goOmission',    include: true,  ssd: null, isPractice: false })
+const _makeGoOm  = ()   => ({ type: 'go',   responded: false, rtms: null, classification: 'goOmission',    include: true,  ssd: null, isPractice: false })
 const makeStop  = (r, ssd) => ({ type: 'stop', responded: r, rtms: r ? 280 : null, ssd, isPractice: false,
                                   classification: r ? 'failedStop' : 'successfulStop', include: true })
 
@@ -32,7 +32,7 @@ describe('computeSSTMetrics', () => {
   })
 
   it('flags highSSRT when SSRT > 300 and valid', () => {
-    const slowGoRTs = Array(20).fill(600) // very slow — SSRT will be high
+    const slowGoRTs = Array(20).fill(600) // SSRT will be high
     const t2 = [
       ...slowGoRTs.map(makeGo),
       ...Array(5).fill(null).map(() => makeStop(false, 100)), // 5/10 stops

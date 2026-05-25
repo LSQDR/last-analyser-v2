@@ -15,7 +15,7 @@ describe('standardDeviation', () => {
   it('returns null for single item',   () => expect(standardDeviation([5])).toBeNull())
   it('returns 0 for identical values', () => expect(standardDeviation([3, 3, 3])).toBe(0))
   it('computes sample SD correctly',   () => {
-    // [2,4,4,4,5,5,7,9] — sample SD (÷ n-1) ≈ 2.138
+    // [2,4,4,4,5,5,7,9]  sample SD (÷ n-1) ≈ 2.138
     expect(standardDeviation([2, 4, 4, 4, 5, 5, 7, 9])).toBeCloseTo(2.138, 2)
   })
   it('is always non-negative',         () => expect(standardDeviation([1, 9])).toBeGreaterThanOrEqual(0))
@@ -45,7 +45,7 @@ describe('zScore (inverse normal CDF with log-linear correction)', () => {
     expect(isFinite(z)).toBe(true)
   })
   it('log-linear correction avoids Infinity at p=0', () => {
-    // 0 hits out of 13 targets: corrected p = 0.5/14 — should not be -Infinity
+    // 0 hits out of 13 targets: corrected p = 0.5/14 should not be -Infinity
     const z = zScore(0, 13)
     expect(isFinite(z)).toBe(true)
     expect(z).toBeLessThan(0)

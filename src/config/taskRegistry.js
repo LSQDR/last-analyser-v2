@@ -9,7 +9,7 @@ import {
 } from '../utils/getDomainInsights.js';
 
 export const TASK_REGISTRY = [
-  // ─── Task 1 — Sustained Attention (CPT) ──────────────────────────────────
+  // Task 1 
   {
     id: 'tapThePulse', 
     storageKey: 'tapThePulse',
@@ -31,26 +31,35 @@ export const TASK_REGISTRY = [
     },
 
     getBand: (o) => getCPTBand(o.omissionRatepct, o.cvpct, o.attentionDecaySlope),
+    
     getMetrics: (o) => [
-      { label: 'Omission Rate',   
-        value: o.omissionRatepct != null ? o.omissionRatepct.toFixed(1) + '%'  : '—', 
-        flagged: o.omissionRatepct > 25, 
-        threshold: '< 25%'  
-      },
-      { label: 'RT Variability',  
-        value: o.cvpct != null ? o.cvpct.toFixed(1) + '%'  : '—', 
-        flagged: o.cvpct > 35, 
-        threshold: '< 35%'  
-      },
-      { label: 'Mean RT', 
-        value: o.cleanMeanRTms != null ? Math.round(o.cleanMeanRTms) + 'ms' : '—', 
-        flagged: false 
-      },
-      { label: 'Attention Decay', 
-        value: o.attentionDecaySlope != null ? (o.attentionDecaySlope > 0 ? 'Present' : 'None') : '—', 
-        flagged: o.attentionDecaySlope > 0 
-      },
-    ],
+        {
+          label: "Omission Rate",
+          definition: "How often you missed a red circle. A higher rate suggests your attention lapsed. Typical adults miss fewer than 25% of targets.",
+          value: o.omissionRatepct != null ? `${o.omissionRatepct.toFixed(1)}%` : null,
+          flagged: o.omissionRatepct > 25,
+          threshold: "25%",
+        },
+        {
+          label: "RT Variability",
+          definition: "How consistent your reaction speed was (Coefficient of Variation). High variability means your response times fluctuated a lot, a pattern linked to inconsistent sustained attention.",
+          value: o.cvpct != null ? `${o.cvpct.toFixed(1)}%` : null,
+          flagged: o.cvpct > 35,
+          threshold: "35%",
+        },
+        {
+          label: "Mean RT",
+          definition: "Your average reaction time on target trials, with outlier responses removed. Reflects your baseline processing speed.",
+          value: o.cleanMeanRTms != null ? `${Math.round(o.cleanMeanRTms)} ms` : null,
+          flagged: false,
+        },
+        {
+          label: "Attention Decay",
+          definition: "Whether your miss rate increased from round 1 to round 3. 'Present' means attention faded over time, a common pattern in sustained attention research.",
+          value: o.attentionDecaySlope != null ? (o.attentionDecaySlope > 0 ? "Present" : "None") : null,
+          flagged: o.attentionDecaySlope > 0,
+        },
+      ],
     getInsight: (score, overall) => getSustainedAttentionInsight(score, overall),
     flagFeedback: {
       highOmission: { 
@@ -59,7 +68,7 @@ export const TASK_REGISTRY = [
       },
       attentionDecay: { 
         title: 'Attention decay detected',  
-        text: 'Your attention appeared to decrease over time — more targets were missed in later rounds than earlier ones.' 
+        text: 'Your attention appeared to decrease over time, more targets were missed in later rounds than earlier ones.' 
       },
       highVariability: { 
         title: 'RT variability (CV > 35%)', 
@@ -100,7 +109,7 @@ export const TASK_REGISTRY = [
     ],
   },
 
-  // ─── Task 2 — Inhibition Control (SST) ───────────────────────────────────
+  // ─── Task 2  Inhibition Control (SST) ───────────────────────────────────
   {
     id: 'signalStop', storageKey: 'signalStop',
     name: 'Signal Stop', shortName: 'Stop', domain: 'Inhibition Control', icon: '🛑',
@@ -114,10 +123,27 @@ export const TASK_REGISTRY = [
 
     getBand:    (o) => getSSTBand(o.SSRTms, o.SSRTisValid, o.stopAccuracypct),
     getMetrics: (o) => [
-      { label: 'SSRT',          value: o.SSRTms != null ? (o.SSRTisValid ? Math.round(o.SSRTms) + 'ms' : 'Invalid') : '—', flagged: o.SSRTms > 300 && o.SSRTisValid, threshold: '< 300ms' },
-      { label: 'Stop Accuracy', value: o.stopAccuracypct != null ? o.stopAccuracypct.toFixed(1) + '%' : '—', flagged: o.stopAccuracypct < 50, threshold: '≥ 50%' },
-      { label: 'Go RT',         value: o.goRTms != null ? Math.round(o.goRTms) + 'ms' : '—', flagged: false },
-    ],
+        {
+          label: "SSRT",
+          definition: "Stop-Signal Reaction Time. How quickly your brain can cancel a movement once it has started. Lower is faster. Typical adults score below 300 ms.",
+          value: o.SSRTms != null ? (o.SSRTisValid ? `${Math.round(o.SSRTms)} ms` : "Invalid") : null,
+          flagged: o.SSRTms > 300 && o.SSRTisValid,
+          threshold: "300 ms",
+        },
+        {
+          label: "Stop Accuracy",
+          definition: "The percentage of stop-signal trials where you successfully held back. Should be close to 50% The task is designed to make stopping and going equally likely.",
+          value: o.stopAccuracypct != null ? `${o.stopAccuracypct.toFixed(1)}%` : null,
+          flagged: o.stopAccuracypct < 50,
+          threshold: "≥ 50%",
+        },
+        {
+          label: "Go RT",
+          definition: "Your average reaction time on normal trials with no stop signal. This baseline speed is used to estimate SSRT.",
+          value: o.goRTms != null ? `${Math.round(o.goRTms)} ms` : null,
+          flagged: false,
+        },
+      ],
     getInsight:   (score, overall) => getInhibitionInsight(score, overall),
     flagFeedback: {
       highSSRT:           { title: 'SSRT > 300ms',              text: 'Your estimated inhibition speed was above the typical adult range. This suggests the stop process may take longer than average to cancel an initiated response.' },
@@ -130,7 +156,7 @@ export const TASK_REGISTRY = [
     ],
   },
 
-  // ─── Task 3 — Interference Control (Stroop) ──────────────────────────────
+  // ─── Task 3  Interference Control (Stroop) ──────────────────────────────
   {
     id: 'wordColourClash', storageKey: 'wordColourClash',
     name: 'Word Colour Clash', shortName: 'Stroop', domain: 'Interference Control', icon: '🎨',
@@ -143,10 +169,27 @@ export const TASK_REGISTRY = [
 
     getBand:    (o) => getStroopBand(o.trueInterferencems),
     getMetrics: (o) => [
-      { label: 'Interference',     value: o.trueInterferencems     != null ? Math.round(o.trueInterferencems)     + 'ms' : '—', flagged: o.trueInterferencems     > 150, threshold: '< 150ms' },
-      { label: 'Incong. Accuracy', value: o.incongruentAccuracypct != null ? o.incongruentAccuracypct.toFixed(1) + '%'  : '—', flagged: o.incongruentAccuracypct < 75,  threshold: '≥ 75%'  },
-      { label: 'Facilitation',     value: o.facilitationms         != null ? Math.round(o.facilitationms)         + 'ms' : '—', flagged: false },
-    ],
+        {
+          label: "Interference",
+          definition: "How much slower you were on colour-conflict trials compared to neutral trials. This measures how much automatic word-reading interfered with your response. Typical adults show less than ~150 ms.",
+          value: o.trueInterferencems != null ? `${Math.round(o.trueInterferencems)} ms` : null,
+          flagged: o.trueInterferencems > 150,
+          threshold: "150 ms",
+        },
+        {
+          label: "Incong. Accuracy",
+          definition: "Your accuracy on conflict trials where the word meaning and ink colour differed. Errors here mean the written word overrode your intended response, the classic Stroop error.",
+          value: o.incongruentAccuracypct != null ? `${o.incongruentAccuracypct.toFixed(1)}%` : null,
+          flagged: o.incongruentAccuracypct < 75,
+          threshold: "75%",
+        },
+        {
+          label: "Facilitation",
+          definition: "How much faster you were when the word and ink colour matched, compared to a neutral word. A positive value means matching stimuli gave you a speed boost.",
+          value: o.facilitationms != null ? `${Math.round(o.facilitationms)} ms` : null,
+          flagged: false,
+        },
+      ],
     getInsight:   (score, overall) => getInterferenceInsight(score, overall),
     flagFeedback: {
       highInterference:       { title: 'True interference > 150ms',  text: 'The conflicting word meaningfully slowed your response to the ink colour. A high interference score reflects stronger competition between automatic word-reading and controlled colour-naming.' },
@@ -159,7 +202,7 @@ export const TASK_REGISTRY = [
     ],
   },
 
-  // ─── Task 4 — Working Memory (N-Back) ────────────────────────────────────
+  // ─── Task 4  Working Memory (N-Back) ────────────────────────────────────
   {
     id: 'matchOrPass', storageKey: 'matchOrPass',
     name: 'Match or Pass', shortName: 'N-Back', domain: 'Working Memory', icon: '🧠',
@@ -174,13 +217,30 @@ export const TASK_REGISTRY = [
 
     getBand:    (o) => getNBackBand(o.correctedHitRatepct),
     getMetrics: (o) => [
-      { label: 'Corrected Hits', value: o.correctedHitRatepct != null ? o.correctedHitRatepct.toFixed(1) + '%' : '—', flagged: o.correctedHitRatepct < 60, threshold: '≥ 60%' },
-      { label: 'd′',            value: o.dPrime              != null ? o.dPrime.toFixed(2)                    : '—', flagged: false },
-      { label: 'False Alarms',  value: o.falseAlarmRatepct   != null ? o.falseAlarmRatepct.toFixed(1) + '%'  : '—', flagged: false },
+      {
+        label: "Corrected Hits",
+        definition: "Hit Rate minus False Alarm Rate. Subtracting false alarms gives a fairer picture of working memory accuracy by removing lucky guesses. Typical adults score above 60%.",
+        value: o.correctedHitRatepct != null ? `${o.correctedHitRatepct.toFixed(1)}%` : null,
+        flagged: o.correctedHitRatepct < 60,
+        threshold: "60%",
+      },
+      {
+        label: "d′",
+        definition: "A signal detection measure of how clearly you distinguished matches from non-matches, regardless of how cautious or impulsive your strategy was. Higher values mean better sensitivity.",
+        value: o.dPrime != null ? o.dPrime.toFixed(2) : null,
+        flagged: false,
+      },
+      {
+        label: "False Alarms",
+        definition: "How often you said 'match' when there was no match. A high rate suggests impulsive or guessed responses rather than genuine working memory recall.",
+        value: o.falseAlarmRatepct != null ? `${o.falseAlarmRatepct.toFixed(1)}%` : null,
+        flagged: false,
+      },
     ],
+
     getInsight:   (score, overall) => getWorkingMemoryInsight(score, overall),
     flagFeedback: {
-      lowCorrectedHitRate:           { title: 'Corrected hit rate < 60%', text: 'Your corrected hit rate — accounting for both successful matches and false alarms — was below the typical adult range. This may reflect difficulty updating and holding information in working memory.' },
+      lowCorrectedHitRate:           { title: 'Corrected hit rate < 60%', text: 'Your corrected hit rate, accounting for both successful matches and false alarms, was below the typical adult range. This may reflect difficulty updating and holding information in working memory.' },
       severeWorkingMemoryDifficulty: { title: 'Corrected hit rate < 40%', text: 'Your working memory updating score was considerably below the typical range. Scores at this level may reflect significant difficulty holding and comparing information across sequential items.' },
     },
     columns: [

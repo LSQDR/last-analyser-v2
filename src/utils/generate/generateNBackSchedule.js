@@ -1,5 +1,3 @@
-import { BAND_COLOURS } from '../../utils/bandColours.js';
-
 export const DEFAULT_NBACK_CONFIG = {
   colours:                ['red', 'blue', 'green', 'yellow'],
   warmupTrials:           10,
@@ -30,14 +28,15 @@ function generateNBackSequence(n, totalTrials, targetRatio, config) {
       consecutiveTargets    >= config.maxConsecutiveTargets    ||
       consecutiveNonTargets >= config.maxConsecutiveNonTargets ||
       remainingTargets      <= 0;
-    let isTarget = mustBeTarget ? true : mustBeNonTarget ? false : Math.random() < targetRatio;
+    const isTarget = mustBeTarget ? true : mustBeNonTarget ? false : Math.random() < targetRatio;
     let colour;
     if (isTarget) {
       colour = sequence[i - n];
       targetsPlaced++; consecutiveTargets++; consecutiveNonTargets = 0;
     } else {
-      const f = sequence[i - n];
-      do { colour = randomFrom(config.colours); } while (colour === f);
+      const f = sequence[i - n];       
+      const prev = sequence[i - 1];   
+      do { colour = randomFrom(config.colours) } while (colour === f || colour === prev);
       consecutiveTargets = 0; consecutiveNonTargets++;
     }
     sequence.push(colour);
@@ -62,7 +61,7 @@ function generateWarmupSequence(config) {
   for (let i = 1; i < config.warmupTrials + 1; i++) {
     const remaining        = config.warmupTrials + 1 - i;
     const remainingTargets = oneBackCount - targetsPlaced;
-    let isTarget = remainingTargets >= remaining ? true
+    const isTarget = remainingTargets >= remaining ? true
                  : remainingTargets <= 0         ? false
                  : Math.random() < 0.40;
     let colour;
@@ -71,7 +70,8 @@ function generateWarmupSequence(config) {
       targetsPlaced++;
     } else {
       const f = sequence[i - config.warmupN];
-      do { colour = randomFrom(config.colours); } while (colour === f);
+      const prev = sequence[i - 1];
+      do { colour = randomFrom(config.colours) } while (colour === f || colour === prev);
     }
     sequence.push(colour);
   }

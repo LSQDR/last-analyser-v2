@@ -81,7 +81,7 @@ export function useSSTEngine(schedule, onComplete) {
     setGoVisible(false)
     setStopVisible(false)
 
-    // Strategic slowing deterrent — Verbruggen 2019
+    // Strategic slowing deterrent from Verbruggen 2019
     if (result.classification === 'goHit' && result.rt > 750) {
       setSlowWarning(true)
       setTimeout(() => setSlowWarning(false), 1500)
@@ -89,7 +89,7 @@ export function useSSTEngine(schedule, onComplete) {
 
     if (!result.include) {
       activeTrial.current = null
-      return  // perseveration — don't log
+      return  
     }
 
     const completed = { ...activeTrial.current, ...result }

@@ -26,12 +26,11 @@ export function SignalStop({ onComplete }) {
   const [practiceSchedule, setPracticeSchedule] = useState(null)
   const [results,        setResults]       = useState(null)
 
-  // --- Practice engine (Go-only — no stop signals during practice) ---
+  // --- Practice engine ---
   const onPracticeComplete = useCallback(() => setPhase(PHASES.TRANSITION), [])
 
   const {
     goVisible:    practiceGoVisible,
-    slowWarning:  practiceSlowWarning,
     trialCount:   practiceTrialCount,
     handleClick:  practiceClick,
     start:        startPracticeEngine,
@@ -58,7 +57,6 @@ export function SignalStop({ onComplete }) {
   const {
     goVisible,
     stopVisible,
-    slowWarning,
     trialCount,
     handleClick,
     start:  startScoredEngine,
@@ -75,6 +73,7 @@ export function SignalStop({ onComplete }) {
     setPhase(PHASES.PRACTICE)
   }
 
+   
   useEffect(() => {
     if (phase === PHASES.PRACTICE && practiceSchedule) startPracticeEngine()
   }, [phase, practiceSchedule])
@@ -86,6 +85,7 @@ export function SignalStop({ onComplete }) {
     setPhase(PHASES.SCORED)
   }
 
+   
   useEffect(() => {
     if (phase === PHASES.SCORED && schedule) startScoredEngine()
   }, [phase, schedule])
@@ -130,7 +130,7 @@ export function SignalStop({ onComplete }) {
     return (
       <main className="sst-task">
         <p style={{ fontWeight: 600, color: '#888', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-          Practice — Go Only
+          Practice, Go Only
         </p>
         <p className="sst-progress">Trial {practiceTrialCount} / 10</p>
         <SSTCircle goVisible={practiceGoVisible} stopVisible={false} onClick={practiceClick} />

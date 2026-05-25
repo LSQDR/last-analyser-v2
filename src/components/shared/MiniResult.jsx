@@ -1,6 +1,3 @@
-// Reusable mini results panel used at the end of each task.
-// Band label is the primary output; raw metric is secondary.
-// Research basis: Schoenberg & Rum 2017 — qualitative labels reduce misinterpretation.
 
 import { AutoAdvance } from './AutoAdvance.jsx';
 import { BAND_COLOURS } from '../../utils/bandColours.js';

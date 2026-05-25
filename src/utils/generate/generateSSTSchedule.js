@@ -37,6 +37,8 @@ function distributeStopTrials(totalTrials, stopCount) {
   return types;
 }
 
+const RESPONSE_WINDOW_MS = 1000
+
 export function generateSSTSchedule(cfg = {}) {
   const config    = { ...DEFAULT_SST_CONFIG, ...cfg };
   const stopCount = Math.round(config.totalTrials * config.stopRatio);
@@ -45,7 +47,7 @@ export function generateSSTSchedule(cfg = {}) {
   return types.map((type, i) => {
     const iti   = randomBetween(config.itiMinMs, config.itiMaxMs);
     const trial = { id: i, type, scheduledAtMs: cursor, itiMs: iti, ssdMs: null };
-    cursor += config.goDisplayMs + 200 + iti;
+    cursor += RESPONSE_WINDOW_MS + iti;
     return trial;
   });
 }
@@ -56,7 +58,7 @@ export function generatePracticeSchedule(cfg = {}) {
   return Array(config.practiceTrials).fill(null).map((_, i) => {
     const iti   = randomBetween(config.itiMinMs, config.itiMaxMs);
     const trial = { id: i, type: 'go', scheduledAtMs: cursor, itiMs: iti, ssdMs: null, isPractice: true };
-    cursor += config.goDisplayMs + 200 + iti;
+    cursor += RESPONSE_WINDOW_MS + iti;
     return trial;
   });
 }

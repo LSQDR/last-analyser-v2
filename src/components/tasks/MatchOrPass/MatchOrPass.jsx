@@ -106,6 +106,7 @@ export function MatchOrPass({ onComplete }) {
     setPhase(PHASES.WARMUP)
   }
 
+ 
   useEffect(() => {
     if (phase === PHASES.WARMUP && schedule) startWarmup()
   }, [phase, schedule])
@@ -115,7 +116,7 @@ export function MatchOrPass({ onComplete }) {
     saveTaskResult('matchOrPass', { task: 'matchOrPass', version: '1.0', status: 'started', completedAt: null })
     setPhase(PHASES.SCORED)
   }
-
+ 
   useEffect(() => {
     if (phase === PHASES.SCORED && schedule) startScored()
   }, [phase, schedule])
@@ -171,7 +172,7 @@ export function MatchOrPass({ onComplete }) {
           A coloured square will flash on screen. After each one, decide whether
           its colour matches the one from <strong>2 squares ago</strong> not
           the one you just saw, but the one before that. Press{' '}
-          <strong>Same</strong> if it is the same, <strong>Different</strong> if it is not.
+          <strong>Match</strong> if it is a match, <strong>Pass</strong> if it is not.
         </p>
 
         <p className="nback-instructions-muted">
@@ -194,8 +195,8 @@ export function MatchOrPass({ onComplete }) {
       <div className="nback-task" style={{ position: 'relative' }}>
         <p className="nback-n-indicator">
           {isInTwoBackWarmup
-            ? 'WARM-UP 2-BACK — does this match 2 steps ago?'
-            : 'WARM-UP 1-BACK — does this match the one you just saw?'
+            ? 'WARM-UP 2-BACK Does this match 2 steps ago?'
+            : 'WARM-UP 1-BACK Does this match the one you just saw?'
           }
         </p>
         <p className="nback-progress">
@@ -222,7 +223,7 @@ export function MatchOrPass({ onComplete }) {
         <h2>Warm-up complete</h2>
         <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
           Now the real task begins. Instead of matching the square you <em>just</em> saw,
-          you need to match the one from <strong>2 squares ago</strong> — skipping one in between.
+          you need to match the one from <strong>2 squares ago</strong> skipping one in between.
         </p>
 
         <div className="nback-diagram" aria-label="Reminder: compare current square to the one 2 steps back, not 1">
@@ -244,12 +245,12 @@ export function MatchOrPass({ onComplete }) {
           </div>
           <div className="nback-diagram-bracket" aria-hidden="true">
             <span className="nback-diagram-bracket-line" />
-            <span className="nback-diagram-bracket-text">Same!</span>
+            <span className="nback-diagram-bracket-text">Match!</span>
           </div>
         </div>
 
         <p style={{ maxWidth: 440, textAlign: 'center', color: '#777', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-          If you lose track at any point, make your best guess and keep going —
+          If you lose track at any point, make your best guess and keep going,
           a moment of confusion doesn't ruin your result.
         </p>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem' }}>

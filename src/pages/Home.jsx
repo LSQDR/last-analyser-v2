@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadTaskResult, loadSession, saveSession, clearAllResults } from '../utils/storage.js'
 import { TASK_REGISTRY, TASK_ORDER } from '../config/taskRegistry.js'
+import { DisclaimerBanner } from '../components/shared/DisclaimerBanner.jsx'
 import clsx from 'clsx'
 import './Home.css'
 
 const TASK_DESCRIPTIONS = {
-  tapThePulse:     'A circle flashes on screen — click when it turns red. Measures how well you sustain focus over three timed blocks.',
+  tapThePulse:     'A circle flashes on screen, click when it turns red. Measures how well you sustain focus over three timed blocks.',
   signalStop:      'React to a green circle, but freeze when a red ring appears. Tests your ability to cancel a response mid-flight.',
   wordColourClash: 'Identify the ink colour of a word, not what the word says. Measures how well you suppress automatic reading.',
   matchOrPass:     'Does this colour match the one from two steps ago? Tracks how accurately you update and hold information in mind.',
@@ -16,12 +17,36 @@ export function Home() {
   const navigate = useNavigate()
   const [completedTasks, setCompletedTasks] = useState([])
   const [session, setSession] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const dialogRef = useRef(null)
 
   useEffect(() => {
     const completed = TASK_ORDER.filter(k => loadTaskResult(k) !== null)
     setCompletedTasks(completed)
     setSession(loadSession())
   }, [])
+
+  // Focus trap for confirm dialog
+  useEffect(() => {
+    if (!showConfirm || !dialogRef.current) return
+    const dialog = dialogRef.current
+    const focusable = dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    first?.focus()
+    function onKeyDown(e) {
+      if (e.key !== 'Tab') return
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last?.focus() } }
+      else { if (document.activeElement === last) { e.preventDefault(); first?.focus() } }
+    }
+    function onEscape(e) { if (e.key === 'Escape') setShowConfirm(false) }
+    dialog.addEventListener('keydown', onKeyDown)
+    dialog.addEventListener('keydown', onEscape)
+    return () => {
+      dialog.removeEventListener('keydown', onKeyDown)
+      dialog.removeEventListener('keydown', onEscape)
+    }
+  }, [showConfirm])
 
   const allDone      = completedTasks.length === 4
   const inProgress   = session?.appState === 'inTask'
@@ -50,6 +75,7 @@ export function Home() {
       appState: 'inTask',
     }
     saveSession(newSession)
+    setShowConfirm(false)
     navigate('/tasks')
   }
 
@@ -79,7 +105,7 @@ export function Home() {
             </button>
           )}
           {hasAnyResult && (
-            <button className="home__btn home__btn--ghost" onClick={handleRetakeAll}>
+            <button className="home__btn home__btn--ghost" onClick={() => setShowConfirm(true)}>
               Start New Run
             </button>
           )}
@@ -88,7 +114,7 @@ export function Home() {
         
       </div>
 
-      {/* ── Right column — task timeline ── */}
+      {/* ── Right column task timeline ── */}
       <div className="home__right" aria-label="Assessment overview">
         <ul className="task-timeline">
           {TASK_REGISTRY.map((task, index) => {
@@ -132,12 +158,22 @@ export function Home() {
 
     </main>
       <footer className="home__footer">
-        <p className="home__disclaimer">
-          <strong>Educational use only.</strong> This tool is for self-reflection and does
-          not constitute a clinical or diagnostic assessment. Results should not be used
-          to self-diagnose or replace professional evaluation.
-        </p>
+        <DisclaimerBanner/>
       </footer>
+
+      {/* Start new run confirm dialog */}
+      {showConfirm && (
+        <div className="confirm-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-heading" ref={dialogRef}>
+          <div className="confirm-dialog">
+            <h3 id="confirm-dialog-heading">Start New Run?</h3>
+            <p>Your current results will be cleared and you'll start fresh.</p>
+            <div className="dialog-actions">
+              <button className="btn-confirm" onClick={handleRetakeAll}>Yes, start new run</button>
+              <button className="btn-cancel" onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
   </div>
   )
 }

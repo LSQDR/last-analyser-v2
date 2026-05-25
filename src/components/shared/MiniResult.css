@@ -62,7 +62,7 @@
 }
 
 .mini-result-metric-value--flagged {
-  color: var(--red);
+  color: var(--yellow);
 }
 
 /* ── Disclaimer ── */
