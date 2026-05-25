@@ -67,41 +67,33 @@ export function useSSTEngine(schedule, onComplete) {
     }, RESPONSE_WINDOW_MS)
   }, [])
 
-  const handleClick = useCallback(() => {
-    if (!activeTrial.current || activeTrial.current.responded) return
+const handleClick = useCallback(() => {
+  if (!activeTrial.current || activeTrial.current.responded) return
 
-    const now    = performance.now()
-    const result = classifyResponse(now, activeTrial.current)
-    if (!result) return
+  const now    = performance.now()
+  const result = classifyResponse(now, activeTrial.current)
+  if (!result) return
 
-    clearTimeout(closeTimer.current)
-    clearTimeout(stopTimer.current)
-    activeTrial.current.responded = true
+  clearTimeout(closeTimer.current)
+  clearTimeout(stopTimer.current)
+  activeTrial.current.responded = true
 
-    setGoVisible(false)
-    setStopVisible(false)
+  setGoVisible(false)
+  setStopVisible(false)
 
-    // Strategic slowing deterrent from Verbruggen 2019
-    if (result.classification === 'goHit' && result.rt > 750) {
-      setSlowWarning(true)
-      setTimeout(() => setSlowWarning(false), 1500)
-    }
-
-    if (!result.include) {
-      activeTrial.current = null
-      return  
-    }
-
-    const completed = { ...activeTrial.current, ...result }
-    logTrial(completed)
-
-    // Update staircase after every stop trial click
-    if (activeTrial.current.type === 'stop') {
-      staircase.current.update(false) 
-    }
-
-    activeTrial.current = null
-  }, [])
+  // Strategic slowing deterrent from Verbruggen 2019
+  if (result.classification === 'goHit' && result.rt > 750) {
+    setSlowWarning(true)
+    setTimeout(() => setSlowWarning(false), 1500)
+  }
+  const completed = { ...activeTrial.current, ...result }
+  logTrial(completed)
+  
+  if (completed.type === 'stop') {
+    staircase.current.update(false)
+  }
+  activeTrial.current = null
+}, [])
 
   const start = useCallback(() => {
     staircase.current = new StaircaseSSD()

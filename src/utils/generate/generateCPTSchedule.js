@@ -14,8 +14,8 @@ function enforceTargetRatio(events, targetRatio, maxConsecutiveTargets) {
   const actual = events.filter((e) => e.type === 'target').length / events.length
   if (actual >= floor) return events
 
-  const needed = Math.round(targetRatio * events.length)
-    - events.filter((e) => e.type === 'target').length
+  const needed = Math.round(targetRatio * events.length) - 
+  events.filter((e) => e.type === 'target').length
 
   let flipped = 0
   for (let i = 0; i < events.length && flipped < needed; i++) {
