@@ -6,19 +6,19 @@ import { computeBlockMetrics } from '../utils/compute/computeCPTBlockMetrics.js'
 const INTER_BLOCK_PAUSE_MS = 4000
 
 export function useCPTEngine(schedule, onBlockComplete, onAllBlocksComplete) {
-  const activeEvent   = useRef(null)
+  const activeEvent = useRef(null)
   const blockEventLog = useRef([])
-  const allEventLog   = useRef([])
-  const blockMetrics  = useRef([])
-  const cancelRAF     = useRef(null)
-  const closeTimer    = useRef(null)
-  const currentBlock  = useRef(0)
+  const allEventLog = useRef([])
+  const blockMetrics = useRef([])
+  const cancelRAF = useRef(null)
+  const closeTimer = useRef(null)
+  const currentBlock = useRef(0)
 
-  const [circleState,  setCircleState]  = useState('blue')
-  const [isRunning,    setIsRunning]    = useState(false)
-  const [blockIndex,   setBlockIndex]   = useState(0)
-  const [isPaused,     setIsPaused]     = useState(false)
-  const [slowWarning,  setSlowWarning]  = useState(false)
+  const [circleState,  setCircleState] = useState('blue')
+  const [isRunning,    setIsRunning] = useState(false)
+  const [blockIndex,   setBlockIndex] = useState(0)
+  const [isPaused,     setIsPaused] = useState(false)
+  const [slowWarning,  setSlowWarning] = useState(false)
 
   function logEvent(event) {
     blockEventLog.current.push(event)
@@ -88,7 +88,7 @@ export function useCPTEngine(schedule, onBlockComplete, onAllBlocksComplete) {
     if (!activeEvent.current) return
 
     const snapshot = activeEvent.current          
-    const now      = performance.now()
+    const now = performance.now()
     const prevStats = blockMetrics.current.length > 0
       ? blockMetrics.current[blockMetrics.current.length - 1]
       : null
@@ -111,15 +111,15 @@ export function useCPTEngine(schedule, onBlockComplete, onAllBlocksComplete) {
 
   const startPractice = useCallback((onDone) => {
     blockEventLog.current = []
-    allEventLog.current   = []
+    allEventLog.current = []
     setIsRunning(true)
     runPractice(onDone)
   }, [runPractice])
 
   const startBlocks = useCallback(() => {
     blockEventLog.current = []
-    allEventLog.current   = []
-    blockMetrics.current  = []
+    allEventLog.current = []
+    blockMetrics.current = []
     setIsRunning(true)
     runBlock(1)
   }, [runBlock])
@@ -133,7 +133,14 @@ export function useCPTEngine(schedule, onBlockComplete, onAllBlocksComplete) {
   }, [])
 
   return {
-    circleState, isRunning, blockIndex, isPaused, slowWarning,
-    handleClick, startPractice, startBlocks, cancel,
+    circleState, 
+    isRunning, 
+    blockIndex, 
+    isPaused, 
+    slowWarning,
+    handleClick, 
+    startPractice, 
+    startBlocks, 
+    cancel,
   }
 }

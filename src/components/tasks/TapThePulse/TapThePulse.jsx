@@ -6,7 +6,11 @@ import { useCPTEngine } from '../../../hooks/useCPTEngine.js'
 import { CPTCircle } from './CPTCircle.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getCPTBand } from '../../../utils/getBandLabels.js'
+import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import './TapThePulse.css'
+
+const TASK   = TASK_REGISTRY.find((t) => t.id === 'tapThePulse')
+const CONFIG = TASK.config
 
 const PHASES = {
   INSTRUCTIONS: 'instructions',
@@ -20,7 +24,6 @@ const PHASES = {
 export function TapThePulse({ onComplete }) {
   const [phase,        setPhase]        = useState(PHASES.INSTRUCTIONS)
   const [schedule,     setSchedule]     = useState(null)
-  const [blockResults, setBlockResults] = useState([])
   const [results,      setResults]      = useState(null)
   const [countdown,    setCountdown]    = useState(null)
 
@@ -30,12 +33,12 @@ export function TapThePulse({ onComplete }) {
 
   const handleBlockComplete = useCallback((metrics, events, blockIdx) => {
     blockResultsRef.current = [...blockResultsRef.current, { ...metrics, block: blockIdx }]
-    setBlockResults([...blockResultsRef.current])
 
     if (blockIdx < 3) {
       setPhase(PHASES.INTER_BLOCK)
       let secs = 4
       setCountdown(secs)
+      // eslint-disable-next-line no-restricted-syntax
       countdownTimer.current = setInterval(() => {
         secs--
         if (secs <= 0) {
@@ -57,7 +60,7 @@ export function TapThePulse({ onComplete }) {
       version:     '1.0',
       status:      'complete',
       completedAt: new Date().toISOString(),
-      config: { blockDurations: 90, blockCount: 3, targetRatio: 0.25, responseWindowms: 1000, isiRangems: [1000, 2500] },
+      config: CONFIG,
       overall,
       blocks: scoredBlocks,
       events: allEvents,
@@ -68,7 +71,7 @@ export function TapThePulse({ onComplete }) {
   }, [])
 
   const {
-    circleState, isRunning, blockIndex, isPaused, slowWarning,
+    circleState, blockIndex,
     handleClick, startPractice, startBlocks, cancel,
   } = useCPTEngine(
     schedule || { practice: [], blocks: [[], [], []] },
@@ -95,75 +98,80 @@ export function TapThePulse({ onComplete }) {
   }, [phase, schedule, startBlocks])
 
   function begin() {
-    const s = generateCPTSchedule()
+    const s = generateCPTSchedule(CONFIG)
     setSchedule(s)
     setPhase(PHASES.PRACTICE)
   }
 
   function beginBlocks() {
     blockResultsRef.current  = []
-    blocksStartedRef.current = false   // reset guard for this session
-    setBlockResults([])
+    blocksStartedRef.current = false  
     setPhase(PHASES.BLOCK)
   }
 
 
   if (phase === PHASES.INSTRUCTIONS) {
     return (
-      <div className="cpt-task">
-        <h1>Tap the Pulse</h1>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, marginBottom: '0.5rem'}}>
-          A circle will appear on screen. It will usually be <strong style={{ color: '#3a7bd5' }}>blue</strong>.
-          When it turns <strong style={{ color: '#e03c31' }}>red</strong>, click it as fast as you can.
-        </p>
-        <p style={{ maxWidth: 480, textAlign: 'center', lineHeight: 1.7, color: '#aaa' }}>
-          Don't click the blue circle. Try to stay focused. This task measures how well you can sustain your attention over time.
-        </p>
-        <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop:'1.5rem'}}>You'll start with a practice round.</p>
-        <button
-          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
-          onClick={begin}
-        >
-          Start Practice
-        </button>
+  <main className="cpt-task">
+    <span className="cpt-instruction-label">Task 1 of 4 · Sustained Attention</span>
+    <h1 className="cpt-instruction-title">Tap the Pulse</h1>
+
+    <div className="cpt-instruction-demo" aria-hidden="true">
+      <div className="cpt-demo-item">
+        <div className="cpt-circle blue"><div className="cpt-inner-dot" /></div>
+        <span className="cpt-demo-label cpt-demo-label--ignore">Ignore</span>
       </div>
-    )
+      <span className="cpt-demo-arrow">→</span>
+      <div className="cpt-demo-item">
+        <div className="cpt-circle red"><div className="cpt-inner-dot" /></div>
+        <span className="cpt-demo-label cpt-demo-label--click">Click!</span>
+      </div>
+    </div>
+
+    <p className="cpt-instructions-body">
+      A circle will appear on screen usually{' '}
+      <strong style={{ color: 'var(--blue)' }}>blue</strong>,  When it turns{' '}
+      <strong style={{ color: 'var(--red)' }}>red</strong> click it as fast as
+      you can. Don't click when it's <strong style={{ color: 'var(--blue)' }}>blue</strong>. 
+      Try to stay focused, this measures how well you sustain attention over time.
+    </p>
+
+
+    <button className="cpt-start-btn" onClick={begin}>
+      Start Practice
+    </button>
+  </main>
+)
   }
 
   if (phase === PHASES.PRACTICE) {
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         <p className="cpt-block-label">Practice</p>
         <p className="cpt-progress">Click when the circle turns red</p>
         <CPTCircle state={circleState} onClick={handleClick} />
-        {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>
-          Try to respond a little faster on red circles</p>}
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.TRANSITION) {
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         <h2>Practice complete</h2>
         <p style={{ color: '#aaa', textAlign: 'center', maxWidth: 400, lineHeight: 1.7 }}>
           The scored task is next, 3 rounds of 90 seconds each.
           Click the circle only when it turns <strong style={{ color: '#e03c31' }}>red</strong>.
         </p>
-        <button
-          style={{ marginTop: '1.5rem', padding: '0.75rem 2.5rem', background: '#3a7bd5', color: '#fff', border: 'none', borderRadius: 8, fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}
-          onClick={beginBlocks}
-        >
+        <button className="cpt-start-btn" onClick={beginBlocks}>
           Begin Task
         </button>
-      </div>
+      </main>
     )
   }
 
   if (phase === PHASES.BLOCK || phase === PHASES.INTER_BLOCK) {
-    const latestBlock = blockResultsRef.current[blockResultsRef.current.length - 1]
     return (
-      <div className="cpt-task">
+      <main className="cpt-task">
         {phase === PHASES.INTER_BLOCK ? (
           <div className="cpt-pause-banner">
             <p className="cpt-block-label">Round {blockIndex} complete</p>
@@ -173,10 +181,9 @@ export function TapThePulse({ onComplete }) {
           <>
             <p className="cpt-block-label">Round {blockIndex} / 3</p>
             <CPTCircle state={circleState} onClick={handleClick} />
-            {slowWarning && <p className={`cpt-slow-warning ${slowWarning ? 'cpt-slow-warning--visible' : ''}`}>Try to respond a little faster</p>}
           </>
         )}
-      </div>
+      </main>
     )
   }
 

@@ -8,7 +8,7 @@ export function CPTCircle({ state, onClick }) {
       <button
         className={`cpt-circle ${isTarget ? 'red' : 'blue'}`}
         onClick={onClick}
-        aria-label={isTarget ? 'Circle is red — click now' : 'Circle is blue — do not click'}
+        aria-label={isTarget ? 'Circle is red, click now' : 'Circle is blue, do not click'}
       >
         
         {isTarget && <span className="cpt-inner-dot" aria-hidden="true" />}

@@ -1,18 +1,29 @@
-const TASK_META = [
-  { id: 'task1', name: 'Tap the Pulse',    shortName: 'Tap' },
-  { id: 'task2', name: 'Signal Stop',      shortName: 'Stop' },
-  { id: 'task3', name: 'Word Colour Clash',shortName: 'Stroop' },
-  { id: 'task4', name: 'Match or Pass',    shortName: 'N-Back' },
-]
+import { Link } from 'react-router-dom'
+import {TASK_REGISTRY} from '../../config/taskRegistry.js'
 
 export function DashboardHeader({ data }) {
-  const tasksDone = TASK_META.map(t => ({ ...t, completed: data?.[t.id] !== null && data?.[t.id] !== undefined }))
+  const tasksDone = TASK_REGISTRY.map(task => ({
+    ...task,
+    completed: data?.[task.id] != null,
+  }))
+
+  const completedCount = tasksDone.filter(t => t.completed).length
+  const totalCount = tasksDone.length
 
   return (
     <header className="dashboard-header" role="banner">
-      <div className="disclaimer-banner" role="alert" aria-live="polite">
-        <strong>Important:</strong> This tool is for educational self-reflection only and does not constitute a clinical or diagnostic assessment. Results should not be used to self-diagnose or replace professional evaluation.
+
+
+      <div className="dashboard-topbar">
+        <Link to="/" className="dashboard-wordmark" aria-label="Back to home">
+          LaST-analyser
+        </Link>
+        <span className="dashboard-progress-label">
+          {completedCount} of {totalCount} tasks complete
+        </span>
       </div>
+
+
       <nav className="dashboard-nav" aria-label="Jump to task results">
         {tasksDone.map(task => (
           <a
@@ -25,6 +36,7 @@ export function DashboardHeader({ data }) {
           </a>
         ))}
       </nav>
+
     </header>
   )
 }

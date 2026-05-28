@@ -1,0 +1,49 @@
+@import '../../../styles/tokens.css';
+
+.nback-gauge { width: 100%; }
+
+.gauge-track {
+  position: relative;
+  height: 12px;
+  background: var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.gauge-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+  transition: width 600ms ease;
+}
+
+.gauge-threshold {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--green);
+  opacity: 0.7;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.gauge-threshold-label {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.gauge-value {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  margin-top: var(--space-1);
+}

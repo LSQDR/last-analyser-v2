@@ -5,7 +5,7 @@ function makeEvent(isTarget, responded, rtms = null) {
   const hit  = isTarget  &&  responded
   const miss = isTarget  && !responded
   const fa   = !isTarget &&  responded
-  const cr   = !isTarget && !responded
+  const _cr   = !isTarget && !responded
   const classification = hit ? 'hit' : miss ? 'miss' : fa ? 'falseAlarm' : 'correctRejection'
   return { isTarget, responded, rtms, classification, include: true }
 }

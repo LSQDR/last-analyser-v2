@@ -11,10 +11,10 @@ export function classifyResponse(clickTimestamp, activeTrial) {
 
   if (activeTrial.type === 'stop') {
     if (!activeTrial.stopSignalShown) {
-      // Clicked before stop signal appeared — counts as Go response
+      // Clicked before stop signal appeared counts as Go response
       return { classification: 'goBeforeStop', rt, include: true }
     }
-    // Clicked after stop signal — failed stop
+    // Clicked after stop signal  failed stop
     return { classification: 'failedStop', rt, include: true }
   }
 

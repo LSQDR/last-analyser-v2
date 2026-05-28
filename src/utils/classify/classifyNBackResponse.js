@@ -14,10 +14,10 @@ export function classifyNoResponse(isTarget) {
 // Warmup-only feedback
 export function getWarmupFeedback(classification) {
   const map = {
-    hit:              { icon: '✓', text: 'Correct — it matched the one before!',    colour: 'green' },
-    miss:             { icon: '✗', text: 'That was a match — try to spot them.',      colour: 'red'   },
-    falseAlarm:       { icon: '✗', text: "That wasn't a match — check more carefully.", colour: 'red'   },
-    correctRejection: { icon: '✓', text: 'Correct — no match.',                       colour: 'green' },
+    hit:              { icon: '✓', text: 'Correct, it matched the one before!',    colour: 'green' },
+    miss:             { icon: '✗', text: 'That was a match, try to spot them.',      colour: 'red'   },
+    falseAlarm:       { icon: '✗', text: "That wasn't a match, check more carefully.", colour: 'red'   },
+    correctRejection: { icon: '✓', text: 'Correct, no match.',                       colour: 'green' },
   }
   return map[classification] || null
 }

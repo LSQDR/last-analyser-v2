@@ -2,15 +2,15 @@ import { useRef, useState, useCallback } from 'react'
 import { classifyError } from '../utils/classify/classifyStroopResponse.js'
 
 export function useStroopEngine(schedule, onTrialLogged, onBlockComplete) {
-  const activeTrial      = useRef(null)
-  const eventLog         = useRef([])
-  const responseTimer    = useRef(null)
-  const trialIndex       = useRef(0)
+  const activeTrial = useRef(null)
+  const eventLog = useRef([])
+  const responseTimer = useRef(null)
+  const trialIndex = useRef(0)
 
-  const [stimulusWord,   setStimulusWord]   = useState(null)
+  const [stimulusWord, setStimulusWord] = useState(null)
   const [stimulusColour, setStimulusColour] = useState(null)
   const [buttonsEnabled, setButtonsEnabled] = useState(false)
-  const [isRunning,      setIsRunning]      = useState(false)
+  const [isRunning, setIsRunning] = useState(false)
 
   function logEvent(event) {
     eventLog.current.push(event)
@@ -55,6 +55,7 @@ export function useStroopEngine(schedule, onTrialLogged, onBlockComplete) {
     }, 2000)
   }, [schedule, onBlockComplete])
 
+     
   const handleButtonClick = useCallback((buttonColour) => {
     if (!activeTrial.current || activeTrial.current.responded) return
 
@@ -79,6 +80,7 @@ export function useStroopEngine(schedule, onTrialLogged, onBlockComplete) {
     setTimeout(advanceToNextTrial, 500)
   }, [advanceToNextTrial])
 
+   
   const start = useCallback(() => {
     trialIndex.current  = 0
     eventLog.current    = []

@@ -1,3 +1,4 @@
+@import '../../../styles/tokens.css';
 
 .stroop-task {
   display: flex;
@@ -5,43 +6,47 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
-  background: #1a1a2e;
-  color: #eee;
+  padding: var(--space-5);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
 }
 
+/* ── Word stimulus ── */
 .stroop-stimulus {
   font-size: 56px;
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: var(--font);
   min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-6);
   letter-spacing: 0.05em;
   transition: color 80ms ease;
 }
 
 .stroop-stimulus--blank {
   min-height: 80px;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-6);
 }
 
+/* ── Response buttons ── */
 .stroop-buttons {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 
 .stroop-btn {
   min-width: 80px;
   min-height: 60px;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
   font-weight: 600;
+  font-family: var(--font);
   color: #fff;
   cursor: pointer;
   transition: opacity 150ms ease, transform 80ms ease;
@@ -58,23 +63,94 @@
   transform: translateY(-2px);
 }
 
+/* ── Progress & feedback ── */
 .stroop-progress {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-bottom: 1.5rem;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
 }
 
 .stroop-practice-feedback {
-  margin-top: 1rem;
-  font-size: 1rem;
+  margin-top: var(--space-4);
+  font-size: var(--text-base);
   font-weight: 500;
   min-height: 1.5rem;
 }
 
-.stroop-practice-feedback--correct { 
-  color: #2ecc71; 
+.stroop-practice-feedback--correct {
+  color: var(--green);
 }
 
-.stroop-practice-feedback--error { 
-  color: #e03c31; 
+.stroop-practice-feedback--error {
+  color: var(--red);
+}
+
+/* ── Start button ── */
+.stroop-start-btn {
+  margin-top: var(--space-5);
+  padding: 0.75rem 2.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.stroop-start-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.stroop-progress-bar {
+  width: 280px;
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+}
+
+.stroop-progress-bar__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  transition: width 300ms ease;
+}
+
+/* ── Instruction meta label ── */
+.stroop-instruction-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.stroop-instruction-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-5);
+}
+
+/* ── Instruction text ── */
+.stroop-instructions-body {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 480px;
+  line-height: 1.75;
+  margin: 0 0 var(--space-4);
+}
+
+.stroop-instructions-muted {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.7;
+  margin: 0 0 var(--space-5);
 }

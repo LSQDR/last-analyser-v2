@@ -1,10 +1,10 @@
-// Called on button click
+
 export function classifyError(inkColour, word, buttonClicked) {
   if (buttonClicked === word.toLowerCase()) return 'wordInterference'
   return 'randomError'
 }
 
-// Practice-only immediate feedback.
+
 export function getPracticeFeedback(correct, errorType) {
   if (correct) return (
     { 

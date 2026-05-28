@@ -1,15 +1,15 @@
 const TASK_KEYS = {
-  tapThePulse:     'tapThePulse',
-  signalStop:      'signalStop',
+  tapThePulse: 'tapThePulse',
+  signalStop: 'signalStop',
   wordColourClash: 'wordColourClash',
-  matchOrPass:     'matchOrPass',
+  matchOrPass: 'matchOrPass',
 }
 
 const TASK_VERSIONS = {
-  tapThePulse:     '1.0',
-  signalStop:      '1.0',
+  tapThePulse: '1.0',
+  signalStop: '1.0',
   wordColourClash: '1.0',
-  matchOrPass:     '1.0',
+  matchOrPass: '1.0',
 }
 
 const SESSION_KEY = 'lastAnalyser.session'
@@ -62,12 +62,6 @@ export function loadTaskDraft(taskKey) {
   }
 }
 
-// Removes a single task result.
-export function clearTaskResult(taskKey) {
-  const key = TASK_KEYS[taskKey]
-  if (key) localStorage.removeItem(key)
-}
-
 // Removes all task results and session meta.
 export function clearAllResults() {
   Object.values(TASK_KEYS).forEach(key => localStorage.removeItem(key))
@@ -88,10 +82,6 @@ export function loadSession() {
   } catch {
     return null
   }
-}
-
-export function clearSession() {
-  localStorage.removeItem(SESSION_KEY)
 }
 
 export { TASK_KEYS, TASK_VERSIONS }

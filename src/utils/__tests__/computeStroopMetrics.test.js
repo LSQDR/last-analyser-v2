@@ -4,7 +4,7 @@ import { computeStroopMetrics } from '../compute/computeStroopMetrics.js'
 function makeEvent(type, correct, rtms) {
   return { type, correct, rtms, responded: true, include: true }
 }
-function makeOmission(type) {
+function _makeOmission(type) {
   return { type, correct: false, rtms: null, responded: false, include: true }
 }
 

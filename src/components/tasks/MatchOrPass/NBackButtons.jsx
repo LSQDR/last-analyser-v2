@@ -7,19 +7,19 @@ export function NBackButtons({ onResponse, enabled }) {
         className="nback-btn nback-btn--match"
         onClick={() => enabled && onResponse('match')}
         disabled={!enabled}
-        aria-label="Same — this matches 2 steps back"
+        aria-label="Match, this matches 2 steps back"
         aria-keyshortcuts="M"
       >
-        Same
+        Match
       </button>
       <button
         className="nback-btn nback-btn--pass"
         onClick={() => enabled && onResponse('pass')}
         disabled={!enabled}
-        aria-label="Different — this does not match 2 steps back"
+        aria-label="Pass, this does not match 2 steps back"
         aria-keyshortcuts="D"
       >
-        Different
+        Pass
       </button>
     </div>
   )
