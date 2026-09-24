@@ -1,169 +1,126 @@
 # LAST-Analyser
 
-A React-based web application for administering and analyzing neuropsychological cognitive tasks. The application measures key attentional and executive function domains through standardized behavioral tasks.
+A React and JavaScript app for four timed attention and executive-function tasks. It is for educational use and self-reflection. It does not constitute a clinical or diagnostic assessment. Results should not be used to self-diagnose or replace professional evaluation.
 
-## Project Overview
+There is no server and no account. Task results stay in `localStorage` in this browser. The researcher view reviews a completed run and exports that JSON locally. Nothing is transmitted.
 
-LAST-Analyser provides a comprehensive assessment platform for cognitive and attentional abilities. It delivers four validated cognitive tasks with real-time performance tracking, detailed analytics, and evidence-based interpretation of results. The application generates domain-specific insights and visualizes performance patterns to support research and clinical assessment.
-
-### Key Features
-- **Interactive Cognitive Tasks** — Four validated neuropsychological assessments
-- **Real-time Analytics** — Performance metrics calculated during and after task completion
-- **Detailed Dashboards** — Visual summaries of performance across all cognitive domains
-- **Evidence-based Interpretation** — Automated insight generation based on performance thresholds
-- **Researcher Mode** — Advanced data review and export capabilities
-
-## Setup & Installation
+## Setup
 
 ### Prerequisites
-- Node.js 16+ and npm
 
-### Installation Steps
+- Node.js `^20.19.0 || >=22.12.0`
+- npm
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd LAST-Analyser
-   ```
+### Install and run
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+git clone https://github.com/LSQDR/last-analyser-v2.git
+cd last-analyser-v2
+npm ci
+npm run dev
+```
 
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-   The application will be available at `http://localhost:5173`
+The dev server prints a local URL. There is no hosted demo.
 
-### Available Commands
+### Commands
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build locally |
-| `npm run test` | Run test suite once |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview the production build |
+| `npm test` | Run the test suite once |
 | `npm run test:watch` | Run tests in watch mode |
-| `npm run test:coverage` | Generate test coverage report |
-| `npm run lint` | Check code with ESLint |
-| `npm run lint:fix` | Auto-fix linting issues |
+| `npm run test:coverage` | Coverage for `src/utils/stats.js`, `src/utils/calcSSRT.js`, and `src/utils/compute/` |
+| `npm run lint` | ESLint on `src/` |
+| `npm run lint:fix` | ESLint with fixes |
 
-## Available Tasks
+## Tasks
 
-### 1. **Tap the Pulse** (Continuous Performance Test)
-**Domain:** Sustained Attention  
-**Icon:** 🎯
+The four tasks are original screens. The numbers below are the cutoffs and schedules in `src/config/taskRegistry.js`. They are not a licensed clinical battery, and they are not one validated threshold.
 
-Measures the ability to maintain focus over time. Participants respond to red circles appearing on screen at variable intervals.
+### 1. Tap the Pulse (continuous performance)
 
-**Key Metrics:**
-- **Omission Rate** — How often targets were missed (threshold: 25%)
-- **RT Variability** — Consistency of reaction times (threshold: 35%)
-- **Attention Decay** — Whether attention decreased from round 1 to round 3
-- **Mean RT** — Average reaction time on target trials
+**Domain:** Sustained attention
 
-**Configuration:**
-- 3 blocks × 90 seconds each
-- 45-second practice round
-- 1000–2500ms inter-stimulus intervals
-- 1000ms response window
+A circle appears at a variable interval. Click when it is red.
 
----
+**Flags in the app:** omission rate above 25%, reaction-time coefficient of variation above 35%, attention decay when the miss rate rises from block 1 to block 3.
 
-### 2. **Signal Stop** (Stop-Signal Task)
-**Domain:** Inhibition Control  
-**Icon:** 🛑
+**Schedule:** 3 blocks × 90 seconds, a 45-second practice, inter-stimulus interval 1000–2500ms, 1000ms response window.
 
-Measures the speed of response inhibition—how quickly the brain can cancel a planned movement. Participants must respond to "Go" signals but withhold responses to "Stop" signals.
+### 2. Signal Stop (stop-signal)
 
-**Key Metrics:**
-- **SSRT** — Stop-Signal Reaction Time (threshold: 300ms). Lower is faster/better.
-- **Stop Accuracy** — Percentage of successful stops (target: ~50%)
-- **Go RT** — Baseline reaction time on non-stop trials
+**Domain:** Inhibition
 
-**Configuration:**
-- 128 trials total (25% stop-signal trials)
-- Adaptive staircase adjusts difficulty
-- 10 practice trials
-- 400–700ms inter-trial intervals
+Respond to the go signal. Withhold the response when the stop signal appears. Stop-signal reaction time uses the integration method described in `src/utils/calcSSRT.js` (Verbruggen et al. 2019).
 
----
+**Flags in the app:** SSRT above 300ms when the estimate is valid, stop accuracy under 50%.
 
-### 3. **Word Colour Clash** (Stroop Task)
-**Domain:** Interference Control  
-**Icon:** 🎨
+**Schedule:** 128 trials, 25% stop trials, 10 practice trials, inter-trial interval 400–700ms. A staircase adjusts the stop-signal delay.
 
-Measures the ability to overcome automatic word-reading and respond to ink colour. Participants name the colour of words that may conflict with their meaning (e.g., the word "BLUE" printed in red ink).
+### 3. Word Colour Clash (Stroop)
 
-**Key Metrics:**
-- **Interference** — Slowdown on conflict trials vs. neutral trials (threshold: 150ms)
-- **Incongruent Accuracy** — Accuracy on conflict trials (threshold: 75%)
-- **Facilitation** — Speed boost when word and colour match
+**Domain:** Interference
 
-**Configuration:**
-- 40 congruent trials (word and colour match)
-- 40 incongruent trials (word and colour conflict)
-- 10 neutral trials (color words only)
-- 2000ms response window, 500ms inter-trial interval
+Name the ink colour, not the word.
 
----
+**Flags in the app:** interference above 150ms, incongruent accuracy under 75%. Band labels in `src/utils/getBandLabels.js` use different cuts (under 130ms typical, over 200ms high). Those labels and the 150ms flag are both in the code. They are not a single published cutoff.
 
-### 4. **Match or Pass** (N-Back Task)
-**Domain:** Working Memory  
-**Icon:** 🧠
+**Schedule:** 40 congruent, 40 incongruent, 10 neutral, 2000ms response window, 500ms inter-trial interval.
 
-Measures working memory capacity and updating. Participants view colored squares and decide if the current square matches the one shown 2 positions back in the sequence.
+### 4. Match or Pass (2-back)
 
-**Key Metrics:**
-- **Corrected Hits** — Hit rate minus false alarm rate (threshold: 60%)
-- **d′** — Signal detection measure of sensitivity to matches vs. non-matches
-- **False Alarms** — Errors where "match" was reported incorrectly
+**Domain:** Working memory
 
-**Configuration:**
-- 10 warmup trials (1-back) + 40 scored trials (2-back)
-- 33% target match probability
-- 500ms stimulus display, 2000ms inter-stimulus interval
-- 4 colors (red, blue, green, yellow)
+Decide whether the current colour matches the one from two steps back.
 
----
+**Flags in the app:** corrected hits under 60%.
 
-## Project Structure
+**Schedule:** 10 warmup trials at 1-back, 40 scored trials at 2-back, about 33% targets, 500ms on, 2000ms between stimuli, four colours.
+
+## Project structure
 
 ```
 src/
 ├── components/
-│   ├── dashboard/       # Analytics and visualization components
-│   ├── shared/          # Reusable UI components
-│   └── tasks/           # Individual task components
-├── hooks/               # Custom React hooks for task logic
-├── pages/               # Page-level components (Home, Dashboard, etc.)
-├── utils/
-│   ├── classify/        # Response classification logic
-│   ├── generate/        # Task stimulus generation
-│   ├── __tests__/       # Test files
-│   └── [utilities]      # Metrics calculation, insights, etc.
-└── config/              # Task registry and configuration
+│   ├── dashboard/       # Result charts and metric tables
+│   ├── researcher/      # Per-task metric rows and the event log
+│   ├── shared/          # Disclaimer, mini result, auto-advance
+│   └── tasks/           # The four task screens
+├── config/              # Task registry: schedules, flags, charts
+├── hooks/               # Task engines and dashboard loading
+├── pages/               # Home, task router, dashboard, researcher view
+└── utils/
+    ├── classify/        # Response labels for each task
+    ├── compute/         # Session and block metrics
+    ├── generate/        # Trial schedules
+    └── __tests__/       # Unit tests
 ```
 
 ## Testing
 
-The project includes a comprehensive test suite with 54+ unit tests covering:
-- Response classification across all task types
-- Metrics calculation and statistical analysis
-- Stimulus generation and scheduling
-- SDT (Signal Detection Theory) computations
+`npm test` runs 105 tests in 11 files. They cover:
 
-Run tests with `npm run test` or `npm run test:coverage` for coverage reports.
+- `src/utils/stats.js`
+- `src/utils/calcSSRT.js`
+- `src/utils/compute/computeCPTBlockMetrics.js`
+- `src/utils/compute/computeCPTSessionMetrics.js` (short and long ISI means)
+- `src/utils/compute/computeSSTMetrics.js`
+- `src/utils/compute/computeStroopMetrics.js`
+- `src/utils/compute/computeNBackMetrics.js`
+- `src/utils/generate/generateCPTSchedule.js`
+- `src/utils/generate/generateSSTSchedule.js`
+- `src/utils/getBandLabels.js`
+- `src/config/taskRegistry.js`
 
-## Technology Stack
+They do not cover `src/utils/classify/`, `generateNBackSchedule.js`, `generateStroopSchedule.js`, `storage.js`, the hooks, or the screens.
 
-- **React 19** — UI framework
-- **React Router 7** — Client-side routing
-- **Recharts 3** — Data visualization and charts
-- **Vite** — Build tool and dev server
-- **Vitest** — Unit testing framework
-- **ESLint** — Code quality
+## Stack
 
-
+- React 19 and JavaScript (no TypeScript source)
+- React Router 7
+- Recharts 3
+- Vite 8
+- Vitest 4
+- ESLint 9

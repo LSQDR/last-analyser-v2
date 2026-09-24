@@ -79,7 +79,7 @@ export function Home() {
     navigate('/tasks')
   }
 
-  const ctaLabel = inProgress ? 'Continue Assessment' : allDone ? 'Retake Assessment' : 'Begin Assessment'
+  const ctaLabel = inProgress ? 'Continue' : allDone ? 'Retake' : 'Begin'
 
   return (
     <div className="home-wrapper">
@@ -90,7 +90,7 @@ export function Home() {
         <div className="home__identity">
           <h1 className="home__wordmark"><strong>LaST-</strong>analyser</h1>
           <p className="home__tagline">
-            Four short, evidence-based tasks exploring sustained attention,
+            Four short tasks for self-reflection: sustained attention,
             response inhibition, interference control, and working memory.
           </p>
         </div>
@@ -115,7 +115,7 @@ export function Home() {
       </div>
 
       {/* ── Right column task timeline ── */}
-      <div className="home__right" aria-label="Assessment overview">
+      <div className="home__right" aria-label="Task overview">
         <ul className="task-timeline">
           {TASK_REGISTRY.map((task, index) => {
             const done      = completedTasks.includes(task.storageKey)
