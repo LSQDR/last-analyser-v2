@@ -120,7 +120,7 @@ They do not cover `src/utils/classify/`, `generateNBackSchedule.js`, `generateSt
 
 ## Stack
 
-- React 19 and JavaScript (no TypeScript source)
+- React 19 and JavaScript
 - React Router 7
 - Recharts 3
 - Vite 8
