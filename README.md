@@ -1,6 +1,8 @@
 # LAST-Analyser
 
-A React and JavaScript app for four timed attention and executive-function tasks. It is for educational use and self-reflection. It does not constitute a clinical or diagnostic assessment. Results should not be used to self-diagnose or replace professional evaluation.
+**Educational use only.** This tool is for self-reflection and does not constitute a clinical or diagnostic assessment. Results should not be used to self-diagnose or replace professional evaluation.
+
+It is a React and JavaScript app for four timed attention and executive-function tasks. It is not a validated clinical instrument.
 
 There is no server and no account. Task results stay in `localStorage` in this browser. The researcher view reviews a completed run and exports that JSON locally. Nothing is transmitted.
 
