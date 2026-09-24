@@ -12,8 +12,8 @@ export function computeSessionMetrics(blockMetrics, allEvents) {
   const sessionCV = sessionSD && sessionMeanRT ? (sessionSD / sessionMeanRT) * 100 : null
 
   // ISI split at 1750ms
-  const shortISIHits = allHits.filter(e => e.isims <  1750)
-  const longISIHits  = allHits.filter(e => e.isims >= 1750)
+  const shortISIHits = allHits.filter(e => e.isiMs <  1750)
+  const longISIHits  = allHits.filter(e => e.isiMs >= 1750)
 
   // Decay slope: Block 3 omission rate, Block 1 omission rate
   const decaySlope = blockMetrics[2].omissionRatepct - blockMetrics[0].omissionRatepct

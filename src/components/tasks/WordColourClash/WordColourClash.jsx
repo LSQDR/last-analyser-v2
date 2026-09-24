@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { generateStroopSchedule, PRACTICE_TRIALS } from '../../../utils/generate/generateStroopSchedule.js'
 import { computeStroopMetrics} from '../../../utils/compute/computeStroopMetrics.js'
-import { getPracticeFeedback } from '../../../utils/classify/classifyStroopResponse.js'
+import { classifyError, getPracticeFeedback } from '../../../utils/classify/classifyStroopResponse.js'
 import { saveTaskResult } from '../../../utils/storage.js'
 import { useStroopEngine } from '../../../hooks/useStroopEngine.js'
 import { StroopStimulus } from './StroopStimulus.jsx'
@@ -70,7 +70,7 @@ export function WordColourClash({ onComplete }) {
 
     const trial   = PRACTICE_TRIALS[practiceIndex]
     const correct = buttonColour === trial.inkColour
-    const errorType = correct ? null : (buttonColour === trial.word.toLowerCase() ? 'wordInterference' : 'randomError')
+    const errorType = correct ? null : classifyError(trial.inkColour, trial.word, buttonColour)
     const feedback  = getPracticeFeedback(correct, errorType)
     setPracticeFeedback(feedback)
 

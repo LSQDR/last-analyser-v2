@@ -1,4 +1,5 @@
 import { CPTDecayChart }     from '../components/dashboard/charts/CPTDecayChart.jsx'
+import { CPTISIChart }       from '../components/dashboard/charts/CPTISIChart.jsx'
 import { SSTStaircaseChart } from '../components/dashboard/charts/SSTStaircaseChart.jsx'
 import { StroopRTChart }     from '../components/dashboard/charts/StroopRTChart.jsx'
 import { NBackSDTMatrix }    from '../components/dashboard/charts/NBackSDTMatrix.jsx'
@@ -18,6 +19,7 @@ export const TASK_REGISTRY = [
     domain: 'Sustained Attention', 
     icon: '🎯',
     ChartComponent: CPTDecayChart,
+    SecondaryChart: CPTISIChart,
 
     config: {
       targetRatio: 0.25, 
@@ -83,7 +85,7 @@ export const TASK_REGISTRY = [
       { key: 'responded', label: 'Response' },
       { key: 'classification', label: 'Classification' }, 
       { key: 'rtms', label: 'RT ms' }, 
-      { key: 'isi', label: 'ISI ms' },
+      { key: 'isiMs', label: 'ISI ms' },
     ],
   },
 

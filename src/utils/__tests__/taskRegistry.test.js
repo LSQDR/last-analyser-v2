@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { TASK_REGISTRY, TASK_ORDER } from '../../config/taskRegistry.js'
+import { generateCPTSchedule } from '../generate/generateCPTSchedule.js'
 
 const REQUIRED_KEYS = ['id','storageKey','name','shortName','domain','icon',
                        'config','getBand','getMetrics','getInsight',
@@ -57,5 +58,17 @@ describe('TASK_REGISTRY structure', () => {
         })
       })
     })
+  })
+})
+
+describe('CPT researcher columns', () => {
+  it('reads the ISI field the schedule writes', () => {
+    const schedule = generateCPTSchedule()
+    const event = schedule.blocks[0][0]
+    const column = TASK_REGISTRY
+      .find((task) => task.id === 'tapThePulse')
+      .columns.find((col) => col.label === 'ISI ms')
+
+    expect(event[column.key]).toEqual(expect.any(Number))
   })
 })
