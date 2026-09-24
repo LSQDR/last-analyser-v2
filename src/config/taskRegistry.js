@@ -1,5 +1,4 @@
-import { CPTDecayChart }     from '../components/dashboard/charts/CPTDecayChart.jsx'
-import { CPTISIChart }       from '../components/dashboard/charts/CPTISIChart.jsx'
+import { CPTCharts }         from '../components/dashboard/charts/CPTCharts.jsx'
 import { SSTStaircaseChart } from '../components/dashboard/charts/SSTStaircaseChart.jsx'
 import { StroopRTChart }     from '../components/dashboard/charts/StroopRTChart.jsx'
 import { NBackSDTMatrix }    from '../components/dashboard/charts/NBackSDTMatrix.jsx'
@@ -18,8 +17,7 @@ export const TASK_REGISTRY = [
     shortName: 'Tap', 
     domain: 'Sustained Attention', 
     icon: '🎯',
-    ChartComponent: CPTDecayChart,
-    SecondaryChart: CPTISIChart,
+    ChartComponent: CPTCharts,
 
     config: {
       targetRatio: 0.25, 

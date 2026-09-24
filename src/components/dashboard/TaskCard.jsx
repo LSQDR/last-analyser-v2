@@ -5,7 +5,6 @@ import { FlagSection } from './FlagSection.jsx'
 export function TaskCard({ task, taskData }) {
   const [isOpen, setIsOpen] = useState(false)
   const ChartComponent = task.ChartComponent
-  const SecondaryChart = task.SecondaryChart
 
   const flagCount = taskData.overall.flags.length
   const stepIndex = ['tapThePulse','signalStop','wordColourClash','matchOrPass'].indexOf(task.id) + 1
@@ -54,10 +53,6 @@ export function TaskCard({ task, taskData }) {
             <figcaption className="task-chart-caption">{task.name} results</figcaption>
             <ChartComponent data={taskData} />
           </figure>
-
-          {SecondaryChart && (
-            <SecondaryChart data={taskData} />
-          )}
 
           <FlagSection flags={taskData.overall.flags} flagFeedback={task.flagFeedback} />
         </div>
