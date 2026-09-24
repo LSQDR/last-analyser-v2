@@ -24,7 +24,7 @@ export function StroopRTChart({ data }) {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-      <SROnlyTable data={chartData.map(d => ({ Condition: d.condition, 'Mean RT (ms)': Math.round(d.rt) }))} caption="Stroop mean RT by condition" />
+      <SROnlyTable data={chartData.map(d => ({ Condition: d.condition, 'Mean RT in ms': Math.round(d.rt) }))} caption="Stroop mean RT by condition" />
     </figure>
   )
 }

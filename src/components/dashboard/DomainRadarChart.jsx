@@ -37,7 +37,7 @@ export function DomainRadarChart({ data }) {
         caption="Radar chart data"
         data={scores.map((s) => ({
           Domain: s.domain,
-          "Score (out of 100)": s.score ?? "Not completed",
+          "Score out of 100": s.score ?? "Not completed",
         }))}
       />
     </figure>

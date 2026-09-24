@@ -5,7 +5,7 @@ export function SSTMetrics({ o }) {
     <>
       <Row label="Go Trials"          value={o.goTrials} />
       <Row label="Stop Trials"        value={o.stopTrials} />
-      <Row label="Go RT (mean)"       value={o.goRTms != null ? `${Math.round(o.goRTms)}ms` : null} />
+      <Row label="Mean Go RT"         value={o.goRTms != null ? `${Math.round(o.goRTms)}ms` : null} />
       <Row label="Go RT SD"           value={o.goRTsdMs != null ? `${Math.round(o.goRTsdMs)}ms` : null} />
       <Row label="Go Omissions"       value={o.goOmissions}   note="Threshold 5" />
       <Row label="Failed Stop RT"     value={o.failedStopRTms != null ? `${Math.round(o.failedStopRTms)}ms` : null} note="Should be < Go RT" />

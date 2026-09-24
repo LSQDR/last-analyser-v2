@@ -25,7 +25,7 @@ function TaskSection({ task, data, idx }) {
           {data?.status === 'complete'
             ? new Date(data.completedAt).toLocaleString('en-GB')
             : data?.status === 'started'
-            ? 'Started (incomplete)'
+            ? 'Started, incomplete'
             : 'Not completed'}
         </span>
         <span className="rm-chevron" aria-hidden="true">{open ? '▲' : '▼'}</span>
@@ -52,7 +52,7 @@ function TaskSection({ task, data, idx }) {
                   className={`rm-subtab${subTab === 'events' ? ' rm-subtab--active' : ''}`}
                   onClick={() => setSubTab('events')}
                 >
-                  Event Log ({data.events?.length ?? 0} trials)
+                  Event Log, {data.events?.length ?? 0} trials
                 </button>
               </div>
 

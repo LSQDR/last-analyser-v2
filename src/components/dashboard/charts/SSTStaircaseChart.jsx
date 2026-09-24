@@ -36,7 +36,7 @@ export function SSTStaircaseChart({ data }) {
           />
         </LineChart>
       </ResponsiveContainer>
-      <SROnlyTable data={ssdData.map(d => ({ 'Stop Trial': d.stopTrial, 'SSD (ms)': d.ssd }))} caption="SSD convergence history" />
+      <SROnlyTable data={ssdData.map(d => ({ 'Stop Trial': d.stopTrial, 'SSD in ms': d.ssd }))} caption="SSD convergence history" />
     </figure>
   )
 }

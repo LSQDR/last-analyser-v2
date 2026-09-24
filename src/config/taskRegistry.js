@@ -42,7 +42,7 @@ export const TASK_REGISTRY = [
         },
         {
           label: "RT Variability",
-          definition: "How consistent your reaction speed was (Coefficient of Variation). High variability means your response times fluctuated a lot, a pattern linked to inconsistent sustained attention.",
+          definition: "How consistent your reaction speed was. High variability means your response times fluctuated a lot, a pattern linked to inconsistent sustained attention.",
           value: o.cvpct != null ? `${o.cvpct.toFixed(1)}%` : null,
           flagged: o.cvpct > 35,
           threshold: "35%",
@@ -71,7 +71,7 @@ export const TASK_REGISTRY = [
         text: 'Your attention appeared to decrease over time, more targets were missed in later rounds than earlier ones.' 
       },
       highVariability: { 
-        title: 'RT variability (CV > 35%)', 
+        title: 'RT variability, CV above 35%',
         text: 'Your response times varied considerably across trials. High RT variability is associated with inconsistent attentional engagement.' 
       },
     },

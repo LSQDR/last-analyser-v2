@@ -41,7 +41,7 @@ The dev server prints a local URL. There is no hosted demo.
 
 The four tasks are original screens. The numbers below are the cutoffs and schedules in `src/config/taskRegistry.js`. They are not a licensed clinical battery, and they are not one validated threshold.
 
-### 1. Tap the Pulse (continuous performance)
+### 1. Tap the Pulse
 
 **Domain:** Sustained attention
 
@@ -51,27 +51,27 @@ A circle appears at a variable interval. Click when it is red.
 
 **Schedule:** 3 blocks × 90 seconds, a 45-second practice, inter-stimulus interval 1000–2500ms, 1000ms response window.
 
-### 2. Signal Stop (stop-signal)
+### 2. Signal Stop
 
 **Domain:** Inhibition
 
-Respond to the go signal. Withhold the response when the stop signal appears. Stop-signal reaction time uses the integration method described in `src/utils/calcSSRT.js` (Verbruggen et al. 2019).
+Respond to the go signal. Withhold the response when the stop signal appears. Stop-signal reaction time uses the integration method described in `src/utils/calcSSRT.js`, from Verbruggen et al. 2019.
 
 **Flags in the app:** SSRT above 300ms when the estimate is valid, stop accuracy under 50%.
 
 **Schedule:** 128 trials, 25% stop trials, 10 practice trials, inter-trial interval 400–700ms. A staircase adjusts the stop-signal delay.
 
-### 3. Word Colour Clash (Stroop)
+### 3. Word Colour Clash
 
 **Domain:** Interference
 
 Name the ink colour, not the word.
 
-**Flags in the app:** interference above 150ms, incongruent accuracy under 75%. Band labels in `src/utils/getBandLabels.js` use different cuts (under 130ms typical, over 200ms high). Those labels and the 150ms flag are both in the code. They are not a single published cutoff.
+**Flags in the app:** interference above 150ms, incongruent accuracy under 75%. Band labels in `src/utils/getBandLabels.js` use different cuts. Under 130ms is typical, and over 200ms is high. Those labels and the 150ms flag are both in the code. They are not a single published cutoff.
 
 **Schedule:** 40 congruent, 40 incongruent, 10 neutral, 2000ms response window, 500ms inter-trial interval.
 
-### 4. Match or Pass (2-back)
+### 4. Match or Pass
 
 **Domain:** Working memory
 
@@ -107,7 +107,7 @@ src/
 - `src/utils/stats.js`
 - `src/utils/calcSSRT.js`
 - `src/utils/compute/computeCPTBlockMetrics.js`
-- `src/utils/compute/computeCPTSessionMetrics.js` (short and long ISI means)
+- `src/utils/compute/computeCPTSessionMetrics.js`, including short and long ISI means
 - `src/utils/compute/computeSSTMetrics.js`
 - `src/utils/compute/computeStroopMetrics.js`
 - `src/utils/compute/computeNBackMetrics.js`

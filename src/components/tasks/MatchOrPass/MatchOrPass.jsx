@@ -235,7 +235,7 @@ export function MatchOrPass({ onComplete }) {
             <div className="nback-diagram-arrow" aria-hidden="true">→</div>
             <div className="nback-diagram-item">
               <div className="nback-diagram-square" style={{ backgroundColor: BAND_COLOURS.yellow.hex }} />
-              <span className="nback-diagram-label">2 (skip)</span>
+              <span className="nback-diagram-label">2, skip</span>
             </div>
             <div className="nback-diagram-arrow" aria-hidden="true">→</div>
             <div className="nback-diagram-item">

@@ -56,7 +56,7 @@ export function getSSTBand(ssrtMs, isValid, stopAccuracy) {
   if (ssrtMs < 300 && stopAccuracy >= 50) return { 
     label: 'Typical',   
     colour: 'blue',   
-    description: 'Your inhibition speed was within the typical adult range (150–300ms).' 
+    description: 'Your inhibition speed was within the typical adult range of 150–300ms.'
   }
 
   if (ssrtMs < 400) return { 
@@ -68,7 +68,7 @@ export function getSSTBand(ssrtMs, isValid, stopAccuracy) {
   return { 
     label: 'Very Slow', 
     colour: 'red',    
-    description: 'Your inhibition speed was considerably above the typical adult range (>400ms).' 
+    description: 'Your inhibition speed was considerably above the typical adult range, over 400ms.'
   }
 }
 

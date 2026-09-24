@@ -13,8 +13,8 @@ export function NBackMetrics({ o }) {
       <Row label="Hit Rate"           value={o.hitRatepct != null ? o.hitRatepct.toFixed(2) : null} />
       <Row label="False Alarm Rate"   value={o.falseAlarmRatepct != null ? o.falseAlarmRatepct.toFixed(2) : null} />
       <Row label="Corrected Hit Rate" value={o.correctedHitRatepct != null ? o.correctedHitRatepct.toFixed(2) : null} note="Hit Rate − False Alarm Rate | Threshold 60%" />
-      <Row label="d′ (d-prime)"       value={o.dPrime != null ? o.dPrime.toFixed(3) : null}  note="Log-linear corrected (suppressed in casual view)" />
-      <Row label="Response Bias (c)"  value={o.biasc != null ? o.biasc.toFixed(3) : null}    note="Criterion (suppressed in casual view)" />
+      <Row label="d′"                 value={o.dPrime != null ? o.dPrime.toFixed(3) : null}  note="Log-linear corrected" />
+      <Row label="Response Bias"      value={o.biasc != null ? o.biasc.toFixed(3) : null}    note="Criterion" />
       <Row label="Mean Response RT"   value={o.meanResponseRTms != null ? `${Math.round(o.meanResponseRTms)}ms` : null} />
       <Row label="Omissions"          value={o.omissions} note="Threshold 5" />
       <Row label="Flags"              value={o.flags?.join(', ') || 'None'} />

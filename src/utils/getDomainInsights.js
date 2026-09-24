@@ -21,9 +21,9 @@ export function getInhibitionInsight(score, overall) {
 export function getInterferenceInsight(score, overall) {
   if (score == null) return null
   const ms = overall?.trueInterferencems ? Math.round(overall.trueInterferencems) : null
-  if (score >= 75) return `Conflicting word meanings added very little delay to your responses${ms ? ` (${ms}ms)` : ''} ,your focus on ink colour was strong.`
+  if (score >= 75) return `Conflicting word meanings added very little delay to your responses${ms ? `, ${ms}ms` : ''}. Your focus on ink colour was strong.`
   if (score >= 50) return `You showed a typical interference effect${ms ? ` of ${ms}ms` : ''} ,automatic word-reading competed with your intended response, which is normal for this task.`
-  return `The word meanings notably slowed your responses${ms ? ` (${ms}ms additional delay)` : ''} ,this suggests automatic reading had a stronger pull than typical, which can vary with concentration levels.`
+  return `The word meanings notably slowed your responses${ms ? ` by an additional ${ms}ms` : ''}. This suggests automatic reading had a stronger pull than typical, which can vary with concentration levels.`
 }
 
 export function getWorkingMemoryInsight(score, overall) {
