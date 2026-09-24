@@ -10,11 +10,8 @@ export default defineConfig({
       reporter: ['text', 'lcov'],
       include: [
         'src/utils/stats.js',
-        'src/utils/computeCPTBlockMetrics.js',
-        'src/utils/computeCPTSessionMetrics.js',
         'src/utils/calcSSRT.js',
-        'src/utils/computeStroopMetrics.js',
-        'src/utils/computeNBackMetrics.js',
+        'src/utils/compute/**/*.js',
       ],
     },
   },
