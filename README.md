@@ -6,6 +6,8 @@ It is a React and JavaScript app for four timed attention and executive-function
 
 There is no server and no account. Task results stay in `localStorage` in this browser. The researcher view reviews a completed run and exports that JSON locally. Nothing is transmitted.
 
+![Home screen of LAST-Analyser](docs/analyser-home.png)
+
 ## Setup
 
 ### Prerequisites
@@ -22,7 +24,7 @@ npm ci
 npm run dev
 ```
 
-The dev server prints a local URL. There is no hosted demo.
+The dev server prints a local URL. The hosted demo is [https://last-analyser-v2.vercel.app](https://last-analyser-v2.vercel.app).
 
 ### Commands
 
