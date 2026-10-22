@@ -7,6 +7,7 @@ import { SSTCircle } from './SSTCircle.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getSSTBand }  from '../../../utils/getBandLabels.js'
 import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
+import { useLatest } from '../../../hooks/useLatest.js'
 import './SignalStop.css'
 
 const TASK   = TASK_REGISTRY.find((t) => t.id === 'signalStop')
@@ -74,9 +75,10 @@ export function SignalStop({ onComplete }) {
   }
 
    
+  const startPracticeRef = useLatest(startPracticeEngine)
   useEffect(() => {
-    if (phase === PHASES.PRACTICE && practiceSchedule) startPracticeEngine()
-  }, [phase, practiceSchedule])
+    if (phase === PHASES.PRACTICE && practiceSchedule) startPracticeRef.current()
+  }, [phase, practiceSchedule, startPracticeRef])
 
   function startScored() {
     const s = generateSSTSchedule(CONFIG)
@@ -86,9 +88,10 @@ export function SignalStop({ onComplete }) {
   }
 
    
+  const startScoredRef = useLatest(startScoredEngine)
   useEffect(() => {
-    if (phase === PHASES.SCORED && schedule) startScoredEngine()
-  }, [phase, schedule])
+    if (phase === PHASES.SCORED && schedule) startScoredRef.current()
+  }, [phase, schedule, startScoredRef])
 
   // --- Render ---
   if (phase === PHASES.INSTRUCTIONS) {

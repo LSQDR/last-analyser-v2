@@ -10,6 +10,7 @@ import { MiniResult } from '../../shared/MiniResult.jsx'
 import { getNBackBand } from '../../../utils/getBandLabels.js'
 import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
 import { BAND_COLOURS } from '../../../utils/bandColours.js'
+import { useLatest } from '../../../hooks/useLatest.js'
 import './MatchOrPass.css'
 
 const TASK = TASK_REGISTRY.find((t) => t.id === 'matchOrPass')
@@ -107,9 +108,10 @@ export function MatchOrPass({ onComplete }) {
   }
 
  
+  const startWarmupRef = useLatest(startWarmup)
   useEffect(() => {
-    if (phase === PHASES.WARMUP && schedule) startWarmup()
-  }, [phase, schedule])
+    if (phase === PHASES.WARMUP && schedule) startWarmupRef.current()
+  }, [phase, schedule, startWarmupRef])
 
   function beginScored() {
     setTrialCount(0)
@@ -117,9 +119,10 @@ export function MatchOrPass({ onComplete }) {
     setPhase(PHASES.SCORED)
   }
  
+  const startScoredRef = useLatest(startScored)
   useEffect(() => {
-    if (phase === PHASES.SCORED && schedule) startScored()
-  }, [phase, schedule])
+    if (phase === PHASES.SCORED && schedule) startScoredRef.current()
+  }, [phase, schedule, startScoredRef])
 
   // Keyboard shortcuts
   useEffect(() => {

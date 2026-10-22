@@ -9,6 +9,7 @@ import { StroopButtons } from './StroopButtons.jsx'
 import { MiniResult } from '../../../components/shared/MiniResult.jsx'
 import { getStroopBand } from '../../../utils/getBandLabels.js'
 import { TASK_REGISTRY } from '../../../config/taskRegistry.js'
+import { useLatest } from '../../../hooks/useLatest.js'
 import './WordColourClash.css'
 
 const TASK   = TASK_REGISTRY.find((t) => t.id === 'wordColourClash')
@@ -120,13 +121,14 @@ export function WordColourClash({ onComplete }) {
     // start() called via useEffect once schedule is set
   }
 
+  const startRef = useLatest(start)
   useEffect(() => {
     if (phase === PHASES.SCORED && scoredSchedule) {
       // Write started status for crash recovery
       saveTaskResult('wordColourClash', { task: 'wordColourClash', version: '1.0', status: 'started', completedAt: null })
-      start()
+      startRef.current()
     }
-  }, [phase, scoredSchedule])
+  }, [phase, scoredSchedule, startRef])
 
   // Keyboard shortcuts for scored block
   useEffect(() => {
