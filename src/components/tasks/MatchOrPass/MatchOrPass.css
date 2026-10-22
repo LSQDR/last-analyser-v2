@@ -293,3 +293,43 @@
   line-height: 1.7;
   margin: var(--space-4) 0 ;
 }
+
+/* ── Narrow screens: the reference square joins the column instead of floating over the stimulus ── */
+@media (max-width: 600px) {
+  .nback-task {
+    padding: var(--space-4);
+    text-align: center;
+  }
+
+  .nback-ghost-wrap {
+    position: static;
+    transform: none;
+    margin-bottom: var(--space-2);
+  }
+
+  .nback-square--ghost {
+    width: 72px;
+    height: 72px;
+    margin: 0;
+  }
+
+  .nback-square {
+    width: 150px;
+    height: 150px;
+    margin: var(--space-4) 0;
+  }
+
+  .nback-buttons {
+    gap: var(--space-3);
+  }
+
+  .nback-btn {
+    min-width: 0;
+    flex: 1 1 0;
+  }
+
+  .nback-buttons {
+    width: 100%;
+    max-width: 320px;
+  }
+}

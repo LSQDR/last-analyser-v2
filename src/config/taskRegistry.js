@@ -1,12 +1,15 @@
-import { CPTCharts }         from '../components/dashboard/charts/CPTCharts.jsx'
-import { SSTStaircaseChart } from '../components/dashboard/charts/SSTStaircaseChart.jsx'
-import { StroopRTChart }     from '../components/dashboard/charts/StroopRTChart.jsx'
-import { NBackSDTMatrix }    from '../components/dashboard/charts/NBackSDTMatrix.jsx'
+import { lazy } from 'react'
 import { getCPTBand, getSSTBand, getStroopBand, getNBackBand }     from '../utils/getBandLabels.js'
 import {
   getSustainedAttentionInsight, getInhibitionInsight,
   getInterferenceInsight,       getWorkingMemoryInsight,
 } from '../utils/getDomainInsights.js'
+
+// Charts load on demand so recharts stays out of the bundle the tasks need.
+const CPTCharts         = lazy(() => import('../components/dashboard/charts/CPTCharts.jsx').then((m) => ({ default: m.CPTCharts })))
+const SSTStaircaseChart = lazy(() => import('../components/dashboard/charts/SSTStaircaseChart.jsx').then((m) => ({ default: m.SSTStaircaseChart })))
+const StroopRTChart     = lazy(() => import('../components/dashboard/charts/StroopRTChart.jsx').then((m) => ({ default: m.StroopRTChart })))
+const NBackSDTMatrix    = lazy(() => import('../components/dashboard/charts/NBackSDTMatrix.jsx').then((m) => ({ default: m.NBackSDTMatrix })))
 
 export const TASK_REGISTRY = [
   // Task 1 

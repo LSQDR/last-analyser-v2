@@ -4,6 +4,8 @@
 
 It is a React and JavaScript app for four timed attention and executive-function tasks. It is not a validated clinical instrument.
 
+It was my final-year project for the BSc Software Engineering at Bournemouth University.
+
 There is no server and no account. Task results stay in `localStorage` in this browser. The researcher view reviews a completed run and exports that JSON locally. Nothing is transmitted.
 
 ![Home screen of LAST-Analyser](docs/analyser-home.png)
@@ -104,7 +106,9 @@ src/
 
 ## Testing
 
-`npm test` runs 105 tests in 11 files. They cover:
+`npm test` runs 111 tests in 13 files.
+
+Unit tests cover:
 
 - `src/utils/stats.js`
 - `src/utils/calcSSRT.js`
@@ -118,7 +122,11 @@ src/
 - `src/utils/getBandLabels.js`
 - `src/config/taskRegistry.js`
 
-They do not cover `src/utils/classify/`, `generateNBackSchedule.js`, `generateStroopSchedule.js`, `storage.js`, the hooks, or the screens.
+A component test renders the Word Colour Clash response buttons with React Testing Library. It checks that the buttons report the colour clicked, and that they ignore clicks while responses are closed. The test is in `src/components/tasks/WordColourClash/__tests__/`.
+
+An integration test renders the home screen and the task router together. It checks that Begin saves a new session and opens the first task, that a saved session resumes on its current task, and that a visitor with no session goes back home. The test is in `src/pages/__tests__/`.
+
+The tests do not cover `src/utils/classify/`, `generateNBackSchedule.js`, `generateStroopSchedule.js`, the task engine hooks, a full task run, or the dashboard screens.
 
 ## Stack
 
@@ -126,5 +134,9 @@ They do not cover `src/utils/classify/`, `generateNBackSchedule.js`, `generateSt
 - React Router 7
 - Recharts 3
 - Vite 8
-- Vitest 4
+- Vitest 4 and React Testing Library
 - ESLint 9
+
+## Licence
+
+MIT. See `LICENSE`.
