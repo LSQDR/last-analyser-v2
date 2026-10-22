@@ -154,3 +154,17 @@
   line-height: 1.7;
   margin: 0 0 var(--space-5);
 }
+
+/* ── Narrow screens: the four colour buttons go two by two so none touches the edge ── */
+@media (max-width: 480px) {
+  .stroop-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .stroop-btn {
+    min-width: 0;
+  }
+}
