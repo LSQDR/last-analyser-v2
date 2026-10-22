@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { MetricTable } from './MetricTable.jsx'
 import { FlagSection } from './FlagSection.jsx'
 
@@ -51,7 +51,9 @@ export function TaskCard({ task, taskData }) {
 
           <figure className="task-chart-figure">
             <figcaption className="task-chart-caption">{task.name} results</figcaption>
-            <ChartComponent data={taskData} />
+            <Suspense fallback={<p className="task-chart-loading">Loading chart…</p>}>
+              <ChartComponent data={taskData} />
+            </Suspense>
           </figure>
 
           <FlagSection flags={taskData.overall.flags} flagFeedback={task.flagFeedback} />
